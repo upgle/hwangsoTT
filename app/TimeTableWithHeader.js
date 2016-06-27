@@ -30,7 +30,6 @@ class TimeTableWithHeader extends Component {
         isLoaded : false,
         headerSelected : false,
       }
-
       this._toggleHeaderSelected = this._toggleHeaderSelected.bind(this);
     }
 
@@ -39,9 +38,11 @@ class TimeTableWithHeader extends Component {
         if(_.isObject(JSON.parse(result))) {
           this.setState({
             courses: JSON.parse(result),
-            isLoaded: true,
           });
         }
+        this.setState({
+          isLoaded: true
+        });
       });
     }
 
