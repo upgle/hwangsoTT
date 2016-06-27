@@ -9,7 +9,7 @@ import {
   Dimensions,
   StatusBar,
   TouchableOpacity,
-  AsyncStorage,
+  TouchableHighlight,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -110,7 +110,8 @@ class TimeTable extends Component {
 
           {[...courses].map((course, i) =>
             [...course.times].map((time, j)=>
-              <View condition={false} style={[styles.course, {backgroundColor: colors[i][0], left: this._getLeftPosition(time), top:this._getTopPosition(time),  height:this._getCourseHeight(time)}]} key={i+'-'+j}>
+            <TouchableHighlight onPress={()=>{}} style={{position: 'absolute', left: this._getLeftPosition(time), top:this._getTopPosition(time)}}  key={i+'-'+j}>
+              <View condition={false} style={[styles.course, {backgroundColor: colors[i][0], height:this._getCourseHeight(time)}]}>
                 <Text style={{fontSize: 12, color:colors[i][1], textAlign: 'center'}}>
                 {course.subject}
                 </Text>
@@ -118,6 +119,7 @@ class TimeTable extends Component {
                 {course.classroom}
                 </Text>
               </View>
+            </TouchableHighlight>
             )
           )}
           </ScrollView>
@@ -126,7 +128,6 @@ class TimeTable extends Component {
     }
 }
 module.exports = TimeTable;
-
 
 const colors = [
   ['#e9787c', 'white'], //빨간색

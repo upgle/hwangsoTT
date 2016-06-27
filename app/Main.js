@@ -41,7 +41,9 @@ class Main extends Component {
       <Drawer
       type="static"
       content={<SideMenu {...this.props} closeDrawer={this.closeDrawer} />}
-      openDrawerOffset={0.4} styles={drawerStyles}
+      openDrawerOffset={0.4}
+      styles={drawerStyles}
+      panOpenMask={0.45}
       tweenHandler={Drawer.tweenPresets.parallax}
       tapToClose={true}
       onOpenStart={()=>{
