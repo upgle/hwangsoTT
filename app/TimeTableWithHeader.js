@@ -120,6 +120,9 @@ class TimeTableWithHeader extends Component {
     _getNextCourse() {
       var courses = this.state.courses;
 
+      var today = new Date();
+      var todayFormated = Number(String(today.getHours())+String(today.getMinutes()));
+
       var minTime = null;
       var closetCourse = null,
           closetTime = null;
@@ -130,6 +133,8 @@ class TimeTableWithHeader extends Component {
           if(time.day == this._getTodayString()) {
             var timeNumberFormat = Number(time.start.replace(':',''))
 
+            if(todayFormated > timeNumberFormat) return;
+
             if(minTime == null || minTime > timeNumberFormat) {
               minTime = timeNumberFormat;
               closetCourse = course;
@@ -138,6 +143,7 @@ class TimeTableWithHeader extends Component {
           }
         });
       });
+
       return {
         course : closetCourse,
         time : closetTime
@@ -161,18 +167,7 @@ class TimeTableWithHeader extends Component {
     }
 
     _isFinishTodayClass() {
-      var courses = this.state.courses;
-      var date = new Date();
-      var current = Number(String(date.getHours())+date.getMinutes());
-      return Object.keys(courses).some((key) => {
-        var course = courses[key];
-        return course.times.some(time => {
-          if (time.day == this._getTodayString() && current > Number(time.end.replace(':',''))) {
-            return true;
-          }
-          return false;
-        })
-      });
+      return this._getNextCourse().course == null;
     }
 
     render() {

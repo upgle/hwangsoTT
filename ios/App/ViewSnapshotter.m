@@ -29,20 +29,19 @@ RCT_EXPORT_METHOD(saveSnapshotToPath:(nonnull NSNumber *)reactTag
 
   UIGraphicsEndImageContext();
 
-  UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+  NSData *data = UIImagePNGRepresentation(image);
 
-  // NSData *data = UIImagePNGRepresentation(image);
-  //
-  // NSError *error;
-  //
-  // BOOL writeSucceeded = [data writeToFile:filePath options:0 error:&error];
-  //
-  // if (!writeSucceeded) {
-  //   return callback(@[[NSString stringWithFormat:@"Could not write file at path %@", filePath]]);
-  // }
+  NSError *error;
 
-  // callback(@[[NSNull null], [NSNumber numberWithBool:writeSucceeded]]);
+  
+  
+  BOOL writeSucceeded = [data writeToFile:filePath options:0 error:&error];
+
+  if (!writeSucceeded) {
+    return callback(@[[NSString stringWithFormat:@"Could not write file at path %@", filePath]]);
+  }
+
+  callback(@[[NSNull null], [NSNumber numberWithBool:writeSucceeded]]);
 }
-
 
 @end

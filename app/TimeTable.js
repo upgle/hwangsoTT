@@ -85,7 +85,7 @@ class TimeTable extends Component {
       var courses = (this.props.courses) ? Object.keys(this.props.courses).map(key => this.props.courses[key]) : [];
 
       return (
-        <View>
+        <View style={styles.container}>
           <View style={styles.tableHead}>
             <View style={[styles.tableTimeColumn, {height: tableHeadHeight-1}]}></View>
             <Text style={[styles.tableHeadText, {flex:3}]}>MON</Text>
@@ -140,6 +140,9 @@ const colors = [
 ];
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+  },
   course : {
     position: 'absolute',
     width: oneDayWidth,
