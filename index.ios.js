@@ -4,49 +4,10 @@
  * @flow
  */
 
-import React, { Component } from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
-  View,
-  NavigatorIOS
+  AppRegistry
 } from 'react-native';
 
-import Main from './app/Main';
-
-class App extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      navigationBarHidden: true,
-    };
-  }
-
-  render() {
-    return (
-      <NavigatorIOS ref="nav"
-        itemWrapperStyle={styles.navWrap}
-        style={styles.nav}
-        navigationBarHidden={this.state.navigationBarHidden}
-        initialRoute={{
-          title: "First Page",
-          component: Main
-        }} />
-    );
-  }
-}
-
-
-
-var styles = StyleSheet.create({
-  navWrap: {
-    flex: 1,
-  },
-  nav: {
-    flex: 1,
-  },
-});
-
+import App from './app/containers/app';
 
 AppRegistry.registerComponent('App', () => App);

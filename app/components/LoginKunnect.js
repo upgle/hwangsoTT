@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import _ from 'underscore';
 
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
@@ -15,15 +14,14 @@ import {
   setTheme,
   MKButton,
   MKColor,
-  MKTextField,
+  MKTextField
 } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { TimeConverter, YoilConverter } from './lib/Kunnect';
-import Course from './model/Course';
-import Time from './model/Time';
+import { TimeConverter, YoilConverter } from '../util/Kunnect';
 
-class LoginKunnect extends Component {
+
+export default class LoginKunnect extends Component {
 
   constructor(props) {
     super(props);
@@ -31,7 +29,7 @@ class LoginKunnect extends Component {
     this.state = {
       id : '',
       password : '',
-    }
+    };
     this._onPressClose = this._onPressClose.bind(this);
   }
 
@@ -45,25 +43,26 @@ class LoginKunnect extends Component {
 
   onClickLogin() {
 
-    var data = new FormData()
+    const { actions } = this.props;
+
+    var data = new FormData();
     data.append('id', this.state.id);
     data.append('password', this.state.password);
 
-
-    if(this.state.id.length == 0) {
+    if(this.state.id.length === 0) {
         Alert.alert(
           '경고',
           '아이디를 입력해주시기 바랍니다.',
           [{text: '확인'}]
-        )
+        );
         return;
     }
-    if(this.state.password == 0) {
+    if(this.state.password === 0) {
         Alert.alert(
           '경고',
           '비밀번호를 입력해주시기 바랍니다.',
           [{text: '확인'}]
-        )
+        );
         return;
     }
 
@@ -86,14 +85,19 @@ class LoginKunnect extends Component {
         .then((response) => response.text())
         .then((responseText) => {
           var result = JSON.parse(responseText);
-          console.log(result);
+
+          var time;
+          actions.removeAllCourses();
+
           result.returns.forEach((data) => {
             if(!_.isObject(courses[data.sbjtId])) {
-              var time = TimeConverter(data.timeStart, data.timeEnd);
-              courses[data.sbjtId] = new Course(data.sbjtId, data.subject, data.prof, data.building + data.classroom, [new Time(YoilConverter(data.yoil), time.start, time.end)]);
+              time = TimeConverter(data.timeStart, data.timeEnd);
+              actions.addCourse(data.sbjtId, data.subject, data.prof, data.building + data.classroom);
+              actions.addTime(data.sbjtId, YoilConverter(data.yoil), time.start, time.end);
+
             } else {
-              var time = TimeConverter(data.timeStart, data.timeEnd);
-              courses[data.sbjtId].addTime(new Time(YoilConverter(data.yoil), time.start, time.end));
+              time = TimeConverter(data.timeStart, data.timeEnd);
+              actions.addTime(data.sbjtId, YoilConverter(data.yoil), time.start, time.end);
             }
           });
           AsyncStorage.removeItem('courses', () => {
@@ -101,21 +105,20 @@ class LoginKunnect extends Component {
           });
 
           Alert.alert(
-            '안내',
-            '시간표 불러오기 성공',
+            '안내', '시간표 불러오기 성공',
             [
               {text: 'OK', onPress: () => {
                 this._onPressClose();
               }},
             ]
-          )
+          );
         });
       }
       else {
         Alert.alert('안내', '로그인에 실패했습니다.', [{text: 'OK'}]);
       }
     })
-    .catch((error) => {
+    .catch(() => {
       Alert.alert('안내', '서버 연결에 실패하였습니다.', [{text: 'OK'}]);
     });
   }
@@ -123,7 +126,7 @@ class LoginKunnect extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={require('./resources/knt_login_logo.png')} />
+        <Image source={require('../resources/knt_login_logo.png')} />
         <Text style={styles.welcome}>
           건국대학교 학생 시간표 서비스
         </Text>
@@ -161,10 +164,6 @@ class LoginKunnect extends Component {
     );
   }
 }
-
-module.exports =  LoginKunnect;
-
-
 
 setTheme({
   primaryColor: '#41bd00',

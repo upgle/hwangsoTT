@@ -25,7 +25,7 @@ var ViewSnapshotter = require("react-native-view-snapshot");
 var screen = Dimensions.get('window');
 var _ = require('underscore');
 
-class SideMenu extends Component {
+export default class SideMenu extends Component {
 
   constructor(props) {
     super(props);
@@ -39,12 +39,14 @@ class SideMenu extends Component {
   }
 
   _onPressLogin() {
+
     this.props.navigator.push({
       component: LoginKunnect,
       passProps: {
         afterMount: () => {
           this.props.closeDrawer();
-        }
+        },
+        actions : this.props.actions
       }
     });
   }
@@ -83,7 +85,7 @@ class SideMenu extends Component {
         <View style={styles.brand}>
           <Image
             style={styles.icon}
-            source={require('./resources/brand.png')}
+            source={require('../resources/brand.png')}
           />
           <Text style={styles.brandText}>황소 시간표</Text>
         </View>
@@ -115,9 +117,6 @@ class SideMenu extends Component {
     );
   }
 }
-
-module.exports = SideMenu;
-
 
 const styles = {
   container: {

@@ -20,7 +20,7 @@ const tabeRowHeight = 44;
 const daysWidth = screen.width - 25;
 const oneDayWidth = daysWidth / 5;
 
-class TimeTable extends Component {
+export default class TimeTable extends Component {
 
     constructor(props) {
       super(props);
@@ -81,8 +81,11 @@ class TimeTable extends Component {
 
     render() {
 
-      var tableHeight = this.props.height - tableHeadHeight;
-      var courses = (this.props.courses) ? Object.keys(this.props.courses).map(key => this.props.courses[key]) : [];
+      const tableHeight = this.props.height - tableHeadHeight;
+      const { courses, times } = this.props;
+
+      var autoincrement = 0;
+      var colorMap = {};
 
       return (
         <View style={styles.container}>
@@ -108,35 +111,44 @@ class TimeTable extends Component {
             </View>
           )}
 
-          {[...courses].map((course, i) =>
-            [...course.times].map((time, j)=>
-            <TouchableHighlight onPress={()=>{}} style={{position: 'absolute', left: this._getLeftPosition(time), top:this._getTopPosition(time)}}  key={i+'-'+j}>
-              <View condition={false} style={[styles.course, {backgroundColor: colors[i][0], height:this._getCourseHeight(time)}]}>
-                <Text style={{fontSize: 12, color:colors[i][1], textAlign: 'center'}}>
-                {course.subject}
-                </Text>
-                <Text style={{fontSize: 11, color:colors[i][1], textAlign: 'center', marginTop: 2}}>
-                {course.classroom}
-                </Text>
-              </View>
-            </TouchableHighlight>
-            )
-          )}
+          {[...times].map((time, i)=> {
+
+            var index;
+            if(colorMap[time.course_id]) {
+              index = colorMap[time.course_id];
+            }
+            else {
+              index = colorMap[time.course_id] = autoincrement++
+            }
+            return (
+              <TouchableHighlight onPress={()=>{}} style={{position: 'absolute', left: this._getLeftPosition(time), top:this._getTopPosition(time)}}  key={i}>
+                <View condition={false} style={[styles.course, {backgroundColor: colors[index][0], height:this._getCourseHeight(time)}]}>
+                  <Text style={{fontSize: 12, color:colors[index][1], textAlign: 'center'}}>
+                  {courses[time.course_id].subject}
+                  </Text>
+                  <Text style={{fontSize: 11, color:colors[index][1], textAlign: 'center', marginTop: 2}}>
+                  {courses[time.course_id].classroom}
+                  </Text>
+                </View>
+              </TouchableHighlight>
+            );
+          })}
+
           </ScrollView>
         </View>
       );
     }
 }
-module.exports = TimeTable;
 
 const colors = [
-  ['#e9787c', 'white'], //빨간색
-  ['#bde7f3', '#43839c'], //파란색
+  ['#E9787C', '#FFFFFF'], //빨간색
+  ['#BDE7F3', '#43839c'], //파란색
   ['#F6FC97', '#5A6000'], //연초록
-  ['#eb8a9e', 'white'], //분홍색
-  ['#d2b579', 'white'], //베이지
-  ['#ddcdf4', '#8b48dc'], //보라색
-  ['#fff099', '#8c7118'], //노란색
+  ['#EB8A9E', '#FFFFFF'], //분홍색
+  ['#D2B579', '#FFFFFF'], //베이지
+  ['#DDCDF4', '#8b48dc'], //보라색
+  ['#FFF099', '#8c7118'], //노란색
+  ['#67686C', '#FFFFFF'],
 ];
 
 const styles = StyleSheet.create({
