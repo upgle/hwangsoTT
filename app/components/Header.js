@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import _ from 'underscore';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import TimerMixin from 'react-timer-mixin';
 
 const headerHeight = 124;
 
@@ -20,6 +21,19 @@ export default class Header extends Component {
         headerSelected : false,
       };
       this._toggleHeaderSelected = this._toggleHeaderSelected.bind(this);
+    }
+
+    componentDidMount() {
+      this.timer = TimerMixin.setInterval(
+        () => {
+          this.forceUpdate();
+        },
+        5000
+      );
+    }
+
+    componentWillUnmount() {
+      TimerMixin.clearInterval(this.timer);
     }
 
     _toggleHeaderSelected() {
@@ -134,11 +148,9 @@ export default class Header extends Component {
     }
 
     render() {
-      console.log(this.props.todayTimes);
-
       var TextArea = this._getHeaderTextDOM();
       return (
-        <View style={styles.header}>
+        <View style={[styles.header, { backgroundColor : this.props.color }]}>
           {TextArea}
           <TouchableOpacity style={styles.menuPosition} onPress={this.props.onClickMenu}>
             <View style={styles.menuView}>
@@ -170,7 +182,7 @@ const styles = StyleSheet.create({
   },
   header : {
     paddingTop : 40,
-    backgroundColor: '#3ebfba',
+    // backgroundColor: '#3ebfba',
     height: headerHeight,
   },
   headerBigText: {

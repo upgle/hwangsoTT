@@ -6,7 +6,6 @@ import {
   Text,
   View,
   Image,
-  AsyncStorage,
   TouchableOpacity,
   Alert
 } from 'react-native';
@@ -19,13 +18,14 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { TimeConverter, YoilConverter } from '../util/Kunnect';
-
+import { saveAppData } from '../actions/appActions';
 
 export default class LoginKunnect extends Component {
 
   constructor(props) {
     super(props);
 
+    console.log(props);
     this.state = {
       id : '',
       password : '',
@@ -100,9 +100,7 @@ export default class LoginKunnect extends Component {
               actions.addTime(data.sbjtId, YoilConverter(data.yoil), time.start, time.end);
             }
           });
-          AsyncStorage.removeItem('courses', () => {
-            AsyncStorage.setItem('courses', JSON.stringify(courses));
-          });
+          this.props.dispatch(saveAppData());
 
           Alert.alert(
             '안내', '시간표 불러오기 성공',
@@ -206,7 +204,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   messageText: {
-    color:'#999',
+    color:'#999999',
     fontSize: 13,
     textAlign: 'center',
   }

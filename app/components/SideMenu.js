@@ -46,7 +46,7 @@ export default class SideMenu extends Component {
         afterMount: () => {
           this.props.closeDrawer();
         },
-        actions : this.props.actions
+        ...this.props
       }
     });
   }

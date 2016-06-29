@@ -49,6 +49,14 @@ export default function timetableApp(state = initialState, action) {
         courses : {},
       });
 
+    case types.REPLACE_STATE :
+      return Object.assign({}, state, action.state);
+
+    case types.TOGGLE_HEADER_COLORSET :
+      return Object.assign({}, state, {
+        headerColor : action.color
+      });
+
     default:
       return state;
   }

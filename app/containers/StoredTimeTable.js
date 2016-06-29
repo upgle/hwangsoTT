@@ -19,6 +19,8 @@ class StoredTimeTable extends Component {
   constructor(props) {
     super(props);
 
+    console.log(props);
+
     this.openDrawer = this.openDrawer.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
   }
@@ -56,6 +58,7 @@ class StoredTimeTable extends Component {
       }}
       ref={(ref) => this._drawer = ref} >
         <Header
+          color={state.headerColor}
           courses={state.courses}
           todayTimes={getTodayTimes(state.times)}
           onClickMenu={this.openDrawer}
@@ -75,6 +78,7 @@ export default connect(state => ({
     state: state
   }),
   (dispatch) => ({
+    dispatch: dispatch,
     actions: bindActionCreators(Actions, dispatch)
   })
 )(StoredTimeTable);

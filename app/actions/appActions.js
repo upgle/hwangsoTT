@@ -1,7 +1,33 @@
 import * as types from './actionTypes';
+import { AsyncStorage } from 'react-native';
 
-export function getAllDataFromStorage() {
+export function fetchAppData() {
+  return (dispatch) => {
+    return AsyncStorage.getItem('app_state')
+      .then(state => {
+        state = JSON.parse(state) || {};
+        dispatch(replaceState(state));
+      });
+  };
+}
 
+export function saveAppData() {
+  return (dispatch, getState) => {
+    return AsyncStorage.setItem('app_state', JSON.stringify(getState()));
+  };
+}
+
+export function toggleHeaderColorset() {
+  return {
+    type: types.TOGGLE_HEADER_COLORSET
+  };
+}
+
+export function replaceState(state) {
+  return {
+    type: types.REPLACE_STATE,
+    state : state
+  };
 }
 
 export function removeAllCourses() {

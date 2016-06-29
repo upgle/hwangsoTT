@@ -3,11 +3,17 @@ import React, { Component } from 'react';
 
 import timetableApp from '../reducers/timetableApp';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import StoredTimeTable from './StoredTimeTable';
 import { NavigatorIOS, StyleSheet } from 'react-native';
+import { fetchAppData } from '../actions/appActions';
+import thunkMiddleware from 'redux-thunk';
 
-let store = createStore(timetableApp);
+let store = createStore(timetableApp, applyMiddleware(thunkMiddleware));
+
+store.dispatch(fetchAppData()).then(() =>
+  console.log(store.getState())
+);
 
 export default class App extends Component {
   render() {
