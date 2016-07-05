@@ -20,7 +20,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import LoginKunnect from './LoginKunnect';
 import TimeTable from './TimeTable';
 
-var RNFS = require('react-native-fs');
+
 var ViewSnapshotter = require("react-native-view-snapshot");
 var screen = Dimensions.get('window');
 var _ = require('underscore');
@@ -29,13 +29,7 @@ export default class SideMenu extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      courses : null,
-    };
-
     this._onPressLogin = this._onPressLogin.bind(this);
-    this._onPressSaveAlbum = this._onPressSaveAlbum.bind(this);
   }
 
   _onPressLogin() {
@@ -49,31 +43,6 @@ export default class SideMenu extends Component {
         ...this.props
       }
     });
-  }
-
-  _onPressSaveAlbum() {
-
-    AsyncStorage.getItem('courses', (err, result) => {
-      if(_.isObject(JSON.parse(result))) {
-        this.setState({
-          courses: JSON.parse(result),
-        });
-
-        var ref = findNodeHandle(this.refs.timetable)
-        ViewSnapshotter.saveSnapshotToPath(ref, this.imagePath(), (error, successfulWrite) => {
-          if (successfulWrite) {
-            CameraRoll.saveImageWithTag(this.imagePath()).then(()=>{
-              Alert.alert('안내', '카메라 앨범에 저장하였습니다.', [{text: '확인'}]);
-            });
-          }
-        })
-
-      }
-    });
-  }
-
-  imagePath() {
-    return RNFS.CachesDirectoryPath+"/temp.png";
   }
 
   render() {
@@ -95,24 +64,19 @@ export default class SideMenu extends Component {
             <Text style={styles.menuText}>시간표 불러오기</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight underlayColor='#273242' onPress={this._onPressSaveAlbum}>
+        <TouchableHighlight underlayColor='#273242' onPress={this.props.onPressSaveTimetable}>
           <View style={styles.menu}>
             <Icon name='collections' color='#a1acc1' size={20} />
             <Text style={styles.menuText}>앨범에 저장</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight underlayColor='#273242' onPress={this._onPressSaveAlbum}>
+        <TouchableHighlight underlayColor='#273242' onPress={this.props.onPressHeaderColorset}>
           <View style={styles.menu}>
             <Icon name='color-lens' color='#a1acc1' size={20} />
             <Text style={styles.menuText}>컬러셋</Text>
-            <View style={{position: 'absolute', top: 19, right:20, borderRadius:12, width: 12, height: 12, backgroundColor:'#3ebfba'}}></View>
+            <View style={{position: 'absolute', top: 19, right:20, borderRadius:12, width: 12, height: 12, backgroundColor:this.props.state.headerColor}}></View>
           </View>
         </TouchableHighlight>
-        {(()=>{
-            if(this.state && this.state.courses) {
-                return <View style={{position:'absolute', width: screen.width, top: screen.height, left: 0}}><TimeTable height={screen.height} courses={this.state.courses} ref='timetable' /></View>;
-            }
-        })()}
       </View>
     );
   }

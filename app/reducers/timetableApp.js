@@ -1,10 +1,11 @@
 
 import * as types from '../actions/actionTypes';
+import _ from 'underscore';
 
 const initialState = {
   courses: {},
   times: [],
-  headerColor : '#3EBFBA'
+  headerColor : '#634dc7'
 };
 
 export function getTodayTimes(stateTimes) {
@@ -33,6 +34,11 @@ export default function timetableApp(state = initialState, action) {
         courses: courses
       });
 
+    case types.ADD_COURSES :
+      return Object.assign({}, state, {
+        courses: Object.assign({}, state.courses, action.courses)
+      });
+
     case types.ADD_TIME :
       return Object.assign({}, state, {
         times: [{
@@ -41,6 +47,11 @@ export default function timetableApp(state = initialState, action) {
           start: action.time.start,
           end: action.time.end,
         }, ...state.times]
+      });
+
+    case types.ADD_TIMES :
+      return Object.assign({}, state, {
+        times: action.times.concat(state.times)
       });
 
     case types.REMOVE_ALL_COURSE :
@@ -53,8 +64,13 @@ export default function timetableApp(state = initialState, action) {
       return Object.assign({}, state, action.state);
 
     case types.TOGGLE_HEADER_COLORSET :
+
+      var colorSet = ['#3EBFBA', '#634DC7', '#E18794', '#40B2D7', '#4D4E71', '#FE4365'];
+      var curIndex = _.indexOf(colorSet, state.headerColor);
+      var nextIndex = (curIndex+1) % colorSet.length;
+
       return Object.assign({}, state, {
-        headerColor : action.color
+        headerColor : colorSet[nextIndex]
       });
 
     default:

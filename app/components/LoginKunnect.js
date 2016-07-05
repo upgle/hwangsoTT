@@ -25,7 +25,6 @@ export default class LoginKunnect extends Component {
   constructor(props) {
     super(props);
 
-    console.log(props);
     this.state = {
       id : '',
       password : '',
@@ -81,6 +80,8 @@ export default class LoginKunnect extends Component {
       if(response.result == 200) {
 
         var courses = {};
+        var times = [];
+
         fetch('https://www.kunnect.net/timetable/1/mycourse')
         .then((response) => response.text())
         .then((responseText) => {
@@ -90,16 +91,24 @@ export default class LoginKunnect extends Component {
           actions.removeAllCourses();
 
           result.returns.forEach((data) => {
-            if(!_.isObject(courses[data.sbjtId])) {
-              time = TimeConverter(data.timeStart, data.timeEnd);
-              actions.addCourse(data.sbjtId, data.subject, data.prof, data.building + data.classroom);
-              actions.addTime(data.sbjtId, YoilConverter(data.yoil), time.start, time.end);
+            time = TimeConverter(data.timeStart, data.timeEnd);
 
-            } else {
-              time = TimeConverter(data.timeStart, data.timeEnd);
-              actions.addTime(data.sbjtId, YoilConverter(data.yoil), time.start, time.end);
-            }
+            courses[data.sbjtId] = {
+              id : data.sbjtId,
+              subject: data.subject,
+              professor : data.professor,
+              classroom : data.classroom
+            };
+            times = [{
+              course_id : data.sbjtId,
+              day: YoilConverter(data.yoil),
+              start: time.start,
+              end: time.end,
+            }, ...times];
+            //actions.addTime(data.sbjtId, YoilConverter(data.yoil), time.start, time.end);
           });
+          actions.addCourses(courses);
+          actions.addTimes(times);
           this.props.dispatch(saveAppData());
 
           Alert.alert(

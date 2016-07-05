@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from 'react-native';
-
+import diff from 'deep-diff';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 var screen = Dimensions.get('window');
 
@@ -24,6 +24,16 @@ export default class TimeTable extends Component {
 
     constructor(props) {
       super(props);
+    }
+
+    shouldComponentUpdate(nextProps) {
+      if(diff(this.props.courses, nextProps.courses)) {
+        return true;
+      }
+      if(diff(this.props.times, nextProps.times)) {
+        return true;
+      }
+      return false;
     }
 
     _getLeftPosition(time) {
@@ -87,6 +97,44 @@ export default class TimeTable extends Component {
       var autoincrement = 0;
       var colorMap = {};
 
+      var timeTableBody = (
+        <View>
+        {[...Array(12)].map((x, i) =>
+          <View style={styles.tableRow} key={i}>
+            <View style={styles.tableTimeColumn}>
+              <Text style={styles.tableTimeText}>{i+8}</Text>
+            </View>
+            <View style={styles.tableColumn}></View>
+            <View style={styles.tableColumn}></View>
+            <View style={styles.tableColumn}></View>
+            <View style={styles.tableColumn}></View>
+            <View style={[styles.tableColumn, {borderRightWidth: 0}]}></View>
+          </View>
+        )}
+        {[...times].map((time, i)=> {
+          var index;
+          if(colorMap[time.course_id]) {
+            index = colorMap[time.course_id];
+          }
+          else {
+            index = colorMap[time.course_id] = autoincrement++
+          }
+          return (
+            <TouchableHighlight onPress={()=>{}} style={{position: 'absolute', left: this._getLeftPosition(time), top:this._getTopPosition(time)}}  key={i}>
+              <View condition={false} style={[styles.course, {backgroundColor: colors[index][0], height:this._getCourseHeight(time)}]}>
+                <Text style={{fontSize: 12, color:colors[index][1], textAlign: 'center'}}>
+                {courses[time.course_id].subject}
+                </Text>
+                <Text style={{fontSize: 11, color:colors[index][1], textAlign: 'center', marginTop: 2}}>
+                {courses[time.course_id].classroom}
+                </Text>
+              </View>
+            </TouchableHighlight>
+          );
+        })}
+        </View>
+      );
+
       return (
         <View style={styles.container}>
           <View style={styles.tableHead}>
@@ -98,42 +146,7 @@ export default class TimeTable extends Component {
             <Text style={[styles.tableHeadText, {flex:3}]}>FRI</Text>
           </View>
           <ScrollView automaticallyAdjustContentInsets={false} style={{height: tableHeight}}>
-          {[...Array(12)].map((x, i) =>
-            <View style={styles.tableRow} key={i}>
-              <View style={styles.tableTimeColumn}>
-                <Text style={styles.tableTimeText}>{i+8}</Text>
-              </View>
-              <View style={styles.tableColumn}></View>
-              <View style={styles.tableColumn}></View>
-              <View style={styles.tableColumn}></View>
-              <View style={styles.tableColumn}></View>
-              <View style={[styles.tableColumn, {borderRightWidth: 0}]}></View>
-            </View>
-          )}
-
-          {[...times].map((time, i)=> {
-
-            var index;
-            if(colorMap[time.course_id]) {
-              index = colorMap[time.course_id];
-            }
-            else {
-              index = colorMap[time.course_id] = autoincrement++
-            }
-            return (
-              <TouchableHighlight onPress={()=>{}} style={{position: 'absolute', left: this._getLeftPosition(time), top:this._getTopPosition(time)}}  key={i}>
-                <View condition={false} style={[styles.course, {backgroundColor: colors[index][0], height:this._getCourseHeight(time)}]}>
-                  <Text style={{fontSize: 12, color:colors[index][1], textAlign: 'center'}}>
-                  {courses[time.course_id].subject}
-                  </Text>
-                  <Text style={{fontSize: 11, color:colors[index][1], textAlign: 'center', marginTop: 2}}>
-                  {courses[time.course_id].classroom}
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            );
-          })}
-
+            {timeTableBody}
           </ScrollView>
         </View>
       );

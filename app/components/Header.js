@@ -10,6 +10,7 @@ import _ from 'underscore';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TimerMixin from 'react-timer-mixin';
 
+
 const headerHeight = 124;
 
 export default class Header extends Component {

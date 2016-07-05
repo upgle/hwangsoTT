@@ -48,6 +48,13 @@ export function addCourse(id, subject, professor, classroom) {
   };
 }
 
+export function addCourses(courses) {
+  return {
+    type: types.ADD_COURSES,
+    courses : courses
+  };
+}
+
 export function addTime(course_id, day, start, end) {
   return {
     type: types.ADD_TIME,
@@ -57,5 +64,12 @@ export function addTime(course_id, day, start, end) {
       start :start,
       end : end
     }
+  };
+}
+
+export function addTimes(times) {
+  return {
+    type: types.ADD_TIMES,
+    times : times
   };
 }
