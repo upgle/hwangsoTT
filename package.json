@@ -19,5 +19,8 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "remote-redux-devtools": "^0.3.3"
   }
 }
