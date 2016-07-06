@@ -89,6 +89,19 @@ export default class TimeTable extends Component {
       return (hour + (minute/60))*tabeRowHeight;
     }
 
+    _getHandsLeftPosition() {
+      var date = new Date();
+      var day = date.getDay();
+      return 25 + oneDayWidth*(day-1);
+    }
+
+    _getHandsTopPosition() {
+      var date = new Date();
+      var hour = date.getHours();
+      var minute = date.getMinutes();
+      return (hour - 8)*tabeRowHeight + (minute/60)*tabeRowHeight;
+    }
+
     render() {
 
       const tableHeight = this.props.height - tableHeadHeight;
@@ -132,6 +145,15 @@ export default class TimeTable extends Component {
             </TouchableHighlight>
           );
         })}
+        <View style={{
+          position: 'absolute',
+          opacity: 0.35,
+          width: oneDayWidth,
+          height:2,
+          backgroundColor: 'red',
+          left: this._getHandsLeftPosition(),
+          top : this._getHandsTopPosition()
+        }}></View>
         </View>
       );
 
