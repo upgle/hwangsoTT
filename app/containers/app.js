@@ -15,10 +15,7 @@ const enhancer = compose(
   devTools()
 );
 let store = createStore(timetableApp, enhancer);
-
-store.dispatch(fetchAppData()).then(() =>
-  console.log(store.getState())
-);
+store.dispatch(fetchAppData());
 
 export default class App extends Component {
   render() {
