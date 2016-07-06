@@ -3,13 +3,18 @@ import React, { Component } from 'react';
 
 import timetableApp from '../reducers/timetableApp';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import StoredTimeTable from './StoredTimeTable';
 import { NavigatorIOS, StyleSheet } from 'react-native';
 import { fetchAppData } from '../actions/appActions';
 import thunkMiddleware from 'redux-thunk';
+import devTools from 'remote-redux-devtools';
 
-let store = createStore(timetableApp, applyMiddleware(thunkMiddleware));
+const enhancer = compose(
+  applyMiddleware(thunkMiddleware),
+  devTools()
+);
+let store = createStore(timetableApp, enhancer);
 
 store.dispatch(fetchAppData()).then(() =>
   console.log(store.getState())
