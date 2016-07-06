@@ -14,26 +14,21 @@ import {
   Dimensions,
   AsyncStorage,
   Alert,
+  PushNotificationIOS
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LoginKunnect from './LoginKunnect';
-import TimeTable from './TimeTable';
-
-
-var ViewSnapshotter = require("react-native-view-snapshot");
-var screen = Dimensions.get('window');
-var _ = require('underscore');
 
 export default class SideMenu extends Component {
 
   constructor(props) {
     super(props);
+
     this._onPressLogin = this._onPressLogin.bind(this);
   }
 
   _onPressLogin() {
-
     this.props.navigator.push({
       component: LoginKunnect,
       passProps: {
@@ -47,7 +42,16 @@ export default class SideMenu extends Component {
 
   render() {
 
-    var timetable;
+    const { state } = this.props;
+
+    var notiStatus;
+
+    if(state.alarm) {
+      notiStatus = (<View style={{position: 'absolute', width: 42, right: 20, top: 14, borderRadius:13, borderColor:'#c9d9f4', borderWidth: 1, paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2}}><Text style={{color:'#c9d9f4', fontSize: 12, textAlign: 'center'}}>ON</Text></View>);
+    }
+    else {
+      notiStatus = (<View style={{position: 'absolute', width: 42, right: 20, top: 14, borderRadius:13, borderColor:'#8f9aad', borderWidth: 1, paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2}}><Text style={{color:'#8f9aad', fontSize: 12, textAlign: 'center'}}>OFF</Text></View>);
+    }
 
     return (
       <View style={styles.container} ref='container'>
@@ -75,6 +79,13 @@ export default class SideMenu extends Component {
             <Icon name='color-lens' color='#a1acc1' size={20} />
             <Text style={styles.menuText}>컬러셋</Text>
             <View style={{position: 'absolute', top: 19, right:20, borderRadius:12, width: 12, height: 12, backgroundColor:this.props.state.headerColor}}></View>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight underlayColor='#273242' onPress={this.props.onPressAlarm}>
+          <View style={styles.menu}>
+            <Icon name='alarm' color='#a1acc1' size={20} />
+            <Text style={styles.menuText}>수업 알림</Text>
+            {notiStatus}
           </View>
         </TouchableHighlight>
       </View>
@@ -112,4 +123,4 @@ const styles = {
     marginLeft: 10,
     color: '#a1acc1'
   }
-}
+};

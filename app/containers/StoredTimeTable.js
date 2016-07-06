@@ -20,6 +20,7 @@ import * as Actions from '../actions/appActions';
 import {getTodayTimes} from '../reducers/timetableApp';
 var ViewSnapshotter = require("react-native-view-snapshot");
 var RNFS = require('react-native-fs');
+import { setAlarmFromTimes } from '../util/alarmManager';
 
 var screen = Dimensions.get('window');
 
@@ -32,11 +33,34 @@ class StoredTimeTable extends Component {
     this.saveAppData = this.saveAppData.bind(this);
     this.toggleHeaderColorset = this.toggleHeaderColorset.bind(this);
     this.snapshotTimetable = this.snapshotTimetable.bind(this);
+    this.setAlarm = this.setAlarm.bind(this);
   }
 
   componentDidMount() {
+
+    const { actions } = this.props;
+
     StatusBar.setBarStyle('light-content');
     StatusBar.setHidden(false, 'none');
+
+    PushNotificationIOS.checkPermissions(permission => {
+      if(permission.alert !== 1) {
+        actions.turnOffAlarm();
+        this.saveAppData();
+      }
+    });
+  }
+
+  setAlarm() {
+    const { state, actions } = this.props;
+    PushNotificationIOS.checkPermissions(permission => {
+      if(permission.alert == 1) {
+        setAlarmFromTimes(state.courses, state.times);
+        actions.turnOnAlarm();
+        this.saveAppData();
+        Alert.alert('안내', '알람이 설정되었습니다.', [{text: '확인'}]);
+      }
+    });
   }
 
   openDrawer() {
@@ -80,6 +104,8 @@ class StoredTimeTable extends Component {
                   {...actions}
                   onPressHeaderColorset={this.toggleHeaderColorset}
                   onPressSaveTimetable={this.snapshotTimetable}
+                  onPressAlarm={this.setAlarm}
+                  alarm={state.alarm}
                 />}
       openDrawerOffset={0.4}
       styles={drawerStyles}

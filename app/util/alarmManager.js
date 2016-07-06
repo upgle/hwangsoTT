@@ -10,14 +10,6 @@ export const DAYS = {
   SUN : 7
 };
 
-export function checkAlarmPermission() {
-  PushNotificationIOS.checkPermissions();
-}
-
-export function requestAlarmPremission() {
-  return PushNotificationIOS.requestPermissions();
-}
-
 export function clearAllAlarm() {
     PushNotificationIOS.cancelAllLocalNotifications();
 }
@@ -38,7 +30,6 @@ export function setAlarmFromTimes(courses, times) {
       minute = 60 + minute;
       hour = hour - 1;
     }
-    console.log(message, day, hour, minute);
     setAlarm(message, day, hour, minute);
   }
 }
