@@ -17,6 +17,18 @@ export function saveAppData() {
   };
 }
 
+export function turnOnAlarm() {
+  return {
+    type: types.ON_ALARM
+  };
+}
+
+export function turnOffAlarm() {
+  return {
+    type: types.OFF_ALARM
+  };
+}
+
 export function toggleHeaderColorset() {
   return {
     type: types.TOGGLE_HEADER_COLORSET
