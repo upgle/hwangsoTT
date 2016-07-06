@@ -5,6 +5,7 @@ import _ from 'underscore';
 const initialState = {
   courses: {},
   times: [],
+  alarm: false,
   headerColor : '#634dc7'
 };
 
@@ -20,6 +21,17 @@ export function getTodayTimes(stateTimes) {
 
 export default function timetableApp(state = initialState, action) {
   switch (action.type) {
+
+    case types.ON_ALARM :
+      return Object.assign({}, state, {
+        alarm : true
+      });
+
+    case types.OFF_ALARM :
+      return Object.assign({}, state, {
+        alarm : false
+      });
+
     case types.ADD_COURSE :
 
       var courses = Object.assign({}, state.courses, {
