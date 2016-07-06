@@ -1,6 +1,13 @@
 
 import React, { Component } from 'react';
-import { Dimensions, StatusBar, findNodeHandle, CameraRoll, Alert } from 'react-native';
+import {
+  Dimensions,
+  StatusBar,
+  findNodeHandle,
+  CameraRoll,
+  Alert,
+  PushNotificationIOS
+} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Drawer from 'react-native-drawer';
@@ -63,8 +70,6 @@ class StoredTimeTable extends Component {
 
   render() {
     const { state, actions } = this.props;
-
-    console.log(state);
 
     return (
       <Drawer
