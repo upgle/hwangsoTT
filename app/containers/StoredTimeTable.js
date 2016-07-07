@@ -20,7 +20,7 @@ import * as Actions from '../actions/appActions';
 import {getTodayTimes} from '../reducers/timetableApp';
 var ViewSnapshotter = require("react-native-view-snapshot");
 var RNFS = require('react-native-fs');
-import { setAlarmFromTimes } from '../util/alarmManager';
+import { setAlarmFromTimes, clearAllAlarm } from '../util/alarmManager';
 
 var screen = Dimensions.get('window');
 
@@ -34,6 +34,15 @@ class StoredTimeTable extends Component {
     this.toggleHeaderColorset = this.toggleHeaderColorset.bind(this);
     this.snapshotTimetable = this.snapshotTimetable.bind(this);
     this.setAlarm = this.setAlarm.bind(this);
+  }
+
+  componentWillMount() {
+    this._onNotification = ()=>{};
+    PushNotificationIOS.addEventListener('notification', this._onNotification);
+  }
+
+  componentWillUnmount() {
+    PushNotificationIOS.removeEventListener('notification', this._onNotification);
   }
 
   componentDidMount() {
@@ -52,15 +61,38 @@ class StoredTimeTable extends Component {
   }
 
   setAlarm() {
-    const { state, actions } = this.props;
-    PushNotificationIOS.checkPermissions(permission => {
-      if(permission.alert == 1) {
-        setAlarmFromTimes(state.courses, state.times);
-        actions.turnOnAlarm();
-        this.saveAppData();
-        Alert.alert('안내', '알람이 설정되었습니다.', [{text: '확인'}]);
-      }
+
+    PushNotificationIOS.getScheduledLocalNotifications(data => {
+      console.log(data);
     });
+
+    const { state, actions } = this.props;
+
+    switch (state.alarm) {
+      case true :
+        clearAllAlarm();
+        actions.turnOffAlarm();
+        Alert.alert('안내', '알람이 해제되었습니다.', [{text: '확인'}]);
+        break;
+
+      case false :
+
+        PushNotificationIOS.requestPermissions()
+            .then((permission)=>{
+              if(permission.alert == 1) {
+                setAlarmFromTimes(state.courses, state.times);
+                actions.turnOnAlarm();
+                this.saveAppData();
+                Alert.alert('안내', '알람이 설정되었습니다.', [{text: '확인'}]);
+              }
+            })
+            .catch(()=>{
+              Alert.alert('안내', '알람이 설정이 실패하였습니다..', [{text: '확인'}]);
+            });
+        break;
+
+    }
+
   }
 
   openDrawer() {
@@ -102,6 +134,7 @@ class StoredTimeTable extends Component {
                   {...this.props}
                   closeDrawer={this.closeDrawer}
                   {...actions}
+                  themeColor={state.theme.header}
                   onPressHeaderColorset={this.toggleHeaderColorset}
                   onPressSaveTimetable={this.snapshotTimetable}
                   onPressAlarm={this.setAlarm}
@@ -120,21 +153,24 @@ class StoredTimeTable extends Component {
       }}
       ref={(ref) => this._drawer = ref} >
         <Header
-          color={state.headerColor}
+          color={state.theme.header}
           courses={state.courses}
           todayTimes={getTodayTimes(state.times)}
           onClickMenu={this.openDrawer}
         />
         <TimeTable
+          colors={state.theme.cells}
           courses={state.courses}
           times={state.times}
+          hands={true}
           {...actions}
           height={screen.height - 124}
         />
-
         <TimeTable
+          colors={state.theme.cells}
           courses={state.courses}
           times={state.times}
+          hands={false}
           {...actions}
           style={{position:'absolute', top:0, left:0, width: screen.width}}
           ref='timetable'

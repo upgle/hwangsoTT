@@ -493,6 +493,11 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = AUZA8JF7H2;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -824,7 +829,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.upgle.HwangsoTimetableApp;
 				PRODUCT_NAME = App;
 				PROVISIONING_PROFILE = "";
 			};
@@ -852,7 +857,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.upgle.HwangsoTimetableApp;
 				PRODUCT_NAME = App;
 				PROVISIONING_PROFILE = "";
 			};

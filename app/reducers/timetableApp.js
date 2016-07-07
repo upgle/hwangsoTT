@@ -1,12 +1,17 @@
 
 import * as types from '../actions/actionTypes';
 import _ from 'underscore';
+import { THEME } from '../config/theme';
 
 const initialState = {
   courses: {},
   times: [],
   alarm: false,
-  headerColor : '#634dc7'
+  headerColor : '#634dc7',
+  theme : {
+    header : '#634DC7',
+    cells : []
+  }
 };
 
 export function getTodayTimes(stateTimes) {
@@ -20,6 +25,7 @@ export function getTodayTimes(stateTimes) {
 }
 
 export default function timetableApp(state = initialState, action) {
+
   switch (action.type) {
 
     case types.ON_ALARM :
@@ -77,12 +83,12 @@ export default function timetableApp(state = initialState, action) {
 
     case types.TOGGLE_HEADER_COLORSET :
 
-      var colorSet = ['#3EBFBA', '#634DC7', '#E18794', '#40B2D7', '#4D4E71', '#FE4365'];
-      var curIndex = _.indexOf(colorSet, state.headerColor);
-      var nextIndex = (curIndex+1) % colorSet.length;
-
+      var curIndex = _.findIndex(THEME, {
+        header : state.theme.header
+      });
+      var nextIndex = (curIndex+1) % THEME.length;
       return Object.assign({}, state, {
-        headerColor : colorSet[nextIndex]
+        theme : THEME[nextIndex]
       });
 
     default:

@@ -33,6 +33,9 @@ export default class TimeTable extends Component {
       if(diff(this.props.times, nextProps.times)) {
         return true;
       }
+      if(diff(this.props.colors, nextProps.colors)) {
+        return true;
+      }
       return false;
     }
 
@@ -105,10 +108,23 @@ export default class TimeTable extends Component {
     render() {
 
       const tableHeight = this.props.height - tableHeadHeight;
-      const { courses, times } = this.props;
+      const { courses, times, colors } = this.props;
 
       var autoincrement = 0;
       var colorMap = {};
+
+      var timeHands;
+      var date = new Date();
+
+      if(this.props.hands == true && date.getHours() >= 8 && date.getHours() <= 20 ) {
+        timeHands = (
+            <View style={
+            [styles.hands, {
+              left: this._getHandsLeftPosition(),
+              top : this._getHandsTopPosition()
+            }]}></View>
+        );
+      }
 
       var timeTableBody = (
         <View>
@@ -145,15 +161,7 @@ export default class TimeTable extends Component {
             </TouchableHighlight>
           );
         })}
-        <View style={{
-          position: 'absolute',
-          opacity: 0.35,
-          width: oneDayWidth,
-          height:2,
-          backgroundColor: 'red',
-          left: this._getHandsLeftPosition(),
-          top : this._getHandsTopPosition()
-        }}></View>
+        {timeHands}
         </View>
       );
 
@@ -175,20 +183,16 @@ export default class TimeTable extends Component {
     }
 }
 
-const colors = [
-  ['#E9787C', '#FFFFFF'], //빨간색
-  ['#BDE7F3', '#43839c'], //파란색
-  ['#F6FC97', '#5A6000'], //연초록
-  ['#EB8A9E', '#FFFFFF'], //분홍색
-  ['#D2B579', '#FFFFFF'], //베이지
-  ['#DDCDF4', '#8b48dc'], //보라색
-  ['#FFF099', '#8c7118'], //노란색
-  ['#67686C', '#FFFFFF'],
-];
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
+  },
+  hands: {
+    position: 'absolute',
+    opacity: 0.35,
+    width: oneDayWidth,
+    height:2,
+    backgroundColor: 'red',
   },
   course : {
     position: 'absolute',

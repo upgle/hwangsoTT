@@ -78,7 +78,7 @@ export default class SideMenu extends Component {
           <View style={styles.menu}>
             <Icon name='color-lens' color='#a1acc1' size={20} />
             <Text style={styles.menuText}>컬러셋</Text>
-            <View style={{position: 'absolute', top: 19, right:20, borderRadius:12, width: 12, height: 12, backgroundColor:this.props.state.headerColor}}></View>
+            <View style={{position: 'absolute', top: 19, right:20, borderRadius:12, width: 12, height: 12, backgroundColor:this.props.themeColor}}></View>
           </View>
         </TouchableHighlight>
         <TouchableHighlight underlayColor='#273242' onPress={this.props.onPressAlarm}>
