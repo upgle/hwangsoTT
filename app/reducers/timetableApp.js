@@ -7,11 +7,7 @@ const initialState = {
   courses: {},
   times: [],
   alarm: false,
-  headerColor : '#634dc7',
-  theme : {
-    header : '#634DC7',
-    cells : []
-  }
+  theme : THEME[0]
 };
 
 export function getTodayTimes(stateTimes) {

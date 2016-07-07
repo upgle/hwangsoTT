@@ -166,15 +166,6 @@ class StoredTimeTable extends Component {
           {...actions}
           height={screen.height - 124}
         />
-        <TimeTable
-          colors={state.theme.cells}
-          courses={state.courses}
-          times={state.times}
-          hands={false}
-          {...actions}
-          style={{position:'absolute', top:0, left:0, width: screen.width}}
-          ref='timetable'
-        />
       </Drawer>
     );
   }
