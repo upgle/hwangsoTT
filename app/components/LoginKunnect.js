@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import _ from 'underscore';
 
 import {
   StyleSheet,
@@ -7,13 +6,15 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Alert
+  Alert,
+  StatusBar
 } from 'react-native';
 import {
   setTheme,
   MKButton,
   MKColor,
-  MKTextField
+  MKTextField,
+  MKSpinner
 } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -26,10 +27,19 @@ export default class LoginKunnect extends Component {
     super(props);
 
     this.state = {
-      id : '',
-      password : '',
+      id: '',
+      password: '',
+      isLoading: false,
     };
     this._onPressClose = this._onPressClose.bind(this);
+  }
+
+  componentWillMount() {
+    StatusBar.setHidden(true, 'none');
+  }
+
+  componentWillUnmount() {
+    StatusBar.setHidden(false, 'none');
   }
 
   componentDidMount() {
@@ -65,11 +75,16 @@ export default class LoginKunnect extends Component {
         return;
     }
 
+    this.setState({
+      isLoading: true
+    });
+
     var p1 = fetch('https://www.kunnect.net/login', {
       method: 'post',
       headers: {
         'Content-Type': 'multipart/form-data',
         'Accept': 'application/json',
+        'Cookie': '',
       },
       body: data
     })
@@ -77,6 +92,9 @@ export default class LoginKunnect extends Component {
     .then((responseText) => {
 
       var response = JSON.parse(responseText);
+
+      console.log(response);
+
       if(response.result == 200) {
 
         var courses = {};
@@ -97,7 +115,7 @@ export default class LoginKunnect extends Component {
               id : data.sbjtId,
               subject: data.subject,
               professor : data.professor,
-              classroom : data.classroom
+              classroom : data.building + data.classroom
             };
             times = [{
               course_id : data.sbjtId,
@@ -105,34 +123,52 @@ export default class LoginKunnect extends Component {
               start: time.start,
               end: time.end,
             }, ...times];
-            //actions.addTime(data.sbjtId, YoilConverter(data.yoil), time.start, time.end);
           });
           actions.addCourses(courses);
           actions.addTimes(times);
           this.props.dispatch(saveAppData());
 
+          this.setState({
+            isLoading: false
+          });
           Alert.alert(
             '안내', '시간표 불러오기 성공',
             [
               {text: 'OK', onPress: () => {
                 this._onPressClose();
-              }},
+              }}
             ]
           );
         });
       }
       else {
+        this.setState({
+          isLoading: false
+        });
         Alert.alert('안내', '로그인에 실패했습니다.', [{text: 'OK'}]);
       }
     })
-    .catch(() => {
+    .catch((error) => {
+
+      console.log(error);
+      this.setState({
+        isLoading: false
+      });
       Alert.alert('안내', '서버 연결에 실패하였습니다.', [{text: 'OK'}]);
     });
   }
 
   render() {
+
+    var spinner;
+
+    if(this.state.isLoading) {
+      spinner = (<SingleColorSpinner />);
+    }
+
     return (
       <View style={styles.container}>
+        {spinner}
         <Image source={require('../resources/knt_login_logo.png')} />
         <Text style={styles.welcome}>
           건국대학교 학생 시간표 서비스
@@ -141,9 +177,9 @@ export default class LoginKunnect extends Component {
           <View style={styles.field}>
             <Text>아이디</Text>
             <TextfieldID
-              autoCapitalize='none'
-              autoCorrect={false}
-              onChangeText={(text) => {
+                autoCapitalize='none'
+                autoCorrect={false}
+                onChangeText={(text) => {
                 this.setState({id : text});
               }}
             />
@@ -151,18 +187,16 @@ export default class LoginKunnect extends Component {
           <View style={styles.field}>
             <Text>비밀번호</Text>
             <TextfieldPW
-              password={true}
-              onChangeText={(text) => {
+                password={true}
+                onChangeText={(text) => {
                 this.setState({password : text});
               }}
             />
           </View>
           <LoginButton onPress={this.onClickLogin.bind(this)} />
-          <TouchableOpacity activeOpacity={0.5}>
           <View style={styles.messageView}>
             <Text style={styles.messageText}>KUNNECT 회원이 아니시라면 먼저 <Text style={{color:'#666', fontWeight: 'bold'}}>가입</Text>을 해주시기 바랍니다.</Text>
           </View>
-          </TouchableOpacity>
         </View>
         <TouchableOpacity activeOpacity={0.5} style={{position: 'absolute', right: 25, top:25}} onPress={this._onPressClose}>
           <Icon name='close' size={35} color='#999' />
@@ -195,11 +229,12 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: 13,
     textAlign: 'center',
-    margin: 10,
+    padding: 10,
+    marginBottom: 10,
     color: '#666666'
   },
   loginForm: {
-    padding: 10,
+    height: 240,
   },
   textEdit: {
     height: 40,
@@ -216,6 +251,13 @@ const styles = StyleSheet.create({
     color:'#999999',
     fontSize: 13,
     textAlign: 'center',
+  },
+  spinner: {
+    position: 'absolute',
+    left: 30,
+    top: 32,
+    width: 22,
+    height: 22,
   }
 });
 
@@ -232,3 +274,8 @@ const TextfieldID = MKTextField.textfield()
 const LoginButton = MKButton.coloredButton()
   .withText('시간표 가져오기')
   .build();
+
+
+const SingleColorSpinner = MKSpinner.singleColorSpinner()
+    .withStyle(styles.spinner)
+    .build();
