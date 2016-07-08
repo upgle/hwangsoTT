@@ -12,11 +12,12 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import diff from 'deep-diff';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import TimeTableHands from './TimeTableHands';
+
 var screen = Dimensions.get('window');
 
 const tableHeadHeight = 32;
-const tabeRowHeight = 44;
+const tableRowHeight = 44;
 const daysWidth = screen.width - 25;
 const oneDayWidth = daysWidth / 5;
 
@@ -37,6 +38,7 @@ class Cell extends Component {
         </TouchableHighlight>
     );
   }
+
 }
 
 class TimeTableCells extends Component {
@@ -64,7 +66,7 @@ class TimeTableCells extends Component {
 
     minute = e_minute - s_minute;
     hour = e_hour - s_hour;
-    return (hour + (minute/60))*tabeRowHeight;
+    return (hour + (minute/60))*tableRowHeight;
   }
 
   _getLeftPosition(time) {
@@ -92,10 +94,10 @@ class TimeTableCells extends Component {
   }
 
   _getTopPosition(time) {
-    var time = time.start.split(':');
-    var hour = time[0],
-        minute = time[1];
-    return (hour - 8)*tabeRowHeight + (minute/60)*tabeRowHeight;
+    var start = time.start.split(':');
+    var hour = start[0],
+        minute = start[1];
+    return (hour - 8)*tableRowHeight + (minute/60)*tableRowHeight;
   }
 
   render() {
@@ -104,6 +106,7 @@ class TimeTableCells extends Component {
 
     var autoincrement = 0;
     var colorMap = {};
+    var colorLength = colors.length;
 
     return (
       <View style={{position: 'absolute', left:0, top:0}}>
@@ -122,8 +125,8 @@ class TimeTableCells extends Component {
                   left={this._getLeftPosition(time)}
                   top={this._getTopPosition(time)}
                   height={this._getCourseHeight(time)}
-                  textColor={colors[index][1]}
-                  backgroundColor={colors[index][0]}
+                  textColor={colors[index % colorLength][1]}
+                  backgroundColor={colors[index % colorLength][0]}
                   key={i} />
           );
         })}
@@ -175,42 +178,6 @@ class TimeTableLine extends Component {
   }
 }
 
-class TimeTableHands extends Component {
-
-  shouldComponentUpdate() {
-    return false;
-  }
-
-  _getHandsLeftPosition() {
-    var date = new Date();
-    var day = date.getDay();
-    return 25 + oneDayWidth*(day-1);
-  }
-
-  _getHandsTopPosition() {
-    var date = new Date();
-    var hour = date.getHours();
-    var minute = date.getMinutes();
-    return (hour - 8)*tabeRowHeight + (minute/60)*tabeRowHeight;
-  }
-
-  render() {
-
-    var date = new Date();
-    if(date.getHours() < 8 || date.getHours() > 19) {
-      return null;
-    }
-    return (
-        <View style={
-            [styles.hands, {
-              left: this._getHandsLeftPosition(),
-              top : this._getHandsTopPosition()
-            }]}>
-        </View>
-    );
-  }
-}
-
 export default class TimeTable extends Component {
 
     constructor(props) {
@@ -240,7 +207,7 @@ export default class TimeTable extends Component {
 
       var timeHands;
       if(this.props.hands == true) {
-        timeHands = (<TimeTableHands />);
+        timeHands = (<TimeTableHands oneDayWidth={oneDayWidth} tabelRowHeight={tableRowHeight} />);
       }
 
       return (

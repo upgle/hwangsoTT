@@ -37,6 +37,10 @@ class StoredTimeTable extends Component {
   }
 
   componentWillMount() {
+
+    StatusBar.setBarStyle('light-content');
+    StatusBar.setHidden(false, 'none');
+
     this._onNotification = ()=>{};
     PushNotificationIOS.addEventListener('notification', this._onNotification);
   }
@@ -49,9 +53,6 @@ class StoredTimeTable extends Component {
 
     const { actions } = this.props;
 
-    StatusBar.setBarStyle('light-content');
-    StatusBar.setHidden(false, 'none');
-
     PushNotificationIOS.checkPermissions(permission => {
       if(permission.alert !== 1) {
         actions.turnOffAlarm();
@@ -62,10 +63,6 @@ class StoredTimeTable extends Component {
 
   setAlarm() {
 
-    PushNotificationIOS.getScheduledLocalNotifications(data => {
-      console.log(data);
-    });
-
     const { state, actions } = this.props;
 
     switch (state.alarm) {
@@ -74,9 +71,7 @@ class StoredTimeTable extends Component {
         actions.turnOffAlarm();
         Alert.alert('안내', '알람이 해제되었습니다.', [{text: '확인'}]);
         break;
-
       case false :
-
         PushNotificationIOS.requestPermissions()
             .then((permission)=>{
               if(permission.alert == 1) {
@@ -90,9 +85,7 @@ class StoredTimeTable extends Component {
               Alert.alert('안내', '알람이 설정이 실패하였습니다..', [{text: '확인'}]);
             });
         break;
-
     }
-
   }
 
   openDrawer() {
@@ -165,6 +158,15 @@ class StoredTimeTable extends Component {
           hands={true}
           {...actions}
           height={screen.height - 124}
+        />
+        <TimeTable
+            colors={state.theme.cells}
+            courses={state.courses}
+            times={state.times}
+            hands={false}
+            {...actions}
+            style={{position:'absolute', top:0, left:0, width: screen.width}}
+            ref='timetable'
         />
       </Drawer>
     );
