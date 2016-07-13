@@ -58,8 +58,8 @@ export default class Header extends Component {
       if(this.props.todayTimes.length === 0) {
         return (
           <View style={{marginTop: 10}}>
-            <Text style={styles.headerBigText}>오늘 수업 없음</Text>
-            <Text style={styles.headerSmallText}>오늘은 수업이 없습니다.</Text>
+            <Text style={styles.headerBigText}>수업 없음</Text>
+            <Text style={styles.headerSmallText}>오늘은 수업이 없는 날입니다.</Text>
           </View>
         );
       }
@@ -67,7 +67,7 @@ export default class Header extends Component {
       if(this._isFinishTodayClass()) {
         return (
           <View style={{marginTop: 10}}>
-            <Text style={styles.headerBigText}>오늘 수업 끝</Text>
+            <Text style={styles.headerBigText}>수업 끝남</Text>
             <Text style={styles.headerSmallText}>모든 수업이 종료되었습니다.</Text>
           </View>
         );
