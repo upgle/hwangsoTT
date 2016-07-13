@@ -9,6 +9,10 @@ import { NavigatorIOS, StyleSheet } from 'react-native';
 import { fetchAppData } from '../actions/appActions';
 import thunkMiddleware from 'redux-thunk';
 import devTools from 'remote-redux-devtools';
+import GoogleAnalytics from 'react-native-google-analytics-bridge';
+
+GoogleAnalytics.setTrackerId('UA-80732706-1');
+GoogleAnalytics.trackScreenView('Home');
 
 const enhancer = compose(
   applyMiddleware(thunkMiddleware),

@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -28,14 +29,18 @@
 		62767B1DAF014475866C2BD7 /* libRCTMaterialKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D38EC9DBA8AC4CF4A732C0B2 /* libRCTMaterialKit.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		9063616391644DC381CE322A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FDF4CFDA835A4F2CA9600223 /* FontAwesome.ttf */; };
+		9CD52379C3CE4A03978C5D17 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1D01156BAD4E3A86B600B4 /* libRCTGoogleAnalyticsBridge.a */; };
 		A644C3EA01AE47F58FD761C0 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4397DDBD83C04A9A8A97CD1B /* Ionicons.ttf */; };
 		A99AF71695D04FFE83002C6E /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB67042FF7064416AA1912A6 /* libRNVectorIcons.a */; };
 		DFE7020BB5F14A739C6D112E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9CFE28A3B17049568F5CE2E6 /* Zocial.ttf */; };
 		E93177EF1D2B9724004CCDF0 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E93177E71D2B9713004CCDF0 /* libRCTPushNotification.a */; };
 		E94C733B1D218B53009D85EE /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E94C733A1D218B4B009D85EE /* libRCTCameraRoll.a */; };
+		E9934C031D3621F000539069 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E9934C021D3621F000539069 /* libsqlite3.0.tbd */; };
+		E9934C051D3621F600539069 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E9934C041D3621F600539069 /* libz.tbd */; };
+		E9934C071D3621FD00539069 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9934C061D3621FD00539069 /* SystemConfiguration.framework */; };
+		E9934C091D36220600539069 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9934C081D36220600539069 /* CoreData.framework */; };
 		E9ADE4C61D20FBE900D53598 /* ViewSnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ADE4C51D20FBE900D53598 /* ViewSnapshotter.m */; };
 		EF7F22A2E24F4BA2A96BD619 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55DAFC6F8C2B4AD9BB045F9E /* EvilIcons.ttf */; };
-		9CD52379C3CE4A03978C5D17 /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1D01156BAD4E3A86B600B4 /* libRCTGoogleAnalyticsBridge.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +135,13 @@
 			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
 			remoteInfo = RCTCameraRoll;
 		};
+		E9934BF41D36214C00539069 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BF8FA6CCD9C46CC912E41C7 /* RCTGoogleAnalyticsBridge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A79185C61C30694E001236A6;
+			remoteInfo = RCTGoogleAnalyticsBridge;
+		};
 		E9ADE4A41D20FB7C00D53598 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0CA5DF69E4FF41A99A0DE051 /* RNFS.xcodeproj */;
@@ -183,17 +195,21 @@
 		6A5A7000F57B4C109BE82B4C /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		6DEFEF2622E5454D881AEB5B /* RCTMaterialKit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTMaterialKit.xcodeproj; path = "../node_modules/react-native-material-kit/iOS/RCTMaterialKit.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
+		7BF8FA6CCD9C46CC912E41C7 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		8B1D01156BAD4E3A86B600B4 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTGoogleAnalyticsBridge.a; sourceTree = "<group>"; };
 		9CFE28A3B17049568F5CE2E6 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		CB67042FF7064416AA1912A6 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		D38EC9DBA8AC4CF4A732C0B2 /* libRCTMaterialKit.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTMaterialKit.a; sourceTree = "<group>"; };
 		E93177DB1D2B9713004CCDF0 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		E94C73351D218B4B009D85EE /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
+		E9934C021D3621F000539069 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		E9934C041D3621F600539069 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		E9934C061D3621FD00539069 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E9934C081D36220600539069 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E9ADE4C41D20FBE900D53598 /* ViewSnapshotter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewSnapshotter.h; path = App/ViewSnapshotter.h; sourceTree = "<group>"; };
 		E9ADE4C51D20FBE900D53598 /* ViewSnapshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewSnapshotter.m; path = App/ViewSnapshotter.m; sourceTree = "<group>"; };
 		FDF4CFDA835A4F2CA9600223 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
-		7BF8FA6CCD9C46CC912E41C7 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; name = "RCTGoogleAnalyticsBridge.xcodeproj"; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		8B1D01156BAD4E3A86B600B4 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; name = "libRCTGoogleAnalyticsBridge.a"; path = "libRCTGoogleAnalyticsBridge.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +225,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9934C091D36220600539069 /* CoreData.framework in Frameworks */,
+				E9934C071D3621FD00539069 /* SystemConfiguration.framework in Frameworks */,
+				E9934C051D3621F600539069 /* libz.tbd in Frameworks */,
+				E9934C031D3621F000539069 /* libsqlite3.0.tbd in Frameworks */,
 				E93177EF1D2B9724004CCDF0 /* libRCTPushNotification.a in Frameworks */,
 				E94C733B1D218B53009D85EE /* libRCTCameraRoll.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -384,6 +404,10 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				E9934C081D36220600539069 /* CoreData.framework */,
+				E9934C061D3621FD00539069 /* SystemConfiguration.framework */,
+				E9934C041D3621F600539069 /* libz.tbd */,
+				E9934C021D3621F000539069 /* libsqlite3.0.tbd */,
 				13B07FAE1A68108700A75B9A /* App */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* AppTests */,
@@ -415,6 +439,14 @@
 			isa = PBXGroup;
 			children = (
 				E94C733A1D218B4B009D85EE /* libRCTCameraRoll.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E9934BEE1D36214C00539069 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9934BF51D36214C00539069 /* libRCTGoogleAnalyticsBridge.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -528,6 +560,10 @@
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
 					ProjectRef = 00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */;
+				},
+				{
+					ProductGroup = E9934BEE1D36214C00539069 /* Products */;
+					ProjectRef = 7BF8FA6CCD9C46CC912E41C7 /* RCTGoogleAnalyticsBridge.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302BC1ABCB91800DB3ED1 /* Products */;
@@ -669,6 +705,13 @@
 			fileType = archive.ar;
 			path = libRCTCameraRoll.a;
 			remoteRef = E94C73391D218B4B009D85EE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E9934BF51D36214C00539069 /* libRCTGoogleAnalyticsBridge.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTGoogleAnalyticsBridge.a;
+			remoteRef = E9934BF41D36214C00539069 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		E9ADE4A51D20FB7C00D53598 /* libRNFS.a */ = {
@@ -832,6 +875,10 @@
 				);
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/App\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -839,10 +886,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.upgle.HwangsoTimetableApp;
 				PRODUCT_NAME = App;
 				PROVISIONING_PROFILE = "";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/App\"",
-				);
 			};
 			name = Debug;
 		};
@@ -865,6 +908,10 @@
 				);
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/App\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -872,10 +919,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.upgle.HwangsoTimetableApp;
 				PRODUCT_NAME = App;
 				PROVISIONING_PROFILE = "";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/App\"",
-				);
 			};
 			name = Release;
 		};

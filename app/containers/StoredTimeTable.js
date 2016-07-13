@@ -21,6 +21,7 @@ import {getTodayTimes} from '../reducers/timetableApp';
 var ViewSnapshotter = require("react-native-view-snapshot");
 var RNFS = require('react-native-fs');
 import { setAlarmFromTimes, clearAllAlarm } from '../util/alarmManager';
+import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
 var screen = Dimensions.get('window');
 
@@ -70,6 +71,9 @@ class StoredTimeTable extends Component {
         clearAllAlarm();
         actions.turnOffAlarm();
         Alert.alert('안내', '알람이 해제되었습니다.', [{text: '확인'}]);
+
+        GoogleAnalytics.trackEvent('setting', 'turn off alarm');
+
         break;
       case false :
         PushNotificationIOS.requestPermissions()
@@ -79,6 +83,8 @@ class StoredTimeTable extends Component {
                 actions.turnOnAlarm();
                 this.saveAppData();
                 Alert.alert('안내', '알람이 설정되었습니다.', [{text: '확인'}]);
+
+                GoogleAnalytics.trackEvent('setting', 'turn on alarm');
               }
             })
             .catch(()=>{
@@ -99,6 +105,8 @@ class StoredTimeTable extends Component {
   toggleHeaderColorset() {
     this.props.actions.toggleHeaderColorset();
     this.saveAppData();
+
+    GoogleAnalytics.trackEvent('setting', 'change colorset');
   }
 
   saveAppData() {
@@ -115,6 +123,8 @@ class StoredTimeTable extends Component {
         });
       }
     });
+
+    GoogleAnalytics.trackEvent('setting', 'snapshot timetable');
   }
 
   render() {
