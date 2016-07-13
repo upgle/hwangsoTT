@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import diff from 'deep-diff';
 import TimeTableHands from './TimeTableHands';
+import _ from 'underscore';
 
 var screen = Dimensions.get('window');
 
@@ -112,11 +113,12 @@ class TimeTableCells extends Component {
       <View style={{position: 'absolute', left:0, top:0}}>
         {[...times].map((time, i)=> {
           var index;
-          if(colorMap[time.course_id]) {
+          if(_.isNumber(colorMap[time.course_id])) {
             index = colorMap[time.course_id];
           }
           else {
-            index = colorMap[time.course_id] = autoincrement++
+            colorMap[time.course_id] = autoincrement++
+            index = colorMap[time.course_id];
           }
           return (
               <Cell
