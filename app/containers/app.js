@@ -36,7 +36,7 @@ export default class App extends Component {
                 <RouterWithRedux>
                     <Scene key="root">
                         <Scene key="home" component={StoredTimeTable} title="시간표" initial={true} hideNavBar={true} />
-                        <Scene key="kunnect" component={KunnectContainer} title="쿠넥트 로그인" hideNavBar={true} direction="vertical" />
+                        <Scene key="kunnect" component={KunnectContainer} title="쿠넥트 로그인" hideNavBar={true} />
                     </Scene>
                 </RouterWithRedux>
             </Provider>

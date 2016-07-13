@@ -13,9 +13,15 @@ class KunnectContainer extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            isLoading: false,
+        };
+
         this._onClickLogin = this._onClickLogin.bind(this);
         this._onClickClose = this._onClickClose.bind(this);
         this._fetchTimeTable = this._fetchTimeTable.bind(this);
+        this._catchError = this._catchError.bind(this);
     }
 
     _onClickClose() {
@@ -23,6 +29,9 @@ class KunnectContainer extends Component {
     }
 
     _catchError(err) {
+        this.setState({
+            isLoading: false
+        });
         Alert.alert('안내', err.message, [{text: 'OK'}]);
     }
 
@@ -31,6 +40,10 @@ class KunnectContainer extends Component {
         var data = new FormData();
         data.append('id', id);
         data.append('password', password);
+
+        this.setState({
+            isLoading: true
+        });
 
         fetch('https://www.kunnect.net/login', {
             method: 'post',
@@ -85,6 +98,10 @@ class KunnectContainer extends Component {
                 actions.addTimes(times);
                 this.props.dispatch(saveAppData());
 
+                this.setState({
+                    isLoading: false
+                });
+
                 Alert.alert(
                     '안내', '시간표 불러오기 성공',
                     [
@@ -99,7 +116,7 @@ class KunnectContainer extends Component {
 
     render() {
         return(
-            <LoginKunnect onClickLogin={this._onClickLogin} onClickClose={this._onClickClose} />
+            <LoginKunnect onClickLogin={this._onClickLogin} onClickClose={this._onClickClose} isLoading={this.state.isLoading} />
         );
     }
 }

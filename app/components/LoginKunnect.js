@@ -23,12 +23,9 @@ export default class LoginKunnect extends Component {
   constructor(props) {
     super(props);
 
-    console.log(props);
-
     this.state = {
       id: '',
       password: '',
-      isLoading: false,
     };
   }
 
@@ -64,7 +61,7 @@ export default class LoginKunnect extends Component {
 
     var spinner;
 
-    if(this.state.isLoading) {
+    if(this.props.isLoading) {
       spinner = (<SingleColorSpinner />);
     }
 
