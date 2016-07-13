@@ -14,11 +14,10 @@ import {
   Dimensions,
   AsyncStorage,
   Alert,
-  PushNotificationIOS
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import LoginKunnect from './LoginKunnect';
+import { Actions } from 'react-native-router-flux';
 
 export default class SideMenu extends Component {
 
@@ -29,15 +28,7 @@ export default class SideMenu extends Component {
   }
 
   _onPressLogin() {
-    this.props.navigator.push({
-      component: LoginKunnect,
-      passProps: {
-        afterMount: () => {
-          this.props.closeDrawer();
-        },
-        ...this.props
-      }
-    });
+    Actions.kunnect();
   }
 
   render() {
