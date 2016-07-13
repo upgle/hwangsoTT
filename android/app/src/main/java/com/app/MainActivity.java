@@ -1,6 +1,7 @@
 package com.app;
 
 import com.facebook.react.ReactActivity;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.rnfs.RNFSPackage;
@@ -38,6 +39,7 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new GoogleAnalyticsBridgePackage(),
             new ReactMaterialKitPackage(),
             new VectorIconsPackage(),
             new RNFSPackage()
