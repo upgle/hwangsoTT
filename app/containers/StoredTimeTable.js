@@ -118,7 +118,7 @@ class StoredTimeTable extends Component {
         var ref = findNodeHandle(this.refs.timetable);
         ViewSnapshotter.saveSnapshotToPath(ref, imagePath, (error, successfulWrite) => {
             if (successfulWrite) {
-                CameraRoll.saveImageWithTag(imagePath).then(()=> {
+                CameraRoll.saveToCameraRoll(imagePath, 'photo').then(()=> {
                     Alert.alert('안내', '카메라 앨범에 저장하였습니다.', [{text: '확인'}]);
                 });
             }
