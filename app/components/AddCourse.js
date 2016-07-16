@@ -10,30 +10,41 @@ import {
     StatusBar,
     TextInput,
     Picker,
-    DatePickerIOS
+    DatePickerIOS,
+    ListView
 } from 'react-native';
 var Modal   = require('react-native-modalbox');
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AddTime from './AddTime';
 
-
-class AddTime extends Component {
-
-}
+const dayKR = {
+    'MON' : '월요일',
+    'TUE' : '화요일',
+    'WED' : '수요일',
+    'THR' : '목요일',
+    'FRI' : '금요일'
+};
 
 export default class AddCourse extends Component {
 
     constructor(props) {
         super(props);
 
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.times = [];
         this.state = {
-            // year, month, day, hours, minutes, seconds, milliseconds
-            date: new Date(2016, 1, 1, 8, 0, 0, 0),
-            minimumDate : new Date(2016, 1, 1, 7, 0, 0, 0),
-            maximumDate : new Date(2016, 1, 1, 20, 0, 0, 0),
-            timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60
+            /**
+             * day : "WED"
+             * start : "13:30"
+             * end : "15:00"
+             */
+            times : this.ds.cloneWithRows(this.times)
         };
-        this._onDateChange = this._onDateChange.bind(this);
+
+        this._onPressDeleteRow = this._onPressDeleteRow.bind(this);
         this._onPressAddTime = this._onPressAddTime.bind(this);
+        this._deleteRow = this._deleteRow.bind(this);
+        this._addTimes = this._addTimes.bind(this);
     }
 
     componentWillMount() {
@@ -44,29 +55,35 @@ export default class AddCourse extends Component {
         this.refs.modal.open();
     }
 
-    _onDateChange(date) {
-        this.setState({date: date});
+    _onPressDeleteRow(rowID) {
+        this._deleteRow(rowID);
+    }
+
+    _deleteRow(rowID) {
+        this.times.splice(rowID, 1);
+        this.setState({
+            times: this.ds.cloneWithRows(this.times),
+        });
+    }
+
+    _addTimes(data) {
+        data.days.forEach((day)=>{
+            this.times.push({
+                day : day,
+                start : data.start,
+                end : data.end
+            });
+        });
+        this.setState({
+            times: this.ds.cloneWithRows(this.times),
+        });
     }
 
     render() {
 
-        var datePicker = (
-            <DatePickerIOS
-                minuteInterval={10}
-                mode="time"
-                timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-                onDateChange={this._onDateChange}
-                date={this.state.date}
-                maximumDate={this.state.maximumDate}
-                minimumDate={this.state.minimumDate}
-                style={{height: 162}}
-            />
-        );
-
         return (
             <View style={{backgroundColor: '#f4f4f4', flex:1, marginTop: 64}}>
-                <Text>Hello World</Text>
-                <View style={{ borderColor: '#f0f0f0', borderBottomWidth: 1}}>
+                <View style={{ borderColor: '#f0f0f0', borderBottomWidth: 1, marginTop: 10}}>
                     <TextInput
                         placeholder="강의 이름"
                         style={{height: 45, paddingLeft:20, backgroundColor:'white'}}
@@ -92,48 +109,27 @@ export default class AddCourse extends Component {
                     </View>
                 </TouchableHighlight>
 
-                <Modal ref="modal" position="bottom" style={styles.modal} swipeToClose={false} isOpen={true}>
-                    <View style={{ flexDirection: 'column' }}>
-                        <View style={{ justifyContent: 'center', height: 30, borderBottomWidth: 1, borderBottomColor: '#dedede', paddingLeft:10}}>
-                            <Text style={{color: '#666666', fontSize: 12}}>강의 요일</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', paddingLeft: 10, paddingRight: 10, height: 60, alignItems: 'center' }}>
-                            <View style={styles.dayBtn}>
-                                <Text style={styles.dayBtnText}>MON</Text>
+                <ListView
+                    style={styles.listView}
+                    enableEmptySections={true}
+                    dataSource={this.state.times}
+                    renderRow={(rowData, sectionID, rowID) =>
+                        <View style={styles.list}>
+                            <View style={{width: 75}}>
+                                <Text style={{color:'#333333'}}>{dayKR[rowData.day]}</Text>
                             </View>
-                            <View style={{flex: 0.15}}></View>
-                            <View style={styles.dayBtn}>
-                                <Text style={styles.dayBtnText}>TUE</Text>
+                            <View style={{flex: 1, flexDirection:'row'}}>
+                                <Text style={{color:'#333333'}}>{rowData.start} ~ {rowData.end}</Text>
                             </View>
-                            <View style={{flex: 0.15}}></View>
-                            <View style={styles.dayBtn}>
-                                <Text style={styles.dayBtnText}>WED</Text>
+                            <TouchableHighlight style={{width:46}} onPress={()=>{this._onPressDeleteRow(rowID)}}>
+                            <View style={{width: 46, height: 44, backgroundColor: '#ff3b30', alignItems: 'center', justifyContent: 'center'}}>
+                                <Text style={{color: '#ffffff'}}>삭제</Text>
                             </View>
-                            <View style={{flex: 0.15}}></View>
-                            <View style={styles.dayBtn}>
-                                <Text style={styles.dayBtnText}>THR</Text>
-                            </View>
-                            <View style={{flex: 0.15}}></View>
-                            <View style={styles.dayBtn}>
-                                <Text style={styles.dayBtnText}>FRI</Text>
-                            </View>
-                        </View>
-                        <View style={{ justifyContent: 'center', height: 30, borderTopWidth:1, borderBottomWidth: 1, borderColor: '#dedede', paddingLeft:10}}>
-                            <Text style={{color: '#666666', fontSize: 12}}>강의 시간</Text>
-                        </View>
-                        <View>
-                            <View style={{flexDirection: 'row', height: 90, justifyContent: 'center', paddingLeft: 10, borderBottomWidth: 0.5, borderColor: '#dedede', backgroundColor:'#ffffff'}}>
-                                <View style={{flex : 1, alignItems: 'center', justifyContent:'center'}}>
-                                    <Text style={{color:'#999999', fontWeight: '100'}}>시작 시간</Text>
-                                    <Text style={{fontSize: 18}}>오전 09:00</Text>
-                                </View>
-                                <View style={{flex : 1, alignItems: 'center', justifyContent:'center'}}>
-                                    <Text style={{color:'#999999', fontWeight: '100'}}>종료 시간</Text>
-                                    <Text style={{fontSize: 18}}>오전 09:00</Text>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
+                            </TouchableHighlight>
+                        </View>}
+                />
+                <Modal ref="modal" position="bottom" style={styles.modal} swipeToClose={false} isOpen={false} backdropOpacity={0.6} >
+                    <AddTime onPressDone={this._addTimes} />
                 </Modal>
             </View>
         );
@@ -144,24 +140,22 @@ export default class AddCourse extends Component {
 var styles = StyleSheet.create({
 
     modal: {
-        flexDirection:'column',
-        height: 270,
+        height: 300,
     },
 
-    dayBtn : {
+    listView: {
+        marginTop: 10
+    },
+
+    list : {
         flex: 1,
-        height: 25,
-        justifyContent: 'center',
+        flexDirection: 'row',
+        height: 45,
+        paddingLeft: 20,
         alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#999999',
-        borderRadius: 25,
-    },
-
-    dayBtnText : {
-        fontSize: 12,
-        color: '#999999',
-        fontWeight: '100'
+        backgroundColor: '#ffffff',
+        borderColor: '#f0f0f0',
+        borderBottomWidth: 1
     }
 
 });
