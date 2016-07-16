@@ -2,8 +2,10 @@
 import * as types from '../actions/actionTypes';
 import _ from 'underscore';
 import { THEME } from '../config/theme';
+import { ActionConst } from 'react-native-router-flux';
 
 const initialState = {
+  scene: {},
   courses: {},
   times: [],
   alarm: false,
@@ -23,6 +25,11 @@ export function getTodayTimes(stateTimes) {
 export default function timetableApp(state = initialState, action) {
 
   switch (action.type) {
+
+    case ActionConst.FOCUS:
+      return Object.assign({}, state, {
+        scene: action.scene
+      });
 
     case types.ON_ALARM :
       return Object.assign({}, state, {
