@@ -11,6 +11,7 @@ import StoredTimeTable from './StoredTimeTable';
 import KunnectContainer from './KunnectContainer';
 import AddCourseContainer from './AddCourseContainer';
 import { fetchAppData } from '../actions/appActions';
+import { loggerMiddleware } from '../middlewares';
 
 /**
  * Config Google Analytics
@@ -19,7 +20,7 @@ GoogleAnalytics.setTrackerId('UA-80732706-1');
 
 const RouterWithRedux = connect()(Router);
 const enhancer = compose(
-  applyMiddleware(thunkMiddleware),
+  applyMiddleware(thunkMiddleware, loggerMiddleware),
   devTools()
 );
 let store = createStore(timetableApp, enhancer);

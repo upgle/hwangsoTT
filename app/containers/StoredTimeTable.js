@@ -52,7 +52,7 @@ class StoredTimeTable extends Component {
 
   componentDidMount() {
 
-    const {actions} = this.props;
+    const { actions } = this.props;
 
     PushNotificationIOS.checkPermissions(permission => {
       if (permission.alert !== 1) {
@@ -60,7 +60,6 @@ class StoredTimeTable extends Component {
         this.saveAppData();
       }
     });
-
     GoogleAnalytics.trackScreenView('Home');
   }
 
