@@ -1,66 +1,75 @@
-
-
-import React, { Component } from 'react';
-import {
-    StyleSheet,
-    View,
-} from 'react-native';
+import React, { Component, PropTypes } from 'react';
+import { StyleSheet, View } from 'react-native';
 import TimerMixin from 'react-timer-mixin';
+
+const propTypes = {
+  oneDayWidth: PropTypes.number.isRequired,
+  tableRowHeight: PropTypes.number.isRequired,
+};
+
+const defaultProps = {
+  oneDayWidth: 100,
+  tableRowHeight: 100,
+};
+
+const styles = StyleSheet.create({
+  hands: {
+    position: 'absolute',
+    opacity: 0.35,
+    height: 2,
+    backgroundColor: 'red',
+  },
+});
 
 export default class TimeTableHands extends Component {
 
-    componentDidMount() {
-        this.timer = TimerMixin.setInterval(
-            () => {
-                this.forceUpdate();
-            },
-            60000
-        );
-    }
+  componentDidMount() {
+    this.timer = TimerMixin.setInterval(
+      () => {
+        this.forceUpdate();
+      },
+      60000 // 1minute
+    );
+  }
 
-    componentWillUnmount() {
-        TimerMixin.clearInterval(this.timer);
-    }
+  shouldComponentUpdate() {
+    return false;
+  }
 
-    shouldComponentUpdate() {
-        return false;
-    }
+  componentWillUnmount() {
+    TimerMixin.clearInterval(this.timer);
+  }
 
-    _getHandsLeftPosition() {
-        var date = new Date();
-        var day = date.getDay();
-        return 25 + this.props.oneDayWidth*(day-1);
-    }
+  getHandsLeftPosition() {
+    const day = (new Date()).getDay();
+    return 25 + this.props.oneDayWidth * (day - 1);
+  }
 
-    _getHandsTopPosition() {
-        var date = new Date();
-        var hour = date.getHours();
-        var minute = date.getMinutes();
-        return (hour - 8)*this.props.tabelRowHeight + (minute/60)*this.props.tabelRowHeight;
-    }
+  getHandsTopPosition() {
+    const date = new Date();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    return (hour - 8) * this.props.tableRowHeight + (minute / 60) * this.props.tableRowHeight;
+  }
 
-    render() {
-        var date = new Date();
-        if(date.getHours() < 8 || date.getHours() > 19) {
-            return null;
-        }
-        return (
-            <View style={
-            [styles.hands, {
-              width: this.props.oneDayWidth,
-              left: this._getHandsLeftPosition(),
-              top : this._getHandsTopPosition()
-            }]}>
-            </View>
-        );
+  render() {
+    const date = new Date();
+    if (date.getHours() < 8 || date.getHours() > 19) {
+      return null;
     }
+    return (
+      <View
+        style={
+        [styles.hands, {
+          width: this.props.oneDayWidth,
+          left: this.getHandsLeftPosition(),
+          top: this.getHandsTopPosition(),
+        }]}
+      />
+    );
+  }
 }
+TimeTableHands.defaultProps = defaultProps;
+TimeTableHands.propTypes = propTypes;
 
-const styles = StyleSheet.create({
-    hands: {
-        position: 'absolute',
-        opacity: 0.35,
-        height: 2,
-        backgroundColor: 'red',
-    }
-});
+

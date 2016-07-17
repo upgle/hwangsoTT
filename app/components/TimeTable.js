@@ -219,7 +219,7 @@ export default class TimeTable extends Component {
 
       var timeHands;
       if(this.props.hands == true) {
-        timeHands = (<TimeTableHands oneDayWidth={oneDayWidth} tabelRowHeight={tableRowHeight} />);
+        timeHands = (<TimeTableHands oneDayWidth={oneDayWidth} tableRowHeight={tableRowHeight} />);
       }
 
       return (
