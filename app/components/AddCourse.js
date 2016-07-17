@@ -17,6 +17,8 @@ import {
 var Modal   = require('./ModalBox');
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AddTime from './AddTime';
+import * as timetable from '../util/timetable';
+
 
 const dismissKeyboard = require('dismissKeyboard');
 
@@ -99,7 +101,7 @@ export default class AddCourse extends Component {
                 start : data.start,
                 end : data.end
             };
-            let overlappedIndex = this._isTimeOverlapped(time);
+            let overlappedIndex = timetable.getOverlappedTimeIndex(this.times, time);
             if(overlappedIndex >= 0) {
                 var overTime = this.times[overlappedIndex];
                 Alert.alert(
