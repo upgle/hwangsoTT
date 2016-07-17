@@ -41,25 +41,44 @@ export default function timetableApp(state = initialState, action) {
         alarm : false
       });
 
-    case types.ADD_COURSE :
-
-      var courses = Object.assign({}, state.courses, {
+    case types.ADD_COURSE : {
+      const courses = Object.assign({}, state.courses, {
         [action.course.id]: {
-          id : action.course.id,
+          id: action.course.id,
           subject: action.course.subject,
-          professor : action.course.professor,
-          classroom : action.course.classroom
-        }
+          professor: action.course.professor,
+          classroom: action.course.classroom,
+        },
       });
       return Object.assign({}, state, {
-        courses: courses
+        courses: courses,
       });
+    }
 
     case types.ADD_COURSES :
       return Object.assign({}, state, {
         courses: Object.assign({}, state.courses, action.courses)
       });
 
+    /**
+     * Modify Course
+     * course 정보를 수정합니다.
+     */
+    case types.MODIFY_COURSE_WITH_TIMES : {
+      const filteredTimes = state.times.filter((time) => time.course_id !== action.course.id);
+      const courses = Object.assign({}, state.courses, {
+        [action.course.id]: {
+          id: action.course.id,
+          subject: action.course.subject,
+          professor: action.course.professor,
+          classroom: action.course.classroom,
+        },
+      });
+      return Object.assign({}, state, {
+        courses: courses,
+        times: action.times.concat(filteredTimes),
+      });
+    }
     case types.ADD_TIME :
       return Object.assign({}, state, {
         times: [{
@@ -72,7 +91,7 @@ export default function timetableApp(state = initialState, action) {
 
     case types.ADD_TIMES :
       return Object.assign({}, state, {
-        times: action.times.concat(state.times)
+        times: action.times.concat(state.times),
       });
 
     case types.DELETE_COURSE :

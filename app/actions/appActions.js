@@ -60,6 +60,19 @@ export function addCourse(id, subject, professor, classroom) {
   };
 }
 
+export function modifyCourseWithTimes(id, subject, professor, classroom, times) {
+  return {
+    type: types.MODIFY_COURSE_WITH_TIMES,
+    course: {
+      id: id,
+      subject: subject,
+      professor: professor,
+      classroom: classroom,
+    },
+    times: times,
+  };
+}
+
 export function addCourses(courses) {
   return {
     type: types.ADD_COURSES,

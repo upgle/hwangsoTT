@@ -25,35 +25,45 @@ class AddCourseContainer extends Component {
 
   onPressDone() {
     const component = this.refs.addCourse;
-    const { state, times } = component;
-    const { actions } = this.props;
-
     component.closeModalAndKeyboard();
 
     if (this.validation() === false) {
       return false;
     }
-
-    let courseId = uuid.v4();
-    let cloneTimes = [];
-
     if (this.props.course_id) {
-      courseId = this.props.course_id;
-      actions.deleteAllTimesByCourseId(courseId);
+      this.modifyCourse();
     } else {
-      actions.addCourse(courseId, state.subject, state.professor, state.classroom);
+      this.insertCourse();
     }
 
+    this.props.dispatch(AppActions.saveAppData());
+    Actions.pop();
+    return true;
+  }
+
+  modifyCourse() {
+    const { state } = this.refs.addCourse;
+    const courseId = this.props.course_id;
+    const times = this.getTimesStructure(courseId);
+    this.props.actions.modifyCourseWithTimes(courseId, state.subject, state.professor, state.classroom, times);
+  }
+
+  insertCourse() {
+    const { actions } = this.props;
+    const courseId = uuid.v4();
+    const times = this.getTimesStructure(courseId);
+    actions.addCourse(courseId, state.subject, state.professor, state.classroom);
+    actions.addTimes(times);
+  }
+
+  getTimesStructure(courseId) {
+    const { times } = this.refs.addCourse;
+    const cloneTimes = [];
     times.forEach((time) => {
       const data = Object.assign({ course_id: courseId }, time);
       cloneTimes.push(data);
     });
-    actions.addTimes(cloneTimes);
-
-    this.props.dispatch(AppActions.saveAppData());
-    Actions.pop();
-
-    return true;
+    return cloneTimes;
   }
 
   onPressDelete() {
@@ -102,12 +112,7 @@ class AddCourseContainer extends Component {
   }
 
   alert(message) {
-    Alert.alert(
-      '안내', message,
-      [
-        { text: '확인' },
-      ]
-    );
+    Alert.alert('안내', message, [{ text: '확인' }]);
   }
 
   render() {

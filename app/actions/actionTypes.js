@@ -1,5 +1,6 @@
 export const ADD_COURSE = 'ADD_COURSE';
 export const ADD_COURSES = 'ADD_COURSES';
+export const MODIFY_COURSE_WITH_TIMES = 'MODIFY_COURSE_WITH_TIMES';
 export const ADD_TIME = 'ADD_TIME';
 export const ADD_TIMES = 'ADD_TIMES';
 export const DELETE_ALL_TIMES_BY_COURSE = 'DELETE_ALL_TIMES_BY_COURSE';
