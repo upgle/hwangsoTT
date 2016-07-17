@@ -34,16 +34,16 @@ export default class AddCourse extends Component {
         super(props);
 
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        this.times = [];
+        this.times = this.props.times || [];
         this.state = {
             /**
              * day : "WED"
              * start : "13:30"
              * end : "15:00"
              */
-            subject : '',
-            professor : '',
-            classroom: '',
+            subject : this.props.subject || '',
+            professor : this.props.professor || '',
+            classroom: this.props.classroom || '',
             times : this.ds.cloneWithRows(this.times)
         };
 
@@ -142,6 +142,7 @@ export default class AddCourse extends Component {
             <View style={{backgroundColor: '#f4f4f4', flex:1}}>
                 <View style={{ borderColor: '#f0f0f0', borderBottomWidth: 1, marginTop: 10}}>
                     <TextInput
+                        value={this.state.subject}
                         onChangeText={(text) => this.setState({subject : text})}
                         placeholder="강의 이름"
                         style={{height: 45, paddingLeft:20, backgroundColor:'white'}}
@@ -149,6 +150,7 @@ export default class AddCourse extends Component {
                 </View>
                 <View style={{ borderColor: '#f0f0f0', borderBottomWidth: 1}}>
                     <TextInput
+                        value={this.state.professor}
                         onChangeText={(text) => this.setState({professor : text})}
                         placeholder="교수명"
                         style={{height: 45, paddingLeft:20, backgroundColor:'white'}}
@@ -156,6 +158,7 @@ export default class AddCourse extends Component {
                 </View>
                 <View style={{ borderColor: '#f0f0f0', borderBottomWidth: 1}}>
                     <TextInput
+                        value={this.state.classroom}
                         onChangeText={(text) => this.setState({classroom : text})}
                         placeholder="강의실"
                         style={{height: 45, paddingLeft:20, backgroundColor:'white'}}
