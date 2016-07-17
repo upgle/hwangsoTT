@@ -17,6 +17,7 @@ import { loggerMiddleware } from '../middlewares';
  * Config Google Analytics
  */
 GoogleAnalytics.setTrackerId('UA-80732706-1');
+GoogleAnalytics.setAppName('황소시간표');
 
 const RouterWithRedux = connect()(Router);
 const enhancer = compose(
