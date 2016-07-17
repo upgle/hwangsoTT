@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {Alert} from 'react-native';
 import LoginKunnect from '../components/LoginKunnect';
 import { Actions } from 'react-native-router-flux';
-import { TimeConverter, YoilConverter } from '../util/Kunnect';
+import { TimeConverter, YoilConverter } from '../util/kunnect';
 import { saveAppData } from '../actions/appActions';
 
 class KunnectContainer extends Component {
