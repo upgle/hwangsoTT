@@ -59,9 +59,18 @@ class AddCourseContainer extends Component {
   onPressDelete() {
     const { actions, course_id } = this.props;
     if (course_id) {
-      actions.deleteCourse(course_id);
-      this.props.dispatch(AppActions.saveAppData());
-      Actions.pop();
+      Alert.alert(
+        null,
+        '이 강의를 삭제하시겠습니까?\n삭제 후에는 되돌릴 수 없습니다.',
+        [
+          { text: '취소' },
+          { text: '확인', onPress: () => {
+            actions.deleteCourse(course_id);
+            this.props.dispatch(AppActions.saveAppData());
+            Actions.pop();
+          } },
+        ]
+      );
     }
   }
 
