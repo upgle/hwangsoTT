@@ -144,13 +144,13 @@ export default class AddCourse extends Component {
     }
 
     return (
-      <View style={{backgroundColor: '#f4f4f4', flex: 1}}>
+      <View style={styles.container}>
         <View style={{borderColor: '#f0f0f0', borderBottomWidth: 1, marginTop: 10}}>
           <TextInput
             value={this.state.subject}
             onChangeText={(text) => this.setState({subject: text})}
             placeholder="강의 이름"
-            style={{height: 45, paddingLeft: 20, backgroundColor: 'white'}}
+            style={styles.textInput}
           />
         </View>
         <View style={{borderColor: '#f0f0f0', borderBottomWidth: 1}}>
@@ -158,7 +158,7 @@ export default class AddCourse extends Component {
             value={this.state.professor}
             onChangeText={(text) => this.setState({professor: text})}
             placeholder="교수명"
-            style={{height: 45, paddingLeft: 20, backgroundColor: 'white'}}
+            style={styles.textInput}
           />
         </View>
         <View style={{borderColor: '#f0f0f0', borderBottomWidth: 1}}>
@@ -166,18 +166,12 @@ export default class AddCourse extends Component {
             value={this.state.classroom}
             onChangeText={(text) => this.setState({classroom: text})}
             placeholder="강의실"
-            style={{height: 45, paddingLeft: 20, backgroundColor: 'white'}}
+            style={styles.textInput}
           />
         </View>
 
         <TouchableHighlight onPress={this.onPressAddTime} style={{marginTop: 10}}>
-          <View style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 45,
-            backgroundColor: '#ffffff',
-          }}>
+          <View style={styles.addBtn}>
             <Icon name='add' color='#303c4c' size={20}/>
             <Text style={{color: '#303c4c'}}>강의 시간 추가</Text>
           </View>
@@ -235,15 +229,16 @@ AddCourse.defaultProps = {
 };
 
 const styles = StyleSheet.create({
-
   modal: {
     height: 300,
   },
-
+  container: {
+    backgroundColor: '#f4f4f4',
+    flex: 1,
+  },
   listView: {
     marginTop: 10
   },
-
   listRemoveBtn: {
     width: 46,
     height: 44,
@@ -251,11 +246,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
   whiteText: {
     color: '#ffffff',
   },
-
   list: {
     flex: 1,
     flexDirection: 'row',
@@ -266,5 +259,18 @@ const styles = StyleSheet.create({
     borderColor: '#f0f0f0',
     borderBottomWidth: 1,
   },
-
+  textInput: {
+    height: 45,
+    paddingLeft: 20,
+    backgroundColor: 'white',
+    fontSize: 15,
+    color: '#333333',
+  },
+  addBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 45,
+    backgroundColor: '#ffffff',
+  }
 });
