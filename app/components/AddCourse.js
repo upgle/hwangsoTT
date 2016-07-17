@@ -30,6 +30,14 @@ const dayKR = {
 
 export default class AddCourse extends Component {
 
+    static propTypes = {
+        showDeleteBtn: React.PropTypes.bool
+    };
+
+    static defaultProps = {
+        showDeleteBtn: false
+    };
+
     constructor(props) {
         super(props);
 
@@ -138,6 +146,18 @@ export default class AddCourse extends Component {
 
     render() {
 
+        let deleteBtn;
+        if(this.props.showDeleteBtn) {
+            deleteBtn = (
+                <TouchableHighlight onPress={this.props.onPressDelete} style={{ marginTop: 10, marginBottom: 10 }}>
+                    <View style={{flexDirection : 'row', alignItems:'center', justifyContent:'center', height: 45,  backgroundColor: '#ffffff'}}>
+                        <Icon name='remove-circle' color='#E41106' size={20} />
+                        <Text style={{color: '#E41106'}}> 이 강의를 삭제합니다</Text>
+                    </View>
+                </TouchableHighlight>
+            );
+        }
+
         return (
             <View style={{backgroundColor: '#f4f4f4', flex:1}}>
                 <View style={{ borderColor: '#f0f0f0', borderBottomWidth: 1, marginTop: 10}}>
@@ -185,12 +205,13 @@ export default class AddCourse extends Component {
                                 <Text style={{color:'#333333'}}>{rowData.start} ~ {rowData.end}</Text>
                             </View>
                             <TouchableHighlight style={{width:46}} onPress={()=>{this._onPressDeleteRow(rowID)}}>
-                            <View style={{width: 46, height: 44, backgroundColor: '#ff3b30', alignItems: 'center', justifyContent: 'center'}}>
-                                <Text style={{color: '#ffffff'}}>삭제</Text>
+                            <View style={styles.listRemoveBtn}>
+                                <Text style={styles.whiteText}>삭제</Text>
                             </View>
                             </TouchableHighlight>
                         </View>}
                 />
+                {deleteBtn}
                 <Modal ref="modal" position="bottom"
                        style={styles.modal}
                        swipeToClose={false}
@@ -213,6 +234,18 @@ var styles = StyleSheet.create({
 
     listView: {
         marginTop: 10
+    },
+
+    listRemoveBtn: {
+        width: 46,
+        height: 44,
+        backgroundColor: '#ff3b30',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    whiteText : {
+        color: '#ffffff'
     },
 
     list : {

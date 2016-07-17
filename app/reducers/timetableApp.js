@@ -75,6 +75,17 @@ export default function timetableApp(state = initialState, action) {
         times: action.times.concat(state.times)
       });
 
+    case types.DELETE_COURSE :
+
+      {
+        let courses = Object.assign({}, state.courses);
+        delete courses[action.course_id];
+        return Object.assign({}, state, {
+          courses : courses,
+          times: state.times.filter((time) => time.course_id !== action.course_id)
+        });
+      }
+
     case types.DELETE_ALL_TIMES_BY_COURSE :
       return Object.assign({}, state, {
         times: state.times.filter((time) => time.course_id !== action.course_id)

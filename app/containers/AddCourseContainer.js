@@ -15,6 +15,7 @@ class AddCourseContainer extends Component {
     constructor(props) {
         super(props);
         this._onPressDone = this._onPressDone.bind(this);
+        this._onPressDelete = this._onPressDelete.bind(this);
     }
 
     componentWillMount() {
@@ -103,15 +104,26 @@ class AddCourseContainer extends Component {
         Actions.pop();
     }
 
+    _onPressDelete() {
+        const { actions, course_id } = this.props;
+        if(course_id) {
+            actions.deleteCourse(course_id);
+            this.props.dispatch(saveAppData());
+            Actions.pop();
+        }
+    }
+
     render() {
 
         const { state } = this.props;
 
-        if(this.props.course_id) {
+        if(this.props.course_id && state.courses[this.props.course_id]) {
             let times = state.times.filter((time) => time.course_id === this.props.course_id),
                 info = state.courses[this.props.course_id];
 
             return <AddCourse ref="addCourse"
+                              showDeleteBtn={true}
+                              onPressDelete={this._onPressDelete}
                               times={times}
                               subject={info.subject}
                               professor={info.professor}

@@ -92,3 +92,10 @@ export function deleteAllTimesByCourseId(course_id) {
     course_id : course_id
   };
 }
+
+export function deleteCourse(course_id) {
+  return {
+    type: types.DELETE_COURSE,
+    course_id : course_id
+  };
+}
