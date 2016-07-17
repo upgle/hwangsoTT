@@ -8,6 +8,6 @@ import {
   AppRegistry
 } from 'react-native';
 
-import App from './app/containers/app';
+import App from './app/containers/App';
 
 AppRegistry.registerComponent('App', () => App);
