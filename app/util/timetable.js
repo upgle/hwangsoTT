@@ -16,6 +16,10 @@ export function getOverlappedTimeIndex(times, time) {
         return i;
       } else if (timeStart === curStart && timeEnd === curEnd) {
         return i;
+      } else if (timeStart >= curStart && timeEnd <= curEnd) {
+        return i;
+      } else if (timeStart <= curStart && timeEnd >= curEnd) {
+        return i;
       }
     }
   }

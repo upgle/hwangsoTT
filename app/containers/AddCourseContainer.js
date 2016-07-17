@@ -123,11 +123,12 @@ class AddCourseContainer extends Component {
           showDeleteBtn={true}
           onPressDelete={this.onPressDelete}
           times={times}
+          allTimes={state.times}
           subject={info.subject}
           professor={info.professor}
           classroom={info.classroom} />);
     }
-    return <AddCourse ref="addCourse"/>;
+    return <AddCourse ref="addCourse" allTimes={state.times} />;
   }
 }
 
