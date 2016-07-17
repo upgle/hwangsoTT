@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import diff from 'deep-diff';
 import TimeTableHands from './TimeTableHands';
+import TimeTableHead from './TimeTableHead';
 import _ from 'underscore';
 
 var screen = Dimensions.get('window');
@@ -145,31 +146,14 @@ class TimeTableCells extends Component {
       </View>
     );
   }
-
-}
-
-class TimeTableHead extends Component {
-  shouldComponentUpdate() {
-    return false;
-  }
-  render() {
-    return (
-      <View style={styles.tableHead}>
-        <View style={[styles.tableTimeColumn, {height: tableHeadHeight-1}]}></View>
-        <Text style={[styles.tableHeadText, {flex:3}]}>MON</Text>
-        <Text style={[styles.tableHeadText, {flex:3}]}>TUE</Text>
-        <Text style={[styles.tableHeadText, {flex:3}]}>WED</Text>
-        <Text style={[styles.tableHeadText, {flex:3}]}>THU</Text>
-        <Text style={[styles.tableHeadText, {flex:3}]}>FRI</Text>
-      </View>
-    );
-  }
 }
 
 class TimeTableLine extends Component {
+
   shouldComponentUpdate() {
     return false;
   }
+
   render() {
     return (
       <View>
@@ -224,7 +208,7 @@ export default class TimeTable extends Component {
 
       return (
         <View style={styles.container}>
-          <TimeTableHead />
+          <TimeTableHead tableHeadHeight={tableHeadHeight} />
           <ScrollView automaticallyAdjustContentInsets={false} style={{height: tableHeight}}>
             <TimeTableLine />
             <TimeTableCells {...this.props} />
@@ -254,19 +238,6 @@ const styles = StyleSheet.create({
     backgroundColor:'#ff4e48',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  tableHead : {
-    flexDirection: 'row',
-    borderBottomColor: '#d0d0d0',
-    borderBottomWidth: 1,
-    height: tableHeadHeight,
-    alignItems: 'center'
-  },
-  tableHeadText: {
-    color:'#999999',
-    fontSize: 11,
-    fontWeight: '300',
-    textAlign: 'center'
   },
   tableRow : {
     flexDirection: 'row',
