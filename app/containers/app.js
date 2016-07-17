@@ -4,7 +4,7 @@ import devTools from 'remote-redux-devtools';
 import {Provider, connect} from 'react-redux';
 import {createStore, applyMiddleware, compose} from 'redux';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
-import {Scene, Router} from 'react-native-router-flux';
+import {Scene, Router, Actions} from 'react-native-router-flux';
 
 import timetableApp from '../reducers/timetableApp';
 import StoredTimeTable from './StoredTimeTable';
@@ -26,16 +26,48 @@ const enhancer = compose(
 let store = createStore(timetableApp, enhancer);
 store.dispatch(fetchAppData());
 
+
+// define this based on the styles/dimensions you use
+const getSceneStyle = (/* NavigationSceneRendererProps */ props, computedProps) => {
+    const style = {
+        flex: 1,
+        backgroundColor: '#fff',
+        shadowColor: null,
+        shadowOffset: null,
+        shadowOpacity: null,
+        shadowRadius: null,
+    };
+    if (computedProps.isActive) {
+        style.marginTop = computedProps.hideNavBar ? 0 : 64;
+    }
+    return style;
+};
+
 export default class App extends Component {
 
     render() {
         return (
             <Provider store={store}>
-                <RouterWithRedux>
-                    <Scene key="root">
-                        <Scene key="home" component={StoredTimeTable} title="시간표" initial={true} hideNavBar={true} />
-                        <Scene key="kunnect" component={KunnectContainer} title="쿠넥트 로그인" hideNavBar={true} />
-                        <Scene key="addCourse" component={AddCourseContainer} title="강의 추가" backTitle="뒤로" hideNavBar={false} navigationBarStyle={{backgroundColor:'#303c4c'}} titleStyle={{color:'#fff'}} backButtonTextStyle={{color:'#fff'}} />
+                <RouterWithRedux getSceneStyle={getSceneStyle}>
+                    <Scene key="root" hideNavBar>
+                        <Scene key="home" component={StoredTimeTable} initial={true} />
+                    </Scene>
+                    <Scene key="kunnect" animation="fade">
+                        <Scene key="kunnect1" component={KunnectContainer} title="쿠넥트 로그인" hideNavBar />
+                    </Scene>
+                    <Scene key="addCourse" animation="fade">
+                        <Scene key="addCourse1"
+                               animation="fade"
+                               hideNavBar={false}
+                               component={AddCourseContainer}
+                               title="강의 추가"
+                               leftTitle="취소"
+                               onLeft={props => Actions.pop()}
+                               navigationBarStyle={{backgroundColor:'#303c4c'}}
+                               titleStyle={{color:'#fff'}}
+                               leftButtonTextStyle={{color:'#ffffff'}}
+                               rightButtonTextStyle={{color:'#ffffff'}}
+                        />
                     </Scene>
                 </RouterWithRedux>
             </Provider>

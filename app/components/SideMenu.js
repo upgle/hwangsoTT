@@ -24,7 +24,12 @@ export default class SideMenu extends Component {
   constructor(props) {
     super(props);
 
+    this._onPressAddCourse = this._onPressAddCourse.bind(this);
     this._onPressLogin = this._onPressLogin.bind(this);
+  }
+
+  _onPressAddCourse() {
+    Actions.addCourse();
   }
 
   _onPressLogin() {
@@ -53,6 +58,12 @@ export default class SideMenu extends Component {
           />
           <Text style={styles.brandText}>황소 시간표</Text>
         </View>
+        <TouchableHighlight underlayColor='#273242' onPress={this._onPressAddCourse}>
+          <View style={styles.menu}>
+            <Icon name='add' color='#a1acc1' size={22} />
+            <Text style={styles.menuText}>강의 추가</Text>
+          </View>
+        </TouchableHighlight>
         <TouchableHighlight underlayColor='#273242' onPress={this._onPressLogin}>
           <View style={styles.menu}>
             <Icon name='get-app' color='#a1acc1' size={22} />

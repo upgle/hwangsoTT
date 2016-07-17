@@ -13,15 +13,18 @@ import {
     DatePickerIOS,
     ListView
 } from 'react-native';
-var Modal   = require('react-native-modalbox');
+
+var Modal   = require('./ModalBox');
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AddTime from './AddTime';
+
+const dismissKeyboard = require('dismissKeyboard');
 
 const dayKR = {
     'MON' : '월요일',
     'TUE' : '화요일',
     'WED' : '수요일',
-    'THR' : '목요일',
+    'THU' : '목요일',
     'FRI' : '금요일'
 };
 
@@ -38,6 +41,9 @@ export default class AddCourse extends Component {
              * start : "13:30"
              * end : "15:00"
              */
+            subject : '',
+            professor : '',
+            classroom: '',
             times : this.ds.cloneWithRows(this.times)
         };
 
@@ -45,17 +51,25 @@ export default class AddCourse extends Component {
         this._onPressAddTime = this._onPressAddTime.bind(this);
         this._deleteRow = this._deleteRow.bind(this);
         this._addTimes = this._addTimes.bind(this);
+        this.closeModalAndKeyboard = this.closeModalAndKeyboard.bind(this);
     }
 
     componentWillMount() {
         StatusBar.setHidden(false, 'none');
     }
 
+    closeModalAndKeyboard() {
+        dismissKeyboard();
+        this.refs.modal.close();
+    }
+
     _onPressAddTime() {
+        dismissKeyboard();
         this.refs.modal.open();
     }
 
     _onPressDeleteRow(rowID) {
+        dismissKeyboard();
         this._deleteRow(rowID);
     }
 
@@ -67,36 +81,82 @@ export default class AddCourse extends Component {
     }
 
     _addTimes(data) {
+
+        var counter = 0;
+
         data.days.forEach((day)=>{
-            this.times.push({
+
+            let time = {
                 day : day,
                 start : data.start,
                 end : data.end
+            };
+            let overlappedIndex = this._isTimeOverlapped(time);
+            if(overlappedIndex >= 0) {
+                var overTime = this.times[overlappedIndex];
+                Alert.alert(
+                    '안내',
+                    dayKR[time.day] + ' ' + time.start + '~' + time.end + " 시간은\n" +
+                    dayKR[overTime.day] + ' ' + overTime.start + '~' + overTime.end + ' 시간과\n겹칩니다.',
+                    [
+                        {text: '확인'},
+                    ]
+                );
+                return;
+            }
+            this.times.push(time);
+            counter++;
+        });
+
+        if(counter > 0) {
+            this.setState({
+                times: this.ds.cloneWithRows(this.times),
             });
-        });
-        this.setState({
-            times: this.ds.cloneWithRows(this.times),
-        });
+        }
+    }
+
+    _isTimeOverlapped(time) {
+
+        var timeStart = Number(time.start.replace(':','')),
+            timeEnd = Number(time.end.replace(':',''));
+
+        for(let i = 0; i < this.times.length; i++) {
+            let curTime = this.times[i],
+                curStart = Number(curTime.start.replace(':','')),
+                curEnd = Number(curTime.end.replace(':',''));
+
+            if(curTime.day === time.day) {
+                if ((timeStart > curStart && timeStart < curEnd) ||
+                    (timeEnd < timeEnd && timeEnd > timeStart) ||
+                    (timeStart === curStart && timeEnd === curEnd)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     render() {
 
         return (
-            <View style={{backgroundColor: '#f4f4f4', flex:1, marginTop: 64}}>
+            <View style={{backgroundColor: '#f4f4f4', flex:1}}>
                 <View style={{ borderColor: '#f0f0f0', borderBottomWidth: 1, marginTop: 10}}>
                     <TextInput
+                        onChangeText={(text) => this.setState({subject : text})}
                         placeholder="강의 이름"
                         style={{height: 45, paddingLeft:20, backgroundColor:'white'}}
                     />
                 </View>
                 <View style={{ borderColor: '#f0f0f0', borderBottomWidth: 1}}>
                     <TextInput
+                        onChangeText={(text) => this.setState({professor : text})}
                         placeholder="교수명"
                         style={{height: 45, paddingLeft:20, backgroundColor:'white'}}
                     />
                 </View>
                 <View style={{ borderColor: '#f0f0f0', borderBottomWidth: 1}}>
                     <TextInput
+                        onChangeText={(text) => this.setState({classroom : text})}
                         placeholder="강의실"
                         style={{height: 45, paddingLeft:20, backgroundColor:'white'}}
                     />
@@ -128,7 +188,12 @@ export default class AddCourse extends Component {
                             </TouchableHighlight>
                         </View>}
                 />
-                <Modal ref="modal" position="bottom" style={styles.modal} swipeToClose={false} isOpen={false} backdropOpacity={0.6} >
+                <Modal ref="modal" position="bottom"
+                       style={styles.modal}
+                       swipeToClose={false}
+                       isOpen={false}
+                       backdropOpacity={0.6}
+                >
                     <AddTime onPressDone={this._addTimes} />
                 </Modal>
             </View>

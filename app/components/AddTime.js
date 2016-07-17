@@ -59,9 +59,9 @@ class DaySelector extends Component {
                     </View>
                 </TouchableOpacity>
                 <View style={styles.dayBtnSplitter}></View>
-                <TouchableOpacity style={{ flex: 1 }} onPress={this._onPressButton.bind(this, 'THR')}>
-                    <View style={[styles.dayBtn, this._isActive('THR') ? styles.dayBtnActive : {}]}>
-                        <Text style={[styles.dayBtnText, this._isActive('THR') ? styles.dayBtnTextActive : {} ]}>THR</Text>
+                <TouchableOpacity style={{ flex: 1 }} onPress={this._onPressButton.bind(this, 'THU')}>
+                    <View style={[styles.dayBtn, this._isActive('THU') ? styles.dayBtnActive : {}]}>
+                        <Text style={[styles.dayBtnText, this._isActive('THU') ? styles.dayBtnTextActive : {} ]}>THU</Text>
                     </View>
                 </TouchableOpacity>
                 <View style={styles.dayBtnSplitter}></View>
