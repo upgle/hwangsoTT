@@ -84,7 +84,7 @@ class KunnectContainer extends Component {
                     courses[data.sbjtId] = {
                         id : data.sbjtId,
                         subject: data.subject,
-                        professor : data.professor,
+                        professor : data.prof,
                         classroom : data.building + data.classroom
                     };
                     times = [{
