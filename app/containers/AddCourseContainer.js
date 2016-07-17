@@ -49,6 +49,7 @@ class AddCourseContainer extends Component {
   }
 
   insertCourse() {
+    const { state } = this.refs.addCourse;
     const { actions } = this.props;
     const courseId = uuid.v4();
     const times = this.getTimesStructure(courseId);
