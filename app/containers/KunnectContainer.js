@@ -42,6 +42,8 @@ class KunnectContainer extends Component {
 
     _onClickLogin(id, password) {
 
+        GoogleAnalytics.trackEvent('시간표 불러오기', '쿠넥트 로그인 버튼 클릭', { id });
+
         var data = new FormData();
         data.append('id', id);
         data.append('password', password);
@@ -63,6 +65,7 @@ class KunnectContainer extends Component {
             .then((response) => {
 
                 if(parseInt(response.result) !== 200) {
+                    GoogleAnalytics.trackEvent('시간표 불러오기', '쿠넥트 로그인 실패');
                     throw Error('로그인에 실패했습니다.');
                 }
 
@@ -107,6 +110,7 @@ class KunnectContainer extends Component {
                     isLoading: false
                 });
 
+                GoogleAnalytics.trackEvent('시간표 불러오기', '쿠넥트 시간표 불러오기 성공');
                 Alert.alert(
                     '안내', '시간표 불러오기 성공',
                     [
