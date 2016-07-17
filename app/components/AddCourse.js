@@ -14,8 +14,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import AddTime from './AddTime';
 import * as timetable from '../util/timetable';
+import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
 const Modal = require('./ModalBox');
-const dismissKeyboard = require('dismissKeyboard');
 
 const dayKR = {
   MON: '월요일',
