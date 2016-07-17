@@ -31,8 +31,8 @@ export default class AddCourse extends Component {
     super(props);
 
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    this.allTimes = this.props.allTimes || [];
-    this.times = this.props.times || [];
+    this.allTimes = this.props.allTimes.slice(0) || [];
+    this.times = this.props.times.slice(0) || [];
     this.state = {
       /**
        * day : "WED"
