@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
-    Dimensions,
-    StatusBar,
-    findNodeHandle,
-    CameraRoll,
-    Alert,
-    PushNotificationIOS
+  Dimensions,
+  StatusBar,
+  findNodeHandle,
+  CameraRoll,
+  Alert,
+  PushNotificationIOS,
 } from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Drawer from 'react-native-drawer';
 
 import TimeTable from '../components/TimeTable';
@@ -16,192 +16,193 @@ import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
 import * as appActions from '../actions/appActions';
 
-import {getTodayTimes} from '../reducers/timetableApp';
-var ViewSnapshotter = require("react-native-view-snapshot");
-var RNFS = require('react-native-fs');
-import {setAlarmFromTimes, clearAllAlarm} from '../util/alarmManager';
+import { getTodayTimes } from '../reducers/timetableApp';
+import { setAlarmFromTimes, clearAllAlarm } from '../util/alarmManager';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 
-var screen = Dimensions.get('window');
+const screen = Dimensions.get('window');
+const ViewSnapshotter = require('react-native-view-snapshot');
+const RNFS = require('react-native-fs');
 
 class StoredTimeTable extends Component {
-    constructor(props) {
-        super(props);
 
-        this.openDrawer = this.openDrawer.bind(this);
-        this.closeDrawer = this.closeDrawer.bind(this);
-        this.saveAppData = this.saveAppData.bind(this);
-        this.toggleHeaderColorset = this.toggleHeaderColorset.bind(this);
-        this.snapshotTimetable = this.snapshotTimetable.bind(this);
-        this.setAlarm = this.setAlarm.bind(this);
-    }
+  constructor(props) {
+    super(props);
 
-    componentWillMount() {
+    this.openDrawer = this.openDrawer.bind(this);
+    this.closeDrawer = this.closeDrawer.bind(this);
+    this.saveAppData = this.saveAppData.bind(this);
+    this.toggleHeaderColorset = this.toggleHeaderColorset.bind(this);
+    this.snapshotTimetable = this.snapshotTimetable.bind(this);
+    this.setAlarm = this.setAlarm.bind(this);
+  }
 
-        StatusBar.setBarStyle('light-content');
-        StatusBar.setHidden(false, 'none');
+  componentWillMount() {
+    StatusBar.setBarStyle('light-content');
+    StatusBar.setHidden(false, 'none');
 
-        this._onNotification = ()=> {
-        };
-        PushNotificationIOS.addEventListener('notification', this._onNotification);
-    }
+    this._onNotification = ()=> {};
+    PushNotificationIOS.addEventListener('notification', this._onNotification);
+  }
 
-    componentWillUnmount() {
-        PushNotificationIOS.removeEventListener('notification', this._onNotification);
-    }
+  componentWillUnmount() {
+    PushNotificationIOS.removeEventListener('notification', this._onNotification);
+  }
 
-    componentDidMount() {
+  componentDidMount() {
 
-        const {actions} = this.props;
+    const {actions} = this.props;
 
-        PushNotificationIOS.checkPermissions(permission => {
-            if (permission.alert !== 1) {
-                actions.turnOffAlarm();
-                this.saveAppData();
-            }
-        });
-    }
-
-    setAlarm() {
-
-        const {state, actions} = this.props;
-
-        switch (state.alarm) {
-            case true :
-                clearAllAlarm();
-                actions.turnOffAlarm();
-                Alert.alert('안내', '알람이 해제되었습니다.', [{text: '확인'}]);
-
-                GoogleAnalytics.trackEvent('setting', 'turn off alarm');
-
-                break;
-            case false :
-                PushNotificationIOS.requestPermissions()
-                    .then((permission)=> {
-                        if (permission.alert == 1) {
-                            setAlarmFromTimes(state.courses, state.times);
-                            actions.turnOnAlarm();
-                            this.saveAppData();
-                            Alert.alert('안내', '알람이 설정되었습니다.', [{text: '확인'}]);
-
-                            GoogleAnalytics.trackEvent('setting', 'turn on alarm');
-                        }
-                    })
-                    .catch(()=> {
-                        Alert.alert('안내', '알람이 설정이 실패하였습니다..', [{text: '확인'}]);
-                    });
-                break;
-        }
-    }
-
-    openDrawer() {
-        this._drawer.open();
-    }
-
-    closeDrawer() {
-        this._drawer.close();
-    }
-
-    toggleHeaderColorset() {
-        this.props.actions.toggleHeaderColorset();
+    PushNotificationIOS.checkPermissions(permission => {
+      if (permission.alert !== 1) {
+        actions.turnOffAlarm();
         this.saveAppData();
+      }
+    });
 
-        GoogleAnalytics.trackEvent('setting', 'change colorset');
-    }
+    GoogleAnalytics.trackScreenView('Home');
+  }
 
-    saveAppData() {
-        this.props.dispatch(appActions.saveAppData());
-    }
+  setAlarm() {
 
-    snapshotTimetable() {
-        var imagePath = RNFS.CachesDirectoryPath + "/temp.png";
-        var ref = findNodeHandle(this.refs.timetable);
-        ViewSnapshotter.saveSnapshotToPath(ref, imagePath, (error, successfulWrite) => {
-            if (successfulWrite) {
-                CameraRoll.saveToCameraRoll(imagePath, 'photo').then(()=> {
-                    Alert.alert('안내', '카메라 앨범에 저장하였습니다.', [{text: '확인'}]);
-                });
+    const {state, actions} = this.props;
+
+    switch (state.alarm) {
+      case true :
+        clearAllAlarm();
+        actions.turnOffAlarm();
+        Alert.alert('안내', '알람이 해제되었습니다.', [{text: '확인'}]);
+
+        GoogleAnalytics.trackEvent('setting', 'turn off alarm');
+
+        break;
+      case false :
+        PushNotificationIOS.requestPermissions()
+          .then((permission)=> {
+            if (permission.alert == 1) {
+              setAlarmFromTimes(state.courses, state.times);
+              actions.turnOnAlarm();
+              this.saveAppData();
+              Alert.alert('안내', '알람이 설정되었습니다.', [{text: '확인'}]);
+
+              GoogleAnalytics.trackEvent('setting', 'turn on alarm');
             }
+          })
+          .catch(()=> {
+            Alert.alert('안내', '알람이 설정이 실패하였습니다..', [{text: '확인'}]);
+          });
+        break;
+    }
+  }
+
+  openDrawer() {
+    this._drawer.open();
+  }
+
+  closeDrawer() {
+    this._drawer.close();
+  }
+
+  toggleHeaderColorset() {
+    this.props.actions.toggleHeaderColorset();
+    this.saveAppData();
+
+    GoogleAnalytics.trackEvent('setting', 'change colorset');
+  }
+
+  saveAppData() {
+    this.props.dispatch(appActions.saveAppData());
+  }
+
+  snapshotTimetable() {
+    var imagePath = RNFS.CachesDirectoryPath + "/temp.png";
+    var ref = findNodeHandle(this.refs.timetable);
+    ViewSnapshotter.saveSnapshotToPath(ref, imagePath, (error, successfulWrite) => {
+      if (successfulWrite) {
+        CameraRoll.saveToCameraRoll(imagePath, 'photo').then(()=> {
+          Alert.alert('안내', '카메라 앨범에 저장하였습니다.', [{text: '확인'}]);
         });
+      }
+    });
 
-        GoogleAnalytics.trackEvent('setting', 'snapshot timetable');
-    }
+    GoogleAnalytics.trackEvent('setting', 'snapshot timetable');
+  }
 
-    _onPressCell(course_id) {
-        Actions.addCourse({
-            title : '강의 수정',
-            course_id : course_id
-        });
-    }
+  _onPressCell(course_id) {
+    Actions.addCourse({
+      title: '강의 수정',
+      course_id: course_id
+    });
+  }
 
-    render() {
-        const {state, actions} = this.props;
+  render() {
+    const {state, actions} = this.props;
 
-        return (
-            <Drawer
-                type="static"
-                content={<SideMenu
-                    {...this.props}
-                    closeDrawer={this.closeDrawer}
-                    {...actions}
-                    themeColor={state.theme.header}
-                    onPressHeaderColorset={this.toggleHeaderColorset}
-                    onPressSaveTimetable={this.snapshotTimetable}
-                    onPressAlarm={this.setAlarm}
-                    alarm={state.alarm}
-                />}
-                openDrawerOffset={0.4}
-                styles={drawerStyles}
-                panOpenMask={0.45}
-                tweenHandler={Drawer.tweenPresets.parallax}
-                tapToClose={true}
-                onOpenStart={()=> {
-                    StatusBar.setHidden(true, 'slide');
-                }}
-                onCloseStart={()=> {
-                    StatusBar.setHidden(false, 'slide');
-                }}
-                ref={(ref) => this._drawer = ref}>
-                <Header
-                    color={state.theme.header}
-                    courses={state.courses}
-                    todayTimes={getTodayTimes(state.times)}
-                    onClickMenu={this.openDrawer}
-                />
-                <TimeTable
-                    colors={state.theme.cells}
-                    courses={state.courses}
-                    times={state.times}
-                    hands={true}
-                    {...actions}
-                    height={screen.height - 124}
-                    onPressCell={this._onPressCell}
-                />
-                <TimeTable
-                    colors={state.theme.cells}
-                    courses={state.courses}
-                    times={state.times}
-                    hands={false}
-                    {...actions}
-                    style={{position: 'absolute', top: 0, left: 0, width: screen.width}}
-                    ref='timetable'
-                />
-            </Drawer>
-        );
-    }
+    return (
+      <Drawer
+        type="static"
+        content={<SideMenu
+          {...this.props}
+          closeDrawer={this.closeDrawer}
+          {...actions}
+          themeColor={state.theme.header}
+          onPressHeaderColorset={this.toggleHeaderColorset}
+          onPressSaveTimetable={this.snapshotTimetable}
+          onPressAlarm={this.setAlarm}
+          alarm={state.alarm}
+        />}
+        openDrawerOffset={0.4}
+        styles={drawerStyles}
+        panOpenMask={0.45}
+        tweenHandler={Drawer.tweenPresets.parallax}
+        tapToClose={true}
+        onOpenStart={()=> {
+          StatusBar.setHidden(true, 'slide');
+        }}
+        onCloseStart={()=> {
+          StatusBar.setHidden(false, 'slide');
+        }}
+        ref={(ref) => this._drawer = ref}>
+        <Header
+          color={state.theme.header}
+          courses={state.courses}
+          todayTimes={getTodayTimes(state.times)}
+          onClickMenu={this.openDrawer}
+        />
+        <TimeTable
+          colors={state.theme.cells}
+          courses={state.courses}
+          times={state.times}
+          hands={true}
+          {...actions}
+          height={screen.height - 124}
+          onPressCell={this._onPressCell}
+        />
+        <TimeTable
+          colors={state.theme.cells}
+          courses={state.courses}
+          times={state.times}
+          hands={false}
+          {...actions}
+          style={{position: 'absolute', top: 0, left: 0, width: screen.width}}
+          ref='timetable'
+        />
+      </Drawer>
+    );
+  }
 }
 
 export default connect(state => ({
-        state: state
-    }),
-    (dispatch) => ({
-        dispatch: dispatch,
-        actions: bindActionCreators(appActions, dispatch)
-    })
+    state: state
+  }),
+  (dispatch) => ({
+    dispatch: dispatch,
+    actions: bindActionCreators(appActions, dispatch)
+  })
 )(StoredTimeTable);
 
 
 const drawerStyles = {
-    main: {shadowColor: '#000000', shadowOpacity: 0.6, shadowRadius: 5},
+  main: {shadowColor: '#000000', shadowOpacity: 0.6, shadowRadius: 5},
 };

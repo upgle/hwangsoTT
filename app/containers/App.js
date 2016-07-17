@@ -16,7 +16,6 @@ import { fetchAppData } from '../actions/appActions';
  * Config Google Analytics
  */
 GoogleAnalytics.setTrackerId('UA-80732706-1');
-GoogleAnalytics.trackScreenView('Home');
 
 const RouterWithRedux = connect()(Router);
 const enhancer = compose(
