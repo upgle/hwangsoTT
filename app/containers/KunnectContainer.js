@@ -8,6 +8,7 @@ import LoginKunnect from '../components/LoginKunnect';
 import { Actions } from 'react-native-router-flux';
 import { TimeConverter, YoilConverter } from '../util/kunnect';
 import { saveAppData } from '../actions/appActions';
+import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
 class KunnectContainer extends Component {
 
@@ -22,6 +23,10 @@ class KunnectContainer extends Component {
         this._onClickClose = this._onClickClose.bind(this);
         this._fetchTimeTable = this._fetchTimeTable.bind(this);
         this._catchError = this._catchError.bind(this);
+    }
+
+    componentDidMount() {
+        GoogleAnalytics.trackScreenView('쿠넥트 로그인');
     }
 
     _onClickClose() {

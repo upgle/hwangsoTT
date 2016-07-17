@@ -60,7 +60,7 @@ class StoredTimeTable extends Component {
         this.saveAppData();
       }
     });
-    GoogleAnalytics.trackScreenView('Home');
+    GoogleAnalytics.trackScreenView('메인 화면');
   }
 
   setAlarm() {

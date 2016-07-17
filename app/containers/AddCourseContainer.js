@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Actions } from 'react-native-router-flux';
+import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
 import AddCourse from '../components/AddCourse';
 import * as AppActions from '../actions/appActions';
@@ -14,6 +15,10 @@ class AddCourseContainer extends Component {
     super(props);
     this.onPressDone = this.onPressDone.bind(this);
     this.onPressDelete = this.onPressDelete.bind(this);
+  }
+
+  componentDidMount() {
+    GoogleAnalytics.trackScreenView((this.props.course_id) ? '강의 수정' : '강의 추가');
   }
 
   componentWillMount() {
