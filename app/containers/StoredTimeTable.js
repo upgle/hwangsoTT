@@ -14,13 +14,14 @@ import Drawer from 'react-native-drawer';
 import TimeTable from '../components/TimeTable';
 import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
-import * as Actions from '../actions/appActions';
+import * as appActions from '../actions/appActions';
 
 import {getTodayTimes} from '../reducers/timetableApp';
 var ViewSnapshotter = require("react-native-view-snapshot");
 var RNFS = require('react-native-fs');
 import {setAlarmFromTimes, clearAllAlarm} from '../util/alarmManager';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
+import {Actions} from 'react-native-router-flux';
 
 var screen = Dimensions.get('window');
 
@@ -110,7 +111,7 @@ class StoredTimeTable extends Component {
     }
 
     saveAppData() {
-        this.props.dispatch(Actions.saveAppData());
+        this.props.dispatch(appActions.saveAppData());
     }
 
     snapshotTimetable() {
@@ -125,6 +126,13 @@ class StoredTimeTable extends Component {
         });
 
         GoogleAnalytics.trackEvent('setting', 'snapshot timetable');
+    }
+
+    _onPressCell(course_id) {
+        Actions.addCourse({
+            title : '강의 수정',
+            course_id : course_id
+        });
     }
 
     render() {
@@ -168,6 +176,7 @@ class StoredTimeTable extends Component {
                     hands={true}
                     {...actions}
                     height={screen.height - 124}
+                    onPressCell={this._onPressCell}
                 />
                 <TimeTable
                     colors={state.theme.cells}
@@ -188,7 +197,7 @@ export default connect(state => ({
     }),
     (dispatch) => ({
         dispatch: dispatch,
-        actions: bindActionCreators(Actions, dispatch)
+        actions: bindActionCreators(appActions, dispatch)
     })
 )(StoredTimeTable);
 

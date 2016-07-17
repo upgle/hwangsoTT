@@ -10,6 +10,7 @@ import {
   StatusBar,
   TouchableOpacity,
   TouchableHighlight,
+  ActionSheetIOS
 } from 'react-native';
 import diff from 'deep-diff';
 import TimeTableHands from './TimeTableHands';
@@ -27,7 +28,7 @@ class Cell extends Component {
 
   render() {
     return (
-        <TouchableHighlight onPress={this.props.onClickCourse} style={{position: 'absolute', left: this.props.left, top: this.props.top}}>
+        <TouchableHighlight onPress={this.props.onPress} style={{position: 'absolute', left: this.props.left, top: this.props.top}}>
           <View condition={false} style={[styles.course, {backgroundColor: this.props.backgroundColor, height: this.props.height}]}>
             <Text style={{fontSize: 12, color:this.props.textColor, textAlign: 'center'}}>
               {this.props.subject}
@@ -44,8 +45,16 @@ class Cell extends Component {
 
 class TimeTableCells extends Component {
 
-  _onClickCourse() {
-    //todo implement
+  static propTypes = {
+    onPressCell: React.PropTypes.func
+  };
+
+  static defaultProps = {
+    onPressCell: () => {}
+  };
+
+  constructor(props) {
+    super(props);
   }
 
   _getCourseHeight(time) {
@@ -117,11 +126,12 @@ class TimeTableCells extends Component {
             index = colorMap[time.course_id];
           }
           else {
-            colorMap[time.course_id] = autoincrement++
+            colorMap[time.course_id] = autoincrement++;
             index = colorMap[time.course_id];
           }
           return (
               <Cell
+                  onPress={this.props.onPressCell.bind(this, time.course_id)}
                   classroom={courses[time.course_id].classroom}
                   subject={courses[time.course_id].subject}
                   left={this._getLeftPosition(time)}

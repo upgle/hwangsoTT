@@ -14,7 +14,6 @@ class AddCourseContainer extends Component {
 
     constructor(props) {
         super(props);
-
         this._onPressDone = this._onPressDone.bind(this);
     }
 
@@ -86,21 +85,39 @@ class AddCourseContainer extends Component {
         var course_id = uuid.v4();
         var cloneTimes = [];
 
+        if(this.props.course_id) {
+            course_id = this.props.course_id;
+            actions.deleteAllTimesByCourseId(course_id);
+        }
+        else {
+            actions.addCourse(course_id, state.subject, state.professor, state.classroom);
+        }
+
         times.forEach((time) => {
             let data = Object.assign({course_id : course_id}, time);
             cloneTimes.push(data);
         });
-
-        actions.addCourse(course_id, state.subject, state.professor, state.classroom);
         actions.addTimes(cloneTimes);
+
         this.props.dispatch(saveAppData());
         Actions.pop();
     }
 
     render() {
-        return(
-            <AddCourse ref="addCourse"/>
-        );
+
+        const { state } = this.props;
+
+        if(this.props.course_id) {
+            let times = state.times.filter((time) => time.course_id === this.props.course_id),
+                info = state.courses[this.props.course_id];
+
+            return <AddCourse ref="addCourse"
+                              times={times}
+                              subject={info.subject}
+                              professor={info.professor}
+                              classroom={info.classroom} />;
+        }
+        return <AddCourse ref="addCourse"/>;
     }
 }
 

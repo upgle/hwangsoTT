@@ -85,3 +85,10 @@ export function addTimes(times) {
     times : times
   };
 }
+
+export function deleteAllTimesByCourseId(course_id) {
+  return {
+    type: types.DELETE_ALL_TIMES_BY_COURSE,
+    course_id : course_id
+  };
+}
