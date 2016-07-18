@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, AppState } from 'react-native';
 import TimerMixin from 'react-timer-mixin';
 
 const propTypes = {
@@ -30,6 +30,7 @@ export default class TimeTableHands extends Component {
       },
       60000 // 1minute
     );
+    AppState.addEventListener('change', this.handleAppStateChange.bind(this));
   }
 
   shouldComponentUpdate() {
@@ -38,6 +39,7 @@ export default class TimeTableHands extends Component {
 
   componentWillUnmount() {
     TimerMixin.clearInterval(this.timer);
+    AppState.removeEventListener('change', this.handleAppStateChange.bind(this));
   }
 
   getHandsLeftPosition() {
@@ -50,6 +52,10 @@ export default class TimeTableHands extends Component {
     const hour = date.getHours();
     const minute = date.getMinutes();
     return (hour - 8) * this.props.tableRowHeight + (minute / 60) * this.props.tableRowHeight;
+  }
+
+  handleAppStateChange() {
+    this.forceUpdate();
   }
 
   render() {
