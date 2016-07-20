@@ -10,8 +10,12 @@ import timetableApp from '../reducers/timetableApp';
 import StoredTimeTable from './StoredTimeTable';
 import KunnectContainer from './KunnectContainer';
 import AddCourseContainer from './AddCourseContainer';
+import LoadDataContainer from './LoadDataContainer';
 import { fetchAppData } from '../actions/appActions';
 import { loggerMiddleware } from '../middlewares';
+
+import WebviewContainer from './thirdparty/WebviewContainer';
+
 
 /**
  * Config Google Analytics
@@ -51,6 +55,23 @@ export default class App extends Component {
         <RouterWithRedux getSceneStyle={getSceneStyle}>
           <Scene key="root" hideNavBar>
             <Scene key="home" component={StoredTimeTable} initial={true}/>
+          </Scene>
+          <Scene
+            key="loadTimetable"
+            animation="fade"
+            navigationBarStyle={{ backgroundColor: '#303c4c' }}
+            titleStyle={{ color: '#fff' }}
+            leftButtonTextStyle={{ color: '#ffffff' }}
+            rightButtonTextStyle={{ color: '#ffffff' }}
+          >
+            <Scene
+              key="loadTimetable1"
+              leftTitle="취소"
+              onLeft={() => Actions.pop()}
+              component={LoadDataContainer}
+              title="시간표 불러오기"
+            />
+            <Scene key="loadTimetableWebview" component={WebviewContainer} title="시간표 불러오기" />
           </Scene>
           <Scene key="kunnect" animation="fade">
             <Scene key="kunnect1" component={KunnectContainer} title="쿠넥트 로그인" hideNavBar/>

@@ -23,7 +23,7 @@ export default class SideMenu extends Component {
   }
 
   onPressLogin() {
-    Actions.kunnect();
+    Actions.loadTimetable();
   }
 
   render() {
