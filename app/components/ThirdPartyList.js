@@ -28,20 +28,19 @@ export default class ThirdPartyList extends Component {
         sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
       }),
     };
+    this.fetchData = this.fetchData.bind(this);
     this.renderRow = this.renderRow.bind(this);
   }
 
   fetchData() {
-    fetch(API_URL).then((response) => response.json()).then((responseData) => {
+    fetch(this.props.apiUrl).then((response) => response.json()).then((responseData) => {
 
-      let organizations = responseData.results,
-        length = organizations.length,
-        dataBlob = {},
-        sectionIDs = [],
-        rowIDs = [],
-        organization,
-        services,
-        service;
+      let organizations = responseData.results;
+      let length = organizations.length;
+      let dataBlob = {};
+      let sectionIDs = [];
+      let rowIDs = [];
+      let organization, services, service;
 
       for (let i = 0; i < length; i++) {
         organization = organizations[i];
@@ -72,7 +71,7 @@ export default class ThirdPartyList extends Component {
       <TouchableOpacity onPress={() => { this.props.onPressRow(rowData, sectionID); }}>
         <View style={styles.rowStyle}>
           <Text style={styles.rowText}>{rowData.name}</Text>
-          <Text style={styles.rowText}>{rowData.description}</Text>
+          <Text style={styles.rowTextDesc}>{rowData.description}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -146,7 +145,7 @@ const styles = StyleSheet.create({
   },
   rowStyle: {
     height: 100,
-    paddingVertical: 20,
+    justifyContent: 'center',
     paddingHorizontal: 16,
     borderTopColor: 'white',
     borderLeftColor: 'white',
@@ -157,6 +156,11 @@ const styles = StyleSheet.create({
   rowText: {
     color: '#212121',
     fontSize: 16,
+  },
+  rowTextDesc: {
+    marginTop: 5,
+    color: '#666666',
+    fontSize: 14,
   },
   subText: {
     fontSize: 14,
