@@ -1,0 +1,86 @@
+import React, {Component} from 'react';
+import * as AppActions from '../actions/appActions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import ReactNative, { Alert, View } from 'react-native';
+
+import { Actions } from 'react-native-router-flux';
+import { TimeConverter, YoilConverter } from '../util/kunnect';
+import { saveAppData } from '../actions/appActions';
+import GoogleAnalytics from 'react-native-google-analytics-bridge';
+
+import Webview from '../components/thirdparty/Webview';
+
+class WebviewContainer extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      load: false,
+      serviceData: null,
+      defaultUrl: this.props.targetUrl ? this.props.targetUrl : '',
+      injectedJavaScript: '',
+    };
+    this.onLoadData = this.onLoadData.bind(this);
+  }
+
+  componentWillMount() {
+    fetch(this.props.apiUrl)
+      .then((response) => response.text())
+      .then((responseData) => {
+        try {
+          let data = JSON.parse(responseData).results;
+          let state = {
+            injectedJavaScript: data.injectedJavaScript,
+            load: true,
+          };
+          if (data.defaultUrl) {
+            state.defaultUrl = data.defaultUrl;
+          }
+          this.setState(state);
+        } catch (e) {
+          console.log(e);
+          Alert.alert(null, '데이터를 가져오는데 문제가 발생하였습니다.', [{ text: '확인' }]);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  onLoadData(courses, times) {
+    const message = `총 ${Object.keys(courses).length}개의 과목을 발견하였습니다.\n시간표를 가져오시겠습니까?`;
+    Alert.alert(
+      '황소시간표',
+      message,
+      [
+        { text: '확인', onPress: () => { Actions.pop(); } },
+        { text: '취소' },
+      ]
+    );
+  }
+
+  render() {
+    if (this.state.load === false) {
+      return (
+        <View></View>
+      );
+    }
+
+    console.log(this.state);
+
+    return (
+      <Webview
+        onLoadData={this.onLoadData}
+        defaultUrl={this.state.defaultUrl}
+        injectedJavaScript={this.state.injectedJavaScript} />
+    );
+  }
+}
+export default connect(state => ({ state }),
+  (dispatch) => ({
+    dispatch,
+    actions: bindActionCreators(AppActions, dispatch),
+  })
+)(WebviewContainer);

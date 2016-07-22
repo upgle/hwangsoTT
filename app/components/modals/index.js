@@ -60,7 +60,6 @@ const Button = React.createClass({
 
 const ColoredTextfield = MKTextField.textfield()
   .withStyle({ height: 28, flex: 1 })
-  .withPlaceholder('http://snutt.kr/user/24179')
   .withHighlightColor('#7b4fea')
   .build();
 
@@ -90,7 +89,21 @@ export class PermalinkGuideModal extends Component {
     this.state = {
       permalink: '',
     };
+    this.onPressButton = this.onPressButton.bind(this);
   }
+
+  onPressButton() {
+    if (this.state.permalink.length === 0) {
+      Alert.alert(null, '주소를 입력해주시기 바랍니다.', [{ text: '확인' }]);
+      return;
+    }
+    if (!(new RegExp(this.props.regex)).test(this.state.permalink)) {
+      Alert.alert(null, '주소 형식이 잘못되었습니다. 다시 확인해주시기 바랍니다', [{ text: '확인' }]);
+      return;
+    }
+    this.props.onPressButton(this.state.permalink);
+  }
+
   render() {
     return (
       <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
@@ -107,11 +120,16 @@ export class PermalinkGuideModal extends Component {
             autoCorrect={false}
             keyboardType="url"
             onChangeText={(permalink) => this.setState({ permalink })}
-            onFocus={() => { if (this.state.permalink.length == 0) this.setState({ permalink: 'http://snutt.kr/user/' }); }}
+            onFocus={() => {
+              if (this.state.permalink.length === 0 && (this.props.onFocusDefault)) {
+                this.setState({ permalink: this.props.onFocusDefault });
+              }
+            }}
             value={this.state.permalink}
+            placeholder={this.props.placeholder}
           />
         </View>
-        <Button onPress={this.props.onPressButton} style={styles.modalButton}>
+        <Button onPress={this.onPressButton} style={styles.modalButton}>
           가져오기
         </Button>
       </View>

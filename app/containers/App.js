@@ -10,12 +10,10 @@ import timetableApp from '../reducers/timetableApp';
 import StoredTimeTable from './StoredTimeTable';
 import KunnectContainer from './KunnectContainer';
 import AddCourseContainer from './AddCourseContainer';
-import LoadDataContainer from './LoadDataContainer';
+import LoadDataContainer from './ImporterContainer';
 import { fetchAppData } from '../actions/appActions';
 import { loggerMiddleware } from '../middlewares';
-
-import WebviewContainer from './thirdparty/WebviewContainer';
-
+import WebviewContainer from './WebviewContainer';
 
 /**
  * Config Google Analytics

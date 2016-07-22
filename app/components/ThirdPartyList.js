@@ -9,8 +9,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const API_URL = 'https://yh5b9ynkb7.execute-api.ap-northeast-1.amazonaws.com/prod/services';
-
 export default class ThirdPartyList extends Component {
 
   constructor(props) {
@@ -144,7 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   rowStyle: {
-    height: 100,
+    height: 95,
     justifyContent: 'center',
     paddingHorizontal: 16,
     borderTopColor: 'white',
@@ -155,12 +153,14 @@ const styles = StyleSheet.create({
   },
   rowText: {
     color: '#212121',
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: '500',
   },
   rowTextDesc: {
-    marginTop: 5,
+    marginTop: 4,
     color: '#666666',
     fontSize: 14,
+    lineHeight: 18,
   },
   subText: {
     fontSize: 14,

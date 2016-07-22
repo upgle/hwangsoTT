@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 import { Alert, StatusBar, Modal, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 import ThirdPartyList from '../components/ThirdPartyList';
 import { Actions } from 'react-native-router-flux';
-import { TimeConverter, YoilConverter } from '../util/kunnect';
 import { saveAppData } from '../actions/appActions';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
 });
 
 //TODO : IMPORTER 로 이름 변경
-class LoadDataContainer extends Component {
+class ImporterContainer extends Component {
 
   constructor(props) {
     super(props);
@@ -41,7 +40,7 @@ class LoadDataContainer extends Component {
     this.state = {
       modalType: 'login',
       modalVisible: false,
-      activeRowId: null,
+      rowData: null,
     };
     this.onPressModalOk = this.onPressModalOk.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
@@ -56,10 +55,11 @@ class LoadDataContainer extends Component {
     StatusBar.setHidden(true, 'none');
   }
 
-  onPressModalOk() {
+  onPressModalOk(url) {
     this.setModalVisible(false);
     Actions.loadTimetableWebview({
-      apiUrl: `${API_URL}/${this.state.activeRowId}`,
+      apiUrl: `${API_URL}/${this.state.rowData.id}`,
+      targetUrl: url,
     });
   }
 
@@ -67,7 +67,7 @@ class LoadDataContainer extends Component {
     this.setState({
       modalType: rowData.type,
       modalVisible: true,
-      activeRowId: rowData.id,
+      rowData,
     });
   }
 
@@ -77,10 +77,21 @@ class LoadDataContainer extends Component {
 
   render() {
     const modalBackgroundStyle = { backgroundColor: 'rgba(0, 0, 0, 0.5)' };
-    const modalBody =
-      (this.state.modalType === 'login') ?
-        <Modals.AuthGuideModal onPressButton={this.onPressModalOk} /> :
-        <Modals.PermalinkGuideModal onPressButton={this.onPressModalOk} />;
+
+    let modalBody;
+    if (this.state.modalType === 'login') {
+      modalBody = <Modals.AuthGuideModal onPressButton={this.onPressModalOk} />;
+    }
+    if (this.state.modalType === 'permalink') {
+      const { permalink } = this.state.rowData;
+      modalBody =
+        <Modals.PermalinkGuideModal
+          onPressButton={this.onPressModalOk}
+          placeholder={permalink.uri}
+          onFocusDefault={permalink.onFocusDefault}
+          regex={permalink.regex}
+        />;
+    }
 
     return (
       <View style={{ flex: 1 }}>
@@ -104,4 +115,4 @@ export default connect(state => ({ state }),
     dispatch,
     actions: bindActionCreators(AppActions, dispatch),
   })
-)(LoadDataContainer);
+)(ImporterContainer);
