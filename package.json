@@ -8,12 +8,12 @@
   "dependencies": {
     "deep-diff": "^0.3.4",
     "react": "15.2.1",
-    "react-native": "^0.29.0",
-    "react-native-drawer": "^2.2.4",
+    "react-native": "^0.30.0",
+    "react-native-drawer": "^2.2.6",
     "react-native-fs": "^1.5.1",
     "react-native-google-analytics-bridge": "^2.1.0",
     "react-native-material-kit": "^0.3.2",
-    "react-native-router-flux": "^3.31.0",
+    "react-native-router-flux": "^3.32.0",
     "react-native-vector-icons": "^2.0.3",
     "react-native-view-snapshot": "^0.3.0",
     "react-redux": "^4.4.5",
@@ -24,11 +24,11 @@
     "uuid": "^2.0.2"
   },
   "devDependencies": {
-    "eslint": "^3.1.0",
+    "eslint": "^3.1.1",
     "eslint-config-airbnb": "^9.0.1",
-    "eslint-plugin-import": "^1.10.3",
+    "eslint-plugin-import": "^1.11.1",
     "eslint-plugin-jsx-a11y": "^2.0.1",
     "eslint-plugin-react": "^5.2.2",
-    "remote-redux-devtools": "^0.3.3"
+    "remote-redux-devtools": "^0.3.4"
   }
 }
