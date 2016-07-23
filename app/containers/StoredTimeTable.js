@@ -75,7 +75,7 @@ class StoredTimeTable extends Component {
     const { state, actions } = this.props;
     const { app } = state;
 
-    switch (state.alarm) {
+    switch (state.app.alarm) {
       case true :
         clearAllAlarm();
         actions.turnOffAlarm();

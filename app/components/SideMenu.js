@@ -38,7 +38,7 @@ export default class SideMenu extends Component {
     const { state } = this.props;
 
     let notiStatus;
-    if(state.alarm) {
+    if(state.app.alarm) {
       notiStatus = (<View style={{position: 'absolute', width: 42, right: 20, top: 14, borderRadius:13, borderColor:'#c9d9f4', borderWidth: 1, paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2}}><Text style={{color:'#c9d9f4', fontSize: 12, textAlign: 'center'}}>ON</Text></View>);
     } else {
       notiStatus = (<View style={{position: 'absolute', width: 42, right: 20, top: 14, borderRadius:13, borderColor:'#8f9aad', borderWidth: 1, paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2}}><Text style={{color:'#8f9aad', fontSize: 12, textAlign: 'center'}}>OFF</Text></View>);
