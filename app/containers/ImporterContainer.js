@@ -3,13 +3,13 @@ import React, {Component} from 'react';
 import * as AppActions from '../actions/appActions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { Alert, StatusBar, Modal, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { Alert, StatusBar, Modal, View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import ThirdPartyList from '../components/ThirdPartyList';
 import { Actions } from 'react-native-router-flux';
 import { saveAppData } from '../actions/appActions';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
-import * as Modals from '../components/modals';
+import { AuthGuideModal, PermalinkGuideModal } from '../components/modals';
 
 const API_URL = 'https://yh5b9ynkb7.execute-api.ap-northeast-1.amazonaws.com/prod/services';
 
@@ -80,19 +80,19 @@ class ImporterContainer extends Component {
 
     let modalBody;
     if (this.state.modalType === 'login') {
-      modalBody = <Modals.AuthGuideModal onPressButton={this.onPressModalOk} />;
+      modalBody = <AuthGuideModal onPressButton={this.onPressModalOk} onPressClose={()=>{this.setModalVisible(false)}} />;
     }
     if (this.state.modalType === 'permalink') {
       const { permalink } = this.state.rowData;
       modalBody =
-        <Modals.PermalinkGuideModal
+        <PermalinkGuideModal
           onPressButton={this.onPressModalOk}
-          placeholder={permalink.uri}
+          placeholder={permalink.placeholder}
           onFocusDefault={permalink.onFocusDefault}
+          onPressClose={()=>{this.setModalVisible(false)}}
           regex={permalink.regex}
         />;
     }
-
     return (
       <View style={{ flex: 1 }}>
         <Modal
@@ -101,13 +101,14 @@ class ImporterContainer extends Component {
           visible={this.state.modalVisible}
           onRequestClose={() => {this.setModalVisible(false)}}
         >
-          <View style={[styles.container, modalBackgroundStyle]}>
-            {modalBody}
-          </View>
+            <View style={[styles.container, modalBackgroundStyle]}>
+              {modalBody}
+            </View>
         </Modal>
         <ThirdPartyList onPressRow={this.onPressRow} apiUrl={API_URL} />
       </View>
     );
+
   }
 }
 export default connect(state => ({ state }),

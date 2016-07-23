@@ -50,12 +50,21 @@ class WebviewContainer extends Component {
   }
 
   onLoadData(courses, times) {
+    const { actions } = this.props;
     const message = `총 ${Object.keys(courses).length}개의 과목을 발견하였습니다.\n시간표를 가져오시겠습니까?`;
     Alert.alert(
       '황소시간표',
       message,
       [
-        { text: '확인', onPress: () => { Actions.pop(); } },
+        {
+          text: '확인',
+          onPress: () => {
+            actions.addCourses(courses);
+            actions.addTimes(times);
+            this.props.dispatch(saveAppData());
+            Actions.pop();
+          },
+        },
         { text: '취소' },
       ]
     );

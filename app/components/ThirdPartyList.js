@@ -31,14 +31,16 @@ export default class ThirdPartyList extends Component {
   }
 
   fetchData() {
-    fetch(this.props.apiUrl).then((response) => response.json()).then((responseData) => {
+    fetch(this.props.apiUrl + '?41234').then((response) => response.json()).then((responseData) => {
 
-      let organizations = responseData.results;
-      let length = organizations.length;
+      const organizations = responseData.results;
+      const length = organizations.length;
       let dataBlob = {};
       let sectionIDs = [];
       let rowIDs = [];
-      let organization, services, service;
+      let organization;
+      let services;
+      let service;
 
       for (let i = 0; i < length; i++) {
         organization = organizations[i];
@@ -50,7 +52,10 @@ export default class ThirdPartyList extends Component {
         rowIDs[i] = [];
 
         for (let j = 0; j < services.length; j++) {
-          service = services[j].service;
+          service = services[j];
+          if (service.isActive === false) {
+            continue;
+          }
           rowIDs[i].push(service.name);
           dataBlob[organization.university + ':' + service.name] = service;
         }
@@ -70,6 +75,8 @@ export default class ThirdPartyList extends Component {
         <View style={styles.rowStyle}>
           <Text style={styles.rowText}>{rowData.name}</Text>
           <Text style={styles.rowTextDesc}>{rowData.description}</Text>
+          <Text style={styles.rowTextMeta}>{rowData.url}</Text>
+
         </View>
       </TouchableOpacity>
     );
@@ -142,7 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   rowStyle: {
-    height: 95,
+    height: 120,
     justifyContent: 'center',
     paddingHorizontal: 16,
     borderTopColor: 'white',
@@ -159,8 +166,14 @@ const styles = StyleSheet.create({
   rowTextDesc: {
     marginTop: 4,
     color: '#666666',
-    fontSize: 14,
+    fontSize: 13,
     lineHeight: 18,
+  },
+  rowTextMeta: {
+    marginTop: 4,
+    color: '#999999',
+    fontSize: 13,
+    fontWeight: '100',
   },
   subText: {
     fontSize: 14,

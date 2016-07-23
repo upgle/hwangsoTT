@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Alert, StatusBar, Modal, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { Alert, StatusBar, Modal, View, Text, StyleSheet, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
 import { MKTextField } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -69,10 +69,12 @@ export class AuthGuideModal extends Component {
   render() {
     return (
       <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
-        <Icon name="ios-pulse" color="#7b4fea" size={53} style={{marginVertical: 13}}/>
-        <Text style={{ textAlign: 'center', marginBottom: 1, color: '#333333', fontSize: 15 }}>로그인 후 해당 서비스 시간표에</Text>
-        <Text style={{ textAlign: 'center', color: '#333333', marginBottom: 5, fontSize: 15 }}>접근하여 정보를 불러옵니다.</Text>
-        <Text style={{ textAlign: 'center', color: '#666666', fontSize: 13, fontWeight: '100', marginBottom: 5 }}>(반드시 시간표 페이지로 이동하세요)</Text>
+        <TouchableHighlight onPress={this.props.onPressClose} underlayColor="transparent" style={{position: 'absolute', top: -40, right: -10, backgroundColor: 'transparent', paddingHorizontal: 15 }}>
+          <Icon name="ios-close" color="rgba(255, 255, 255, 0.7)" size={40} />
+        </TouchableHighlight>
+        <Icon name="ios-warning" color="#7b4fea" size={50} style={{marginVertical: 13}}/>
+        <Text style={{ textAlign: 'center', marginBottom: 2, color: '#333333', fontSize: 15 }}>로그인 후 해당 서비스의 시간표까지</Text>
+        <Text style={{ textAlign: 'center', color: '#333333', marginBottom: 5, fontSize: 15 }}>이동해야 정보를 불러옵니다.</Text>
 
         <Button onPress={this.props.onPressButton} style={styles.modalButton}>
           네, 확인했습니다
@@ -107,6 +109,9 @@ export class PermalinkGuideModal extends Component {
   render() {
     return (
       <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
+        <TouchableHighlight onPress={this.props.onPressClose} underlayColor="transparent" style={{position: 'absolute', top: -40, right: -10, backgroundColor: 'transparent', paddingHorizontal: 15 }}>
+          <Icon name="ios-close" color="rgba(255, 255, 255, 0.7)" size={40} />
+        </TouchableHighlight>
         <Icon name="ios-link" color="#7b4fea" size={53} style={{ marginVertical: 12 }}/>
         <Text style={{ textAlign: 'center', marginBottom: 1, color: '#333333' }}>
           고유주소 기반으로 시간표를 가져옵니다
