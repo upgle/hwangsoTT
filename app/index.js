@@ -28,6 +28,15 @@ export default class App {
     AsyncStorage.getItem('app_state')
       .then(data => {
         const state = JSON.parse(data) || {};
+
+        /**
+         * Version 1.0.2 -> 1.1.0
+         */
+        if (state.alarm && typeof state.alarm === 'boolean') state.app.alarm = state.alarm;
+        if (state.courses && typeof state.courses === 'object') state.app.courses = state.courses;
+        if (Array.isArray(state.times)) state.app.times = state.times;
+        if (state.theme && typeof state.courses === 'object') state.app.theme = state.theme;
+
         store.dispatch(changeState(state.app));
         this.startApp();
       });
