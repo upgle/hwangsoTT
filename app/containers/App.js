@@ -6,12 +6,12 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 
-import timetableApp from '../reducers/timetableApp';
+import timetableApp from '../reducers/app/reducer';
 import StoredTimeTable from './StoredTimeTable';
 import KunnectContainer from './KunnectContainer';
 import AddCourseContainer from './AddCourseContainer';
 import LoadDataContainer from './ImporterContainer';
-import { fetchAppData } from '../actions/appActions';
+import { appInitialized } from '../actions/appActions';
 import { loggerMiddleware } from '../middlewares';
 import WebviewContainer from './WebviewContainer';
 
@@ -27,7 +27,7 @@ const enhancer = compose(
   devTools()
 );
 let store = createStore(timetableApp, enhancer);
-store.dispatch(fetchAppData());
+store.dispatch(appInitialized());
 
 // define this based on the styles/dimensions you use
 const getSceneStyle = (/* NavigationSceneRendererProps */ props, computedProps) => {

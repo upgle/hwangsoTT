@@ -1,15 +1,14 @@
 
-import * as types from '../actions/actionTypes';
+import * as types from '../../actions/actionTypes';
 import _ from 'underscore';
-import { THEME } from '../config/theme';
-import { ActionConst } from 'react-native-router-flux';
+import { THEME } from '../../config/theme';
 
 const initialState = {
   scene: {},
   courses: {},
   times: [],
   alarm: false,
-  theme : THEME[0]
+  theme : THEME[0],
 };
 
 export function getTodayTimes(stateTimes) {
@@ -22,14 +21,9 @@ export function getTodayTimes(stateTimes) {
   );
 }
 
-export default function timetableApp(state = initialState, action) {
+export default function app(state = initialState, action) {
 
   switch (action.type) {
-
-    case ActionConst.FOCUS:
-      return Object.assign({}, state, {
-        scene: action.scene
-      });
 
     case types.ON_ALARM :
       return Object.assign({}, state, {
@@ -116,7 +110,7 @@ export default function timetableApp(state = initialState, action) {
         courses : {},
       });
 
-    case types.REPLACE_STATE :
+    case types.CHANGE_STATE :
       return Object.assign({}, state, action.state);
 
     case types.TOGGLE_HEADER_COLORSET :

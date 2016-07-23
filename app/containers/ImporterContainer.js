@@ -5,11 +5,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Alert, StatusBar, Modal, View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import ThirdPartyList from '../components/ThirdPartyList';
-import { Actions } from 'react-native-router-flux';
-import { saveAppData } from '../actions/appActions';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
 import { AuthGuideModal, PermalinkGuideModal } from '../components/modals';
+
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin';
 
 const API_URL = 'https://yh5b9ynkb7.execute-api.ap-northeast-1.amazonaws.com/prod/services';
 
@@ -31,8 +32,23 @@ const styles = StyleSheet.create({
   },
 });
 
-//TODO : IMPORTER 로 이름 변경
+
 class ImporterContainer extends Component {
+
+  static navigatorStyle = {
+    navBarBackgroundColor: '#303c4c',
+    navBarTextColor: '#ffffff',
+    navBarButtonColor: '#ffffff'
+  };
+
+  static navigatorButtons = {
+    leftButtons: [
+      {
+        title: '취소',
+        id: 'cancel',
+      }
+    ],
+  };
 
   constructor(props) {
     super(props);
@@ -41,10 +57,43 @@ class ImporterContainer extends Component {
       modalType: 'login',
       modalVisible: false,
       rowData: null,
+      targetUrl: '',
+      modalOkPressed: false,
     };
     this.onPressModalOk = this.onPressModalOk.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
     this.setModalVisible = this.setModalVisible.bind(this);
+
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress') {
+      if (event.id === 'cancel') {
+        this.props.navigator.dismissModal();
+      }
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.modalVisible === true &&
+      this.state.modalVisible === false &&
+      this.state.modalOkPressed === true
+    ) {
+      this.setTimeout(
+        () => {
+          this.props.navigator.push({
+            screen: 'WebviewContainer',
+            passProps: {
+              apiUrl: `${API_URL}/${this.state.rowData.id}`,
+              targetUrl: this.state.targetUrl,
+            }
+          });
+        },
+        100
+      );
+    }
   }
 
   componentWillMount() {
@@ -56,10 +105,10 @@ class ImporterContainer extends Component {
   }
 
   onPressModalOk(url) {
-    this.setModalVisible(false);
-    Actions.loadTimetableWebview({
-      apiUrl: `${API_URL}/${this.state.rowData.id}`,
+    this.setState({
+      modalVisible: false,
       targetUrl: url,
+      modalOkPressed: true,
     });
   }
 
@@ -108,9 +157,12 @@ class ImporterContainer extends Component {
         <ThirdPartyList onPressRow={this.onPressRow} apiUrl={API_URL} />
       </View>
     );
-
   }
 }
+
+reactMixin(ImporterContainer.prototype, TimerMixin);
+
+
 export default connect(state => ({ state }),
   (dispatch) => ({
     dispatch,

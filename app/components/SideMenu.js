@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Actions } from 'react-native-router-flux';
 
 export default class SideMenu extends Component {
 
@@ -19,11 +18,20 @@ export default class SideMenu extends Component {
   }
 
   onPressAddCourse() {
-    Actions.addCourse();
+
+    this.props.navigator.showModal({
+      screen: 'AddCourseContainer',
+      title: '강의 추가',
+    });
+
+    // Actions.addCourse();
   }
 
   onPressLogin() {
-    Actions.loadTimetable();
+    this.props.navigator.showModal({
+      screen: 'ImporterContainer',
+      title: '시간표 불러오기',
+    });
   }
 
   render() {

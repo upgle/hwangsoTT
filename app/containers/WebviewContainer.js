@@ -1,11 +1,8 @@
 import React, {Component} from 'react';
 import * as AppActions from '../actions/appActions';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import ReactNative, { Alert, View } from 'react-native';
-
-import { Actions } from 'react-native-router-flux';
-import { TimeConverter, YoilConverter } from '../util/kunnect';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Alert, View } from 'react-native';
 import { saveAppData } from '../actions/appActions';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
@@ -52,6 +49,9 @@ class WebviewContainer extends Component {
   onLoadData(courses, times) {
     const { actions } = this.props;
     const message = `총 ${Object.keys(courses).length}개의 과목을 발견하였습니다.\n시간표를 가져오시겠습니까?`;
+
+    console.log(times);
+
     Alert.alert(
       '황소시간표',
       message,
@@ -59,10 +59,11 @@ class WebviewContainer extends Component {
         {
           text: '확인',
           onPress: () => {
+            actions.removeAllCourses();
             actions.addCourses(courses);
             actions.addTimes(times);
             this.props.dispatch(saveAppData());
-            Actions.pop();
+            this.props.navigator.pop();
           },
         },
         { text: '취소' },
@@ -76,9 +77,6 @@ class WebviewContainer extends Component {
         <View></View>
       );
     }
-
-    console.log(this.state);
-
     return (
       <Webview
         onLoadData={this.onLoadData}

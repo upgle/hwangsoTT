@@ -11,21 +11,47 @@ const uuid = require('uuid');
 
 class AddCourseContainer extends Component {
 
+  static navigatorStyle = {
+    navBarBackgroundColor: '#303c4c',
+    navBarTextColor: '#ffffff',
+    navBarButtonColor: '#ffffff'
+  };
+
+  static navigatorButtons = {
+    leftButtons: [
+      {
+        title: '취소', // for a textual button, provide the button title (label)
+        id: 'cancel', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+      }
+    ],
+    rightButtons: [
+      {
+        title: '저장', // for a textual button, provide the button title (label)
+        id: 'save', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+      }
+    ]
+  };
+
   constructor(props) {
     super(props);
     this.onPressDone = this.onPressDone.bind(this);
     this.onPressDelete = this.onPressDelete.bind(this);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress') {
+      if (event.id === 'cancel') {
+        this.props.navigator.dismissModal();
+      }
+      if (event.id === 'save') {
+        this.onPressDone();
+      }
+    }
   }
 
   componentDidMount() {
     GoogleAnalytics.trackScreenView((this.props.course_id) ? '강의 수정' : '강의 추가');
-  }
-
-  componentWillMount() {
-    Actions.refresh({
-      onRight: this.onPressDone,
-      rightTitle: '완료',
-    });
   }
 
   onPressDone() {
@@ -42,7 +68,7 @@ class AddCourseContainer extends Component {
     }
 
     this.props.dispatch(AppActions.saveAppData());
-    Actions.pop();
+    this.props.navigator.dismissModal();
     return true;
   }
 
@@ -122,11 +148,11 @@ class AddCourseContainer extends Component {
   }
 
   render() {
-    const { state } = this.props;
+    const { app } = this.props.state;
 
-    if (this.props.course_id && state.courses[this.props.course_id]) {
-      let times = state.times.filter((time) => time.course_id === this.props.course_id);
-      let info = state.courses[this.props.course_id];
+    if (this.props.course_id && app.courses[this.props.course_id]) {
+      let times = app.times.filter((time) => time.course_id === this.props.course_id);
+      let info = app.courses[this.props.course_id];
 
       return (
         <AddCourse
@@ -134,12 +160,12 @@ class AddCourseContainer extends Component {
           showDeleteBtn={true}
           onPressDelete={this.onPressDelete}
           times={times}
-          allTimes={state.times}
+          allTimes={app.times}
           subject={info.subject}
           professor={info.professor}
           classroom={info.classroom} />);
     }
-    return <AddCourse ref="addCourse" allTimes={state.times} />;
+    return <AddCourse ref="addCourse" allTimes={app.times} />;
   }
 }
 

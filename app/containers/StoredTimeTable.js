@@ -16,16 +16,22 @@ import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
 import * as appActions from '../actions/appActions';
 
-import { getTodayTimes } from '../reducers/timetableApp';
+import { getTodayTimes } from '../reducers/app/reducer';
 import { setAlarmFromTimes, clearAllAlarm } from '../util/alarmManager';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
-import { Actions } from 'react-native-router-flux';
 
 const screen = Dimensions.get('window');
 const ViewSnapshotter = require('react-native-view-snapshot');
 const RNFS = require('react-native-fs');
 
 class StoredTimeTable extends Component {
+
+  static navigatorStyle = {
+    navBarHidden: true,
+    navBarBackgroundColor: '#303c4c',
+    navBarTextColor: '#ffffff',
+    navBarButtonColor: '#ffffff'
+  };
 
   constructor(props) {
     super(props);
@@ -36,6 +42,7 @@ class StoredTimeTable extends Component {
     this.toggleHeaderColorset = this.toggleHeaderColorset.bind(this);
     this.snapshotTimetable = this.snapshotTimetable.bind(this);
     this.setAlarm = this.setAlarm.bind(this);
+    this.onPressTimeCell = this.onPressTimeCell.bind(this);
   }
 
   componentWillMount() {
@@ -65,7 +72,8 @@ class StoredTimeTable extends Component {
 
   setAlarm() {
 
-    const {state, actions} = this.props;
+    const { state, actions } = this.props;
+    const { app } = state;
 
     switch (state.alarm) {
       case true :
@@ -80,7 +88,7 @@ class StoredTimeTable extends Component {
         PushNotificationIOS.requestPermissions()
           .then((permission)=> {
             if (permission.alert == 1) {
-              setAlarmFromTimes(state.courses, state.times);
+              setAlarmFromTimes(app.courses, app.times);
               actions.turnOnAlarm();
               this.saveAppData();
               Alert.alert('안내', '알람이 설정되었습니다.', [{text: '확인'}]);
@@ -128,15 +136,19 @@ class StoredTimeTable extends Component {
     GoogleAnalytics.trackEvent('setting', 'snapshot timetable');
   }
 
-  _onPressCell(course_id) {
-    Actions.addCourse({
+  onPressTimeCell(course_id) {
+    this.props.navigator.showModal({
+      screen: 'AddCourseContainer',
       title: '강의 수정',
-      course_id: course_id
+      passProps: {
+        course_id: course_id
+      }
     });
   }
 
   render() {
-    const {state, actions} = this.props;
+    const { state, actions } = this.props;
+    const { app } = state;
 
     return (
       <Drawer
@@ -145,11 +157,11 @@ class StoredTimeTable extends Component {
           {...this.props}
           closeDrawer={this.closeDrawer}
           {...actions}
-          themeColor={state.theme.header}
+          themeColor={app.theme.header}
           onPressHeaderColorset={this.toggleHeaderColorset}
           onPressSaveTimetable={this.snapshotTimetable}
           onPressAlarm={this.setAlarm}
-          alarm={state.alarm}
+          alarm={app.alarm}
         />}
         openDrawerOffset={0.4}
         styles={drawerStyles}
@@ -164,24 +176,24 @@ class StoredTimeTable extends Component {
         }}
         ref={(ref) => this._drawer = ref}>
         <Header
-          color={state.theme.header}
-          courses={state.courses}
-          todayTimes={getTodayTimes(state.times)}
+          color={app.theme.header}
+          courses={app.courses}
+          todayTimes={getTodayTimes(app.times)}
           onClickMenu={this.openDrawer}
         />
         <TimeTable
-          colors={state.theme.cells}
-          courses={state.courses}
-          times={state.times}
+          colors={app.theme.cells}
+          courses={app.courses}
+          times={app.times}
           hands={true}
           {...actions}
           height={screen.height - 124}
-          onPressCell={this._onPressCell}
+          onPressCell={this.onPressTimeCell}
         />
         <TimeTable
-          colors={state.theme.cells}
-          courses={state.courses}
-          times={state.times}
+          colors={app.theme.cells}
+          courses={app.courses}
+          times={app.times}
           hands={false}
           {...actions}
           style={{position: 'absolute', top: 0, left: 0, width: screen.width}}
