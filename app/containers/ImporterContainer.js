@@ -7,8 +7,6 @@ import { Alert, StatusBar, Modal, View, Text, StyleSheet, TouchableWithoutFeedba
 import ThirdPartyList from '../components/ThirdPartyList';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
-import { AuthGuideModal, PermalinkGuideModal } from '../components/modals';
-
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
 
@@ -60,7 +58,6 @@ class ImporterContainer extends Component {
       targetUrl: '',
       modalOkPressed: false,
     };
-    this.onPressModalOk = this.onPressModalOk.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
     this.setModalVisible = this.setModalVisible.bind(this);
 
@@ -68,31 +65,22 @@ class ImporterContainer extends Component {
   }
 
   onNavigatorEvent(event) {
+
+    if (event.type === 'DeepLink') {
+      this.props.navigator.dismissLightBox();
+      this.props.navigator.push({
+        screen: 'WebviewContainer',
+        passProps: {
+          apiUrl: `${API_URL}/${this.state.rowData.id}`,
+          targetUrl: (event.link === 'login') ? null : event.link,
+        }
+      });
+    }
+
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'cancel') {
         this.props.navigator.dismissModal();
       }
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.modalVisible === true &&
-      this.state.modalVisible === false &&
-      this.state.modalOkPressed === true
-    ) {
-      this.setTimeout(
-        () => {
-          this.props.navigator.push({
-            screen: 'WebviewContainer',
-            passProps: {
-              apiUrl: `${API_URL}/${this.state.rowData.id}`,
-              targetUrl: this.state.targetUrl,
-            }
-          });
-        },
-        100
-      );
     }
   }
 
@@ -104,20 +92,30 @@ class ImporterContainer extends Component {
     StatusBar.setHidden(true, 'none');
   }
 
-  onPressModalOk(url) {
-    this.setState({
-      modalVisible: false,
-      targetUrl: url,
-      modalOkPressed: true,
-    });
-  }
-
   onPressRow(rowData, sectionID) {
-    this.setState({
-      modalType: rowData.type,
-      modalVisible: true,
-      rowData,
-    });
+
+    this.setState({ rowData });
+
+    if (rowData.type === 'login') {
+      this.props.navigator.showLightBox({
+        screen: 'ImporterLoginWarning',
+        style: {
+          backgroundBlur: 'none',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        }
+      });
+    }
+
+    if (rowData.type === 'permalink') {
+      this.props.navigator.showLightBox({
+        screen: 'ImporterPermalink',
+        passProps: rowData.permalink,
+        style: {
+          backgroundBlur: 'none',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        }
+      });
+    }
   }
 
   setModalVisible(visible) {
@@ -125,35 +123,8 @@ class ImporterContainer extends Component {
   }
 
   render() {
-    const modalBackgroundStyle = { backgroundColor: 'rgba(0, 0, 0, 0.5)' };
-
-    let modalBody;
-    if (this.state.modalType === 'login') {
-      modalBody = <AuthGuideModal onPressButton={this.onPressModalOk} onPressClose={()=>{this.setModalVisible(false)}} />;
-    }
-    if (this.state.modalType === 'permalink') {
-      const { permalink } = this.state.rowData;
-      modalBody =
-        <PermalinkGuideModal
-          onPressButton={this.onPressModalOk}
-          placeholder={permalink.placeholder}
-          onFocusDefault={permalink.onFocusDefault}
-          onPressClose={()=>{this.setModalVisible(false)}}
-          regex={permalink.regex}
-        />;
-    }
     return (
       <View style={{ flex: 1 }}>
-        <Modal
-          animationType={'fade'}
-          transparent={true}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {this.setModalVisible(false)}}
-        >
-            <View style={[styles.container, modalBackgroundStyle]}>
-              {modalBody}
-            </View>
-        </Modal>
         <ThirdPartyList onPressRow={this.onPressRow} apiUrl={API_URL} />
       </View>
     );

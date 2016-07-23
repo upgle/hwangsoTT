@@ -20,8 +20,8 @@ class AddCourseContainer extends Component {
   static navigatorButtons = {
     leftButtons: [
       {
-        title: '취소', // for a textual button, provide the button title (label)
-        id: 'cancel', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+        title: '취소',
+        id: 'cancel',
       }
     ],
     rightButtons: [

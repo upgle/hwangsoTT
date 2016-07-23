@@ -37,7 +37,6 @@ class WebviewContainer extends Component {
           }
           this.setState(state);
         } catch (e) {
-          console.log(e);
           Alert.alert(null, '데이터를 가져오는데 문제가 발생하였습니다.', [{ text: '확인' }]);
         }
       })
