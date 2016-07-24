@@ -123,12 +123,19 @@ class StoredTimeTable extends Component {
   }
 
   snapshotTimetable() {
+
+    if (this.isSavingToCameraRoll === true) {
+      return;
+    }
+    this.isSavingToCameraRoll = true;
+
     var imagePath = RNFS.CachesDirectoryPath + "/temp.png";
     var ref = findNodeHandle(this.refs.timetable);
     ViewSnapshotter.saveSnapshotToPath(ref, imagePath, (error, successfulWrite) => {
       if (successfulWrite) {
         CameraRoll.saveToCameraRoll(imagePath, 'photo').then(()=> {
           Alert.alert('안내', '카메라 앨범에 저장하였습니다.', [{text: '확인'}]);
+          this.isSavingToCameraRoll = false;
         });
       }
     });
