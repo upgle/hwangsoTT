@@ -6,6 +6,7 @@ import {
   CameraRoll,
   Alert,
   PushNotificationIOS,
+  NativeModules,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -122,6 +123,27 @@ class StoredTimeTable extends Component {
     this.props.dispatch(appActions.saveAppData());
   }
 
+  shareTimetable(type = 'line') {
+    var imagePath = RNFS.CachesDirectoryPath + "/temp.png";
+    var ref = findNodeHandle(this.refs.timetable);
+    ViewSnapshotter.saveSnapshotToPath(ref, imagePath, (error, successfulWrite) => {
+      if (successfulWrite) {
+        switch (type) {
+          case 'line' :
+            var NaverLineManager = NativeModules.NaverLineManager;
+            NaverLineManager.isLineInstalled((error, isInstalled) => {
+              if(isInstalled === false) {
+                Alert.alert('안내', '라인이 설치되어있지 않습니다.\n앱스토어에서 설치해주시기 바랍니다.', [{ text: '확인' }]);
+              } else {
+                NaverLineManager.shareImage(imagePath);
+              }
+            });
+            break;
+        }
+      }
+    });
+  }
+
   snapshotTimetable() {
 
     if (this.isSavingToCameraRoll === true) {
@@ -139,7 +161,6 @@ class StoredTimeTable extends Component {
         });
       }
     });
-
     GoogleAnalytics.trackEvent('setting', 'snapshot timetable');
   }
 
@@ -168,11 +189,12 @@ class StoredTimeTable extends Component {
           onPressHeaderColorset={this.toggleHeaderColorset}
           onPressSaveTimetable={this.snapshotTimetable}
           onPressAlarm={this.setAlarm}
+          onPressShareNaverLine={()=>this.shareTimetable('line')}
           alarm={app.alarm}
         />}
-        openDrawerOffset={0.4}
+        openDrawerOffset={0.35}
         styles={drawerStyles}
-        panOpenMask={0.45}
+        panOpenMask={0.3}
         tweenHandler={Drawer.tweenPresets.parallax}
         tapToClose={true}
         onOpenStart={()=> {

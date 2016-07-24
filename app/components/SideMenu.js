@@ -4,9 +4,9 @@ import {
   View,
   Image,
   TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
-
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
 export default class SideMenu extends Component {
 
@@ -18,13 +18,10 @@ export default class SideMenu extends Component {
   }
 
   onPressAddCourse() {
-
     this.props.navigator.showModal({
       screen: 'AddCourseContainer',
       title: '강의 추가',
     });
-
-    // Actions.addCourse();
   }
 
   onPressLogin() {
@@ -39,51 +36,63 @@ export default class SideMenu extends Component {
 
     let notiStatus;
     if(state.app.alarm) {
-      notiStatus = (<View style={{position: 'absolute', width: 42, right: 20, top: 14, borderRadius:13, borderColor:'#c9d9f4', borderWidth: 1, paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2}}><Text style={{color:'#c9d9f4', fontSize: 12, textAlign: 'center'}}>ON</Text></View>);
+      notiStatus = (<View style={{position: 'absolute', width: 42, right: 20, top: 15, borderRadius:13, borderColor:'#c9d9f4', borderWidth: 1, paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2}}><Text style={{color:'#c9d9f4', fontSize: 12, textAlign: 'center'}}>ON</Text></View>);
     } else {
-      notiStatus = (<View style={{position: 'absolute', width: 42, right: 20, top: 14, borderRadius:13, borderColor:'#8f9aad', borderWidth: 1, paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2}}><Text style={{color:'#8f9aad', fontSize: 12, textAlign: 'center'}}>OFF</Text></View>);
+      notiStatus = (<View style={{position: 'absolute', width: 42, right: 20, top: 15, borderRadius:13, borderColor:'#8f9aad', borderWidth: 1, paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2}}><Text style={{color:'#8f9aad', fontSize: 12, textAlign: 'center'}}>OFF</Text></View>);
     }
 
     return (
       <View style={styles.container} ref='container'>
         <View style={styles.brand}>
           <Image
-            style={styles.icon}
             source={require('../resources/brand.png')}
           />
         </View>
         <TouchableHighlight underlayColor='#273242' onPress={this.onPressAddCourse}>
           <View style={styles.menu}>
-            <Icon name='add' color='#afbcd4' size={25} style={{ width: 32 }} />
+            <Ionicon name='md-add-circle' color='#c9d9f4' size={22} style={styles.icon} />
             <Text style={styles.menuText}>강의 추가</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight underlayColor='#273242' onPress={this.onPressLogin}>
           <View style={styles.menu}>
-            <Icon name='get-app' color='#afbcd4' size={22} style={{ width: 32 }} />
+            <Ionicon name='md-cloud' color='#c9d9f4' size={22} style={styles.icon} />
             <Text style={styles.menuText}>시간표 불러오기</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight underlayColor='#273242' onPress={this.props.onPressSaveTimetable}>
           <View style={styles.menu}>
-            <Icon name='collections' color='#afbcd4' size={20} style={{ width: 32 }} />
+            <Ionicon name='md-image' color='#c9d9f4' size={22} style={styles.icon} />
             <Text style={styles.menuText}>앨범에 저장</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight underlayColor='#273242' onPress={this.props.onPressHeaderColorset}>
           <View style={styles.menu}>
-            <Icon name='color-lens' color='#afbcd4' size={20} style={{ width: 32 }} />
+            <Ionicon name='md-color-palette' color='#c9d9f4' size={22} style={styles.icon} />
             <Text style={styles.menuText}>컬러셋</Text>
-            <View style={{position: 'absolute', top: 19, right:20, borderRadius:12, width: 12, height: 12, backgroundColor:this.props.themeColor}}></View>
+            <View style={{position: 'absolute', top: 20, right:20, borderRadius:12, width: 12, height: 12, backgroundColor:this.props.themeColor}}></View>
           </View>
         </TouchableHighlight>
         <TouchableHighlight underlayColor='#273242' onPress={this.props.onPressAlarm}>
           <View style={styles.menu}>
-            <Icon name='alarm' color='#afbcd4' size={20} style={{ width: 32 }} />
+            <Ionicon name='md-notifications' color='#c9d9f4' size={22} style={styles.icon} />
             <Text style={styles.menuText}>수업 알림</Text>
             {notiStatus}
           </View>
         </TouchableHighlight>
+        <View style={{ padding: 20, alignItems: 'center', marginTop: 5 }}>
+          <View style={{ flexDirection: 'row', marginBottom: 8 }}>
+            <Text style={{ color: 'rgba(175, 188, 212, 0.5)', fontSize: 10.5, fontWeight:'100' }}>Share with Friends</Text>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity onPress={this.props.onPressShareNaverLine}>
+              <Image source={require('../resources/naver_line.png')} style={{ width: 35, height: 35 }} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.props.onPressShareNaverLine}>
+              <Image source={require('../resources/kakao.png')} style={{ width: 35, height: 35, marginLeft: 6 }} />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     );
   }
@@ -95,7 +104,7 @@ const styles = {
     backgroundColor:'#303c4c',
   },
   brand: {
-    height: 140,
+    height: 124,
     borderBottomColor: '#232c3a',
     borderBottomWidth: 1,
     justifyContent: 'center',
@@ -106,9 +115,12 @@ const styles = {
     marginTop: 14,
     color: '#818b9c',
   },
+  icon: {
+    width: 33,
+  },
   menu: {
     flexDirection : 'row',
-    height: 50,
+    height: 54,
     paddingLeft: 20,
     borderBottomColor: '#232c3a',
     borderBottomWidth: 1,
@@ -116,7 +128,7 @@ const styles = {
     alignItems: 'center',
   },
   menuText: {
-    color: '#afbcd4',
+    color: '#c9d9f4',
     fontSize: 13.5,
   },
 };

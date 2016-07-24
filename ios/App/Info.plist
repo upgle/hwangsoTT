@@ -47,6 +47,7 @@
 		<string>kakaolink</string>
 		<string>kakaotalk-4.5.0</string>
 		<string>kakaostory-2.9.0</string>
+		<string>line</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
