@@ -11,10 +11,8 @@ const initialState = {
 };
 
 export function getTodayTimes(stateTimes) {
-
-  var days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
-      date = new Date();
-
+  const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  const date = new Date();
   return stateTimes.filter(time =>
     time.day === days[date.getDay()]
   );
@@ -25,14 +23,10 @@ export default function app(state = initialState, action) {
   switch (action.type) {
 
     case types.ON_ALARM :
-      return Object.assign({}, state, {
-        alarm : true
-      });
+      return Object.assign({}, state, { alarm : true });
 
     case types.OFF_ALARM :
-      return Object.assign({}, state, {
-        alarm : false
-      });
+      return Object.assign({}, state, { alarm : false });
 
     case types.ADD_COURSE : {
       const courses = Object.assign({}, state.courses, {
@@ -93,34 +87,30 @@ export default function app(state = initialState, action) {
         let courses = Object.assign({}, state.courses);
         delete courses[action.course_id];
         return Object.assign({}, state, {
-          courses : courses,
-          times: state.times.filter((time) => time.course_id !== action.course_id)
+          courses: courses,
+          times: state.times.filter((time) => time.course_id !== action.course_id),
         });
       }
 
     case types.DELETE_ALL_TIMES_BY_COURSE :
       return Object.assign({}, state, {
-        times: state.times.filter((time) => time.course_id !== action.course_id)
+        times: state.times.filter((time) => time.course_id !== action.course_id),
       });
 
     case types.REMOVE_ALL_COURSE :
       return Object.assign({}, state, {
-        times : [],
-        courses : {},
+        times: [],
+        courses: {},
       });
 
     case types.CHANGE_STATE :
       return Object.assign({}, state, action.state);
 
-    case types.TOGGLE_HEADER_COLORSET :
-
-      var curIndex = _.findIndex(THEME, {
-        header : state.theme.header
-      });
-      var nextIndex = (curIndex+1) % THEME.length;
-      return Object.assign({}, state, {
-        theme : THEME[nextIndex]
-      });
+    case types.TOGGLE_HEADER_COLORSET : {
+      let curIndex = _.findIndex(THEME, { header : state.theme.header });
+      let nextIndex = (curIndex + 1) % THEME.length;
+      return Object.assign({}, state, { theme : THEME[nextIndex] });
+    }
 
     default:
       return state;
