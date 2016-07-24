@@ -1,16 +1,31 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import thunk from 'redux-thunk';
-import * as reducers from './reducers';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
+import { AsyncStorage } from 'react-native';
+import devTools from 'remote-redux-devtools';
+
 import { registerScreens } from './containers';
 import { changeState } from './actions/appActions';
-import { AsyncStorage } from 'react-native';
+import * as reducers from './reducers';
+import { alarmMiddleware } from './middlewares';
 
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+/**
+ * React-Redux Booting
+ */
+const enhancer = compose(
+  applyMiddleware(thunk, alarmMiddleware),
+  devTools()
+);
 const reducer = combineReducers(reducers);
-const store = createStoreWithMiddleware(reducer);
+const store = createStore(reducer, enhancer);
+
+
+/**
+ * react-native-navigation
+ * @desc navigation에서 사용하는 screen 등록
+ */
 registerScreens(store, Provider);
 
 /**
