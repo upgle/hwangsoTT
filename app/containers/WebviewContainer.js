@@ -49,12 +49,11 @@ class WebviewContainer extends Component {
     const { actions } = this.props;
     const message = `총 ${Object.keys(courses).length}개의 과목을 발견하였습니다.\n시간표를 가져오시겠습니까?`;
 
-    console.log(times);
-
     Alert.alert(
       '황소시간표',
       message,
       [
+        { text: '취소' },
         {
           text: '확인',
           onPress: () => {
@@ -63,9 +62,9 @@ class WebviewContainer extends Component {
             actions.addTimes(times);
             this.props.dispatch(saveAppData());
             this.props.navigator.pop();
+            Alert.alert('황소시간표', '시간표가 성공적으로 저장되었습니다.', [{ text: '확인' }]);
           },
         },
-        { text: '취소' },
       ]
     );
   }
