@@ -33,6 +33,10 @@ export default class TimeTableHands extends Component {
     AppState.addEventListener('change', this.handleAppStateChange.bind(this));
   }
 
+  /**
+   * Force update 로 처리됩니다.
+   * @returns {boolean}
+   */
   shouldComponentUpdate() {
     return false;
   }
