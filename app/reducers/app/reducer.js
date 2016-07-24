@@ -4,7 +4,6 @@ import _ from 'underscore';
 import { THEME } from '../../config/theme';
 
 const initialState = {
-  scene: {},
   courses: {},
   times: [],
   alarm: false,
