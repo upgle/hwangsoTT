@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Actions } from 'react-native-router-flux';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
 import AddCourse from '../components/AddCourse';
@@ -109,7 +108,7 @@ class AddCourseContainer extends Component {
           { text: '확인', onPress: () => {
             actions.deleteCourse(course_id);
             this.props.dispatch(AppActions.saveAppData());
-            Actions.pop();
+            this.props.navigator.dismissModal();
           } },
         ]
       );

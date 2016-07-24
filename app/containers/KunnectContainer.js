@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Alert} from 'react-native';
 import LoginKunnect from '../components/LoginKunnect';
-import { Actions } from 'react-native-router-flux';
 import { TimeConverter, YoilConverter } from '../util/kunnect';
 import { saveAppData } from '../actions/appActions';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
@@ -30,7 +29,7 @@ class KunnectContainer extends Component {
     }
 
     _onClickClose() {
-        Actions.pop();
+
     }
 
     _catchError(err) {
