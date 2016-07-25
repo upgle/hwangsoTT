@@ -20,7 +20,6 @@ import SideMenu from '../components/SideMenu';
 import * as appActions from '../actions/appActions';
 
 import { getTodayTimes } from '../reducers/app/reducer';
-import { setAlarmFromTimes, clearAllAlarm } from '../util/alarmManager';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
 const screen = Dimensions.get('window');
@@ -31,6 +30,7 @@ const uuid = require('uuid');
 
 import Kakao from '../services/sns/Kakao';
 import NaverLine from '../services/sns/NaverLine';
+import LocalNotification from '../services/notification/LocalNotification';
 
 class StoredTimeTable extends Component {
 
@@ -83,12 +83,13 @@ class StoredTimeTable extends Component {
     const { state, actions } = this.props;
     const { app } = state;
 
+    const LocalNotificationService = new LocalNotification();
+
     switch (state.app.alarm) {
       case true :
-        clearAllAlarm();
+        LocalNotificationService.clearAllNotification();
         actions.turnOffAlarm();
         Alert.alert('안내', '알람이 해제되었습니다.', [{text: '확인'}]);
-
         GoogleAnalytics.trackEvent('setting', 'turn off alarm');
 
         break;
@@ -96,11 +97,10 @@ class StoredTimeTable extends Component {
         PushNotificationIOS.requestPermissions()
           .then((permission)=> {
             if (permission.alert == 1) {
-              setAlarmFromTimes(app.courses, app.times);
+              LocalNotificationService.setTimetableNotifications(app.courses, app.times);
               actions.turnOnAlarm();
               this.saveAppData();
               Alert.alert('안내', '알람이 설정되었습니다.', [{text: '확인'}]);
-
               GoogleAnalytics.trackEvent('setting', 'turn on alarm');
             }
           })
