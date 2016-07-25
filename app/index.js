@@ -21,6 +21,11 @@ const enhancer = compose(
 const reducer = combineReducers(reducers);
 const store = createStore(reducer, enhancer);
 
+/**
+ * Google Analytics Setting
+ */
+GoogleAnalytics.setTrackerId('UA-80732706-1');
+GoogleAnalytics.setAppName('황소시간표');
 
 /**
  * react-native-navigation
@@ -35,10 +40,6 @@ registerScreens(store, Provider);
 export default class App {
 
   constructor() {
-    // google tracker
-    GoogleAnalytics.setTrackerId('UA-80732706-1');
-    GoogleAnalytics.setAppName('황소시간표');
-
     // since react-redux only works on components, we need to subscribe this class manually
     AsyncStorage.getItem('app_state')
       .then(data => {
@@ -47,10 +48,18 @@ export default class App {
         /**
          * Version 1.0.2 -> 1.1.0
          */
-        if (state.alarm && typeof state.alarm === 'boolean') state.app.alarm = state.alarm;
-        if (state.courses && typeof state.courses === 'object') state.app.courses = state.courses;
-        if (Array.isArray(state.times)) state.app.times = state.times;
-        if (state.theme && typeof state.courses === 'object') state.app.theme = state.theme;
+        if (!state.app && state.courses && (Array.isArray(state.times))) {
+          state.app = {
+            courses: state.courses,
+            times: state.times,
+          };
+          if (state.theme && typeof state.courses === 'object') {
+            state.app.theme = state.theme;
+          }
+          if (state.alarm && typeof state.alarm === 'boolean') {
+            state.app.alarm = state.alarm;
+          }
+        }
 
         store.dispatch(changeState(state.app));
         this.startApp();
