@@ -7,6 +7,8 @@ import {
   Alert,
   PushNotificationIOS,
   NativeModules,
+  ActionSheetIOS,
+  DeviceEventEmitter,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -24,6 +26,8 @@ import GoogleAnalytics from 'react-native-google-analytics-bridge';
 const screen = Dimensions.get('window');
 const ViewSnapshotter = require('react-native-view-snapshot');
 const RNFS = require('react-native-fs');
+import { RNS3 } from 'react-native-aws3';
+const uuid = require('uuid');
 
 class StoredTimeTable extends Component {
 
@@ -139,6 +143,58 @@ class StoredTimeTable extends Component {
               }
             });
             break;
+          case 'kakao' :
+            var KakaoManager = NativeModules.KakaoManager;
+            KakaoManager.isKakaoTalkInstalled((error, isInstalled) => {
+              if(isInstalled === false) {
+                Alert.alert('안내', '카카오톡이 설치되어있지 않습니다.\n앱스토어에서 설치해주시기 바랍니다.', [{ text: '확인' }]);
+              } else {
+                Alert.alert('시간표 공유하기', '카카오톡으로 이동합니다.',
+                  [
+                    { text: '취소' },
+                    {
+                      text: '확인',
+                      onPress: ()=>{
+
+                        let id = uuid.v4().slice(0,13);
+                        //hwangso.download
+
+                        let file = {
+                          // `uri` can also be a file system path (i.e. file://)
+                          uri: imagePath,
+                          name: `${id}.png`,
+                          type: 'image/png',
+                        };
+                        let options = {
+                          keyPrefix: "timetable/",
+                          bucket: "hwangso",
+                          region: "ap-northeast-2",
+                          accessKey: "AKIAJ6DDOHPO4WGER7NA",
+                          secretKey: "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",
+                          successActionStatus: 201
+                        };
+                        try {
+                          RNS3.put(file, options).then(response => {
+                            if (response.status !== 201) {
+                              throw new Error("Failed to upload image to S3");
+                            }
+                            console.log(response.body.postResponse);
+                            let imageUri = decodeURIComponent(response.body.postResponse.location);
+
+                            KakaoManager.sendImageWithText(imageUri, 'http://hwangso.download/#/' + id, `하단 버튼을 클릭하여 시간표를 확인할 수 있습니다.`);
+                          });
+                        } catch (e) {
+
+                        }
+
+                      }
+                    }
+                  ]
+                );
+              }
+            });
+            break;
+
         }
       }
     });
@@ -190,6 +246,7 @@ class StoredTimeTable extends Component {
           onPressSaveTimetable={this.snapshotTimetable}
           onPressAlarm={this.setAlarm}
           onPressShareNaverLine={()=>this.shareTimetable('line')}
+          onPressShareKakao={()=>this.shareTimetable('kakao')}
           alarm={app.alarm}
         />}
         openDrawerOffset={0.35}

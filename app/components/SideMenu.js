@@ -88,7 +88,7 @@ export default class SideMenu extends Component {
             <TouchableOpacity onPress={this.props.onPressShareNaverLine}>
               <Image source={require('../resources/naver_line.png')} style={{ width: 35, height: 35 }} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={this.props.onPressShareNaverLine}>
+            <TouchableOpacity onPress={this.props.onPressShareKakao}>
               <Image source={require('../resources/kakao.png')} style={{ width: 35, height: 35, marginLeft: 6 }} />
             </TouchableOpacity>
           </View>

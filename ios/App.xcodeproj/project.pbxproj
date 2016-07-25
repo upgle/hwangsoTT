@@ -39,7 +39,6 @@
 		E96F6BDD1D44AA720071C999 /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E96F6BDC1D44AA720071C999 /* KakaoOpenSDK.framework */; };
 		E96F6BE01D44ABE10071C999 /* NaverLineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E96F6BDF1D44ABE10071C999 /* NaverLineManager.m */; };
 		E9927C331D45916500C55158 /* KakaoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9927C321D45916500C55158 /* KakaoManager.m */; };
-		E9927C3A1D45AD2400C55158 /* libRNUploader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E9927C391D45AD1F00C55158 /* libRNUploader.a */; };
 		E9934C031D3621F000539069 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E9934C021D3621F000539069 /* libsqlite3.0.tbd */; };
 		E9934C051D3621F600539069 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E9934C041D3621F600539069 /* libz.tbd */; };
 		E9934C071D3621FD00539069 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9934C061D3621FD00539069 /* SystemConfiguration.framework */; };
@@ -147,13 +146,6 @@
 			remoteGlobalIDString = D8AFADBD1BEE6F3F00A4592D;
 			remoteInfo = ReactNativeControllers;
 		};
-		E9927C381D45AD1F00C55158 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E9927C341D45AD1E00C55158 /* RNUploader.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNUploader;
-		};
 		E9934BF41D36214C00539069 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7BF8FA6CCD9C46CC912E41C7 /* RCTGoogleAnalyticsBridge.xcodeproj */;
@@ -228,7 +220,6 @@
 		E96F6BDF1D44ABE10071C999 /* NaverLineManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NaverLineManager.m; path = App/NaverLineManager.m; sourceTree = "<group>"; };
 		E9927C311D45916500C55158 /* KakaoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KakaoManager.h; path = App/KakaoManager.h; sourceTree = "<group>"; };
 		E9927C321D45916500C55158 /* KakaoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KakaoManager.m; path = App/KakaoManager.m; sourceTree = "<group>"; };
-		E9927C341D45AD1E00C55158 /* RNUploader.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNUploader.xcodeproj; path = "../node_modules/react-native-uploader/RNUploader/RNUploader.xcodeproj"; sourceTree = "<group>"; };
 		E9934C021D3621F000539069 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		E9934C041D3621F600539069 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		E9934C061D3621FD00539069 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -251,7 +242,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9927C3A1D45AD2400C55158 /* libRNUploader.a in Frameworks */,
 				E96F6BDB1D4366280071C999 /* libReactNativeControllers.a in Frameworks */,
 				E9934C091D36220600539069 /* CoreData.framework in Frameworks */,
 				E9934C071D3621FD00539069 /* SystemConfiguration.framework in Frameworks */,
@@ -404,7 +394,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				E9927C341D45AD1E00C55158 /* RNUploader.xcodeproj */,
 				E96F6BC51D4366170071C999 /* ReactNativeControllers.xcodeproj */,
 				E93177DB1D2B9713004CCDF0 /* RCTPushNotification.xcodeproj */,
 				E94C73351D218B4B009D85EE /* RCTCameraRoll.xcodeproj */,
@@ -483,14 +472,6 @@
 			isa = PBXGroup;
 			children = (
 				E96F6BD81D4366170071C999 /* libReactNativeControllers.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		E9927C351D45AD1E00C55158 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E9927C391D45AD1F00C55158 /* libRNUploader.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -666,10 +647,6 @@
 					ProjectRef = 0CA5DF69E4FF41A99A0DE051 /* RNFS.xcodeproj */;
 				},
 				{
-					ProductGroup = E9927C351D45AD1E00C55158 /* Products */;
-					ProjectRef = E9927C341D45AD1E00C55158 /* RNUploader.xcodeproj */;
-				},
-				{
 					ProductGroup = E9ADE4971D20FB7C00D53598 /* Products */;
 					ProjectRef = 64C51514832B4EC89AD64DF4 /* RNVectorIcons.xcodeproj */;
 				},
@@ -772,13 +749,6 @@
 			fileType = archive.ar;
 			path = libReactNativeControllers.a;
 			remoteRef = E96F6BD71D4366170071C999 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E9927C391D45AD1F00C55158 /* libRNUploader.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNUploader.a;
-			remoteRef = E9927C381D45AD1F00C55158 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		E9934BF51D36214C00539069 /* libRCTGoogleAnalyticsBridge.a */ = {
