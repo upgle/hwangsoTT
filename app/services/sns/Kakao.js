@@ -1,6 +1,7 @@
 
 import { NativeModules } from 'react-native';
 import { RNS3 } from 'react-native-aws3';
+import GoogleAnalytics from 'react-native-google-analytics-bridge';
 const uuid = require('uuid');
 
 export default class Kakao {
@@ -10,7 +11,11 @@ export default class Kakao {
   }
 
   isKakaoTalkInstalled(callback) {
-    return this.KakaoManager.isKakaoTalkInstalled(callback);
+    const _callback = (err, flag) => {
+      GoogleAnalytics.trackEvent('sns', (flag === true) ? '카카오톡 설치' : '카카오톡 미설치');
+      callback(err, flag);
+    };
+    return this.KakaoManager.isKakaoTalkInstalled(_callback);
   }
 
   shareTimetableImage(imagePath) {
@@ -34,11 +39,13 @@ export default class Kakao {
         if (response.status !== 201) {
           throw new Error('Failed to upload image to S3');
         }
+        GoogleAnalytics.trackEvent('sns', '카카오톡 시간표 공유');
         const imageUri = decodeURIComponent(response.body.postResponse.location);
         this.KakaoManager.sendImageWithText(imageUri, `http://hwangso.download/#/${id}`, '하단 버튼을 클릭하여 시간표를 확인할 수 있습니다.');
       });
     } catch (e) {
-      console.log(e);
+      // @TODO EXCEPTION 처리
+      // console.log(e);
     }
   }
 }
