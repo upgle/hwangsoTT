@@ -67,7 +67,7 @@ class WebviewContainer extends Component {
             this.props.dispatch(saveAppData());
             this.props.navigator.pop();
             Alert.alert('황소시간표', '시간표가 성공적으로 저장되었습니다.', [{ text: '확인' }]);
-            GoogleAnalytics.trackEvent('importer', `시간표 로드 ${this.props.serviceId}`);
+            GoogleAnalytics.trackEvent('importer', `시간표 불러오기 성공 ${this.props.serviceId}`);
           },
         },
       ]
