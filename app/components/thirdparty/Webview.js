@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import {
+  Text,
   StyleSheet,
   View,
   WebView as RTWebView,
 } from 'react-native';
+
+import {
+  MKSpinner,
+} from 'react-native-material-kit';
 
 export default class Webview extends Component {
 
@@ -23,6 +28,8 @@ export default class Webview extends Component {
     };
     this.onNavigationStateChange = this.onNavigationStateChange.bind(this);
     this.onShouldStartLoadWithRequest = this.onShouldStartLoadWithRequest.bind(this);
+    this.onLoadEnd = this.onLoadEnd.bind(this);
+    this.onLoadStart = this.onLoadStart.bind(this);
   }
 
   onShouldStartLoadWithRequest(nativeEvent) {
@@ -38,7 +45,6 @@ export default class Webview extends Component {
   }
 
   onNavigationStateChange(nativeEvent) {
-
     this.setState({
       backButtonEnabled: nativeEvent.canGoBack,
       forwardButtonEnabled: nativeEvent.canGoForward,
@@ -47,6 +53,14 @@ export default class Webview extends Component {
       loading: nativeEvent.loading,
       scalesPageToFit: true,
     });
+  }
+
+  onLoadStart() {
+    this.setState({ loading: true });
+  }
+
+  onLoadEnd() {
+    this.setState({ loading: false });
   }
 
   validation(courses, times) {
@@ -71,6 +85,7 @@ export default class Webview extends Component {
   }
 
   render() {
+    const spinner = this.state.loading ? <SingleColorSpinner /> : null;
     return(
       <View style={styles.container}>
         <RTWebView
@@ -79,7 +94,12 @@ export default class Webview extends Component {
           onNavigationStateChange={this.onNavigationStateChange}
           injectedJavaScript={this.state.injectedJavaScript}
           onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest}
+          automaticallyAdjustContentInsets={true}
+          scalesPageToFit={true}
+          onLoadStart={this.onLoadStart}
+          onLoadEnd={this.onLoadEnd}
         />
+        {spinner}
       </View>
     );
   }
@@ -121,4 +141,17 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 15,
   },
+  spinner: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    width: 25,
+    height: 25,
+  }
 });
+
+
+const SingleColorSpinner = MKSpinner.singleColorSpinner()
+  .withStyle(styles.spinner)
+  .withStrokeColor('#7b4fea')
+  .build();

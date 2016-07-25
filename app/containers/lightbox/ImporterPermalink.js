@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   TouchableHighlight,
-  Dimensions
+  Dimensions,
+  Alert
 } from 'react-native';
 import { MKTextField } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -48,6 +49,14 @@ export default class ImporterLoginWarning extends Component {
   }
 
   onPressButton() {
+    if (this.state.permalink.length === 0) {
+      Alert.alert('경고', '주소를 입력해주시기 바랍니다.');
+      return;
+    }
+    if (!(new RegExp(this.props.regex)).test(this.state.permalink)) {
+      Alert.alert('경고', '주소 형식이 올바르지 않습니다.');
+      return;
+    }
     this.props.navigator.handleDeepLink({ link: this.state.permalink });
   }
 

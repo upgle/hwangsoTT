@@ -71,6 +71,7 @@ class ImporterContainer extends Component {
       this.props.navigator.push({
         screen: 'WebviewContainer',
         passProps: {
+          serviceId: this.state.rowData.id,
           apiUrl: `${API_URL}/${this.state.rowData.id}`,
           targetUrl: (event.link === 'login') ? null : event.link,
         }
@@ -82,6 +83,10 @@ class ImporterContainer extends Component {
         this.props.navigator.dismissModal();
       }
     }
+  }
+
+  componentDidMount() {
+    GoogleAnalytics.trackScreenView('시간표 불러오기 리스트');
   }
 
   componentWillMount() {
