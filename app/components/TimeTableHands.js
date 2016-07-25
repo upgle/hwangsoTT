@@ -24,12 +24,7 @@ const styles = StyleSheet.create({
 export default class TimeTableHands extends Component {
 
   componentDidMount() {
-    this.timer = TimerMixin.setInterval(
-      () => {
-        this.forceUpdate();
-      },
-      60000 // 1minute
-    );
+    this.setTimer();
     AppState.addEventListener('change', this.handleAppStateChange.bind(this));
   }
 
@@ -42,7 +37,7 @@ export default class TimeTableHands extends Component {
   }
 
   componentWillUnmount() {
-    TimerMixin.clearInterval(this.timer);
+    this.unsetTimer();
     AppState.removeEventListener('change', this.handleAppStateChange.bind(this));
   }
 
@@ -58,8 +53,27 @@ export default class TimeTableHands extends Component {
     return (hour - 8) * this.props.tableRowHeight + (minute / 60) * this.props.tableRowHeight;
   }
 
-  handleAppStateChange() {
-    this.forceUpdate();
+  setTimer() {
+    this.timer = TimerMixin.setInterval(
+      () => {
+        this.forceUpdate();
+      },
+      60000 // 1minute
+    );
+  }
+
+  unsetTimer() {
+    TimerMixin.clearInterval(this.timer);
+  }
+
+  handleAppStateChange(event) {
+    if (event === 'active') {
+      this.forceUpdate();
+      this.setTimer();
+    }
+    if (event === 'inactive') {
+      this.unsetTimer();
+    }
   }
 
   render() {
