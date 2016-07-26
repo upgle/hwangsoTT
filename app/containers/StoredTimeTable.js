@@ -189,12 +189,18 @@ class StoredTimeTable extends Component {
 
     var imagePath = RNFS.CachesDirectoryPath + "/temp.png";
     var ref = findNodeHandle(this.refs.timetable);
+
     ViewSnapshotter.saveSnapshotToPath(ref, imagePath, (error, successfulWrite) => {
       if (successfulWrite) {
         CameraRoll.saveToCameraRoll(imagePath, 'photo').then(()=> {
           Alert.alert('안내', '카메라 앨범에 저장하였습니다.', [{text: '확인'}]);
-          this.isSavingToCameraRoll = false;
-        });
+        })
+          .catch(()=>{
+            Alert.alert('실패', '권한이 없어 앨범에 저장할 수 없습니다.\n설정 > 황소시간표 > 사진 접근을 허용으로 변경해주시기 바랍니다.', [{text: '확인'}]);
+          })
+          .finally(()=>{
+            this.isSavingToCameraRoll = false;
+          });
       }
     });
     GoogleAnalytics.trackEvent('setting', 'snapshot timetable');
