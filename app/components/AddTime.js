@@ -4,124 +4,12 @@ import {
   Text,
   View,
   TouchableHighlight,
-  TouchableOpacity,
   Alert,
-  DatePickerIOS,
 } from 'react-native';
 
-class Header extends Component {
-  render() {
-    return (
-      <View style={[styles.header, { borderTopWidth: (this.props.borderTop == true) ? 1 : 0 }]}>
-        <Text style={styles.headerText}>{this.props.text}</Text>
-      </View>
-    );
-  }
-}
-
-class DaySelector extends Component {
-
-  onPressButton(key) {
-    this.props.onPressButton(key);
-  }
-
-  isActive(day) {
-    return this.props.days.includes(day);
-  }
-
-  render() {
-    return (
-      <View style={styles.dayBtnGroup}>
-        <TouchableOpacity style={styles.dayTouchArea} onPress={this.onPressButton.bind(this, 'MON')}>
-          <View style={[styles.dayBtn, this.isActive('MON') ? styles.dayBtnActive : {}]}>
-            <Text style={[styles.dayBtnText, this.isActive('MON') ? styles.dayBtnTextActive : {}]}>MON</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.dayBtnSplitter}></View>
-        <TouchableOpacity style={styles.dayTouchArea} onPress={this.onPressButton.bind(this, 'TUE')}>
-          <View style={[styles.dayBtn, this.isActive('TUE') ? styles.dayBtnActive : {}]}>
-            <Text style={[styles.dayBtnText, this.isActive('TUE') ? styles.dayBtnTextActive : {}]}>TUE</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.dayBtnSplitter}></View>
-        <TouchableOpacity style={styles.dayTouchArea} onPress={this.onPressButton.bind(this, 'WED')}>
-          <View style={[styles.dayBtn, this.isActive('WED') ? styles.dayBtnActive : {}]}>
-            <Text style={[styles.dayBtnText, this.isActive('WED') ? styles.dayBtnTextActive : {}]}>WED</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.dayBtnSplitter}></View>
-        <TouchableOpacity style={styles.dayTouchArea} onPress={this.onPressButton.bind(this, 'THU')}>
-          <View style={[styles.dayBtn, this.isActive('THU') ? styles.dayBtnActive : {}]}>
-            <Text style={[styles.dayBtnText, this.isActive('THU') ? styles.dayBtnTextActive : {}]}>THU</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.dayBtnSplitter}></View>
-        <TouchableOpacity style={styles.dayTouchArea} onPress={this.onPressButton.bind(this, 'FRI')}>
-          <View style={[styles.dayBtn, this.isActive('FRI') ? styles.dayBtnActive : {}]}>
-            <Text style={[styles.dayBtnText, this.isActive('FRI') ? styles.dayBtnTextActive : {}]}>FRI</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-}
-
-class TimePicker extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // year, month, day, hours, minutes, seconds, milliseconds
-      date: this.props.date || new Date(2016, 1, 1, 8, 0, 0, 0),
-      minimumDate: new Date(2016, 1, 1, 7, 0, 0, 0),
-      maximumDate: new Date(2016, 1, 1, 20, 0, 0, 0),
-      timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
-    };
-    this.onDateChange = this.onDateChange.bind(this);
-    this.onPressConfirm = this.onPressConfirm.bind(this);
-  }
-
-  onDateChange(date) {
-    this.setState({ date: date });
-  }
-
-  onPressConfirm() {
-    this.props.onPressConfirm(this.state.date);
-  }
-
-  render() {
-    return (
-      <View>
-        <Header text={this.props.title}/>
-        <DatePickerIOS
-          minuteInterval={10}
-          mode="time"
-          timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-          onDateChange={this.onDateChange}
-          date={this.state.date}
-          maximumDate={this.state.maximumDate}
-          minimumDate={this.state.minimumDate}
-          style={{flex: 1}}
-        />
-        <View style={{flexDirection: 'row'}}>
-          <TouchableHighlight onPress={this.onPressConfirm} style={{flex: 1}}>
-            <View
-              style={{flex: 1, height: 55, backgroundColor: '#333333', justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={{color: '#ffffff', fontSize: 16}}>확인</Text>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={this.props.onPressCancel} style={{flex: 1}}>
-            <View
-              style={{flex: 1, height: 55, backgroundColor: '#666666', justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={{color: '#ffffff', fontSize: 16}}>취소</Text>
-            </View>
-          </TouchableHighlight>
-        </View>
-      </View>
-    );
-  }
-}
+import Header from './time-selector/Header';
+import DaySelector from './time-selector/DaySelector';
+import TimePicker from './time-selector/TimePicker';
 
 
 export default class AddTime extends Component {
@@ -300,17 +188,6 @@ export default class AddTime extends Component {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    justifyContent: 'center',
-    height: 30,
-    borderBottomWidth: 1,
-    borderColor: '#dedede',
-    paddingLeft: 10,
-  },
-  headerText: {
-    color: '#666666',
-    fontSize: 12,
-  },
   dayBtnGroup: {
     flexDirection: 'row',
     paddingLeft: 10,

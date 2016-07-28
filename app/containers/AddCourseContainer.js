@@ -8,28 +8,39 @@ import AddCourse from '../components/AddCourse';
 import * as AppActions from '../actions/appActions';
 const uuid = require('uuid');
 
+/**
+ * navigator style
+ *
+ * @type {{navBarBackgroundColor: string, navBarTextColor: string, navBarButtonColor: string}}
+ */
+const navigatorStyle = {
+  navBarBackgroundColor: '#303c4c',
+  navBarTextColor: '#ffffff',
+  navBarButtonColor: '#ffffff',
+};
+
+/**
+ * id for this button, given in onNavigatorEvent(event)
+ * to help understand which button was clicked
+ *
+ * @type {{leftButtons: *[], rightButtons: *[]}}
+ */
+const navigatorButtons = {
+  leftButtons: [
+    {
+      title: '취소',
+      id: 'cancel',
+    },
+  ],
+  rightButtons: [
+    {
+      title: '저장', // for a textual button, provide the button title (label)
+      id: 'save',
+    },
+  ],
+};
+
 class AddCourseContainer extends Component {
-
-  static navigatorStyle = {
-    navBarBackgroundColor: '#303c4c',
-    navBarTextColor: '#ffffff',
-    navBarButtonColor: '#ffffff'
-  };
-
-  static navigatorButtons = {
-    leftButtons: [
-      {
-        title: '취소',
-        id: 'cancel',
-      }
-    ],
-    rightButtons: [
-      {
-        title: '저장', // for a textual button, provide the button title (label)
-        id: 'save', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-      }
-    ]
-  };
 
   constructor(props) {
     super(props);
@@ -150,13 +161,13 @@ class AddCourseContainer extends Component {
     const { app } = this.props.state;
 
     if (this.props.course_id && app.courses[this.props.course_id]) {
-      let times = app.times.filter((time) => time.course_id === this.props.course_id);
-      let info = app.courses[this.props.course_id];
+      const times = app.times.filter((time) => time.course_id === this.props.course_id);
+      const info = app.courses[this.props.course_id];
 
       return (
         <AddCourse
           ref="addCourse"
-          showDeleteBtn={true}
+          showDeleteBtn
           onPressDelete={this.onPressDelete}
           times={times}
           allTimes={app.times}
@@ -167,6 +178,9 @@ class AddCourseContainer extends Component {
     return <AddCourse ref="addCourse" allTimes={app.times} />;
   }
 }
+
+AddCourseContainer.navigatorStyle = navigatorStyle;
+AddCourseContainer.navigatorButtons = navigatorButtons;
 
 export default connect(state =>({
   state: state,
