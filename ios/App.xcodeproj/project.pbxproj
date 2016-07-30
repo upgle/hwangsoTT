@@ -450,9 +450,6 @@
 			isa = PBXGroup;
 			children = (
 				E92035D31D4C6FB00025C16C /* Frameworks */,
-				E96F6BDC1D44AA720071C999 /* KakaoOpenSDK.framework */,
-				E9934C081D36220600539069 /* CoreData.framework */,
-				E9934C061D3621FD00539069 /* SystemConfiguration.framework */,
 				E9934C041D3621F600539069 /* libz.tbd */,
 				E9934C021D3621F000539069 /* libsqlite3.0.tbd */,
 				13B07FAE1A68108700A75B9A /* App */,
@@ -485,6 +482,9 @@
 		E92035D31D4C6FB00025C16C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E96F6BDC1D44AA720071C999 /* KakaoOpenSDK.framework */,
+				E9934C081D36220600539069 /* CoreData.framework */,
+				E9934C061D3621FD00539069 /* SystemConfiguration.framework */,
 				E92035EB1D4C73A90025C16C /* FBSDKLoginKit.framework */,
 				E92035EC1D4C73A90025C16C /* FBSDKShareKit.framework */,
 				E92035E91D4C70A30025C16C /* FBSDKCoreKit.framework */,

@@ -30,6 +30,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>kakao0ea060900956b4525618df562f00dda5</string>
+          <string>fb1791630274403885</string>
         </array>
       </dict>
     </array>
@@ -91,18 +92,9 @@
     </array>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>fb{your-app-id}</string>
-        </array>
-      </dict>
-    </array>
     <key>FacebookAppID</key>
     <string>1791630274403885</string>
     <key>FacebookDisplayName</key>
-    <string>af17be86452120d97e99448747fa9019</string>
+    <string>황소시간표</string>
   </dict>
 </plist>
