@@ -1,6 +1,8 @@
 package com.app;
 
 import com.facebook.react.ReactActivity;
+import com.reactnativenavigation.RnnPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -39,6 +41,8 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new RnnPackage(),
+            new FBSDKPackage(),
             new GoogleAnalyticsBridgePackage(),
             new ReactMaterialKitPackage(),
             new VectorIconsPackage(),
