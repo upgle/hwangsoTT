@@ -32,6 +32,12 @@ import Kakao from '../services/sns/Kakao';
 import NaverLine from '../services/sns/NaverLine';
 import LocalNotification from '../services/notification/LocalNotification';
 
+const FBSDK = require('react-native-fbsdk');
+const {
+  ShareDialog,
+} = FBSDK;
+
+
 class StoredTimeTable extends Component {
 
   static navigatorStyle = {
@@ -132,6 +138,8 @@ class StoredTimeTable extends Component {
 
   shareTimetable(type = 'line') {
 
+
+
     if (this.isSavingToCameraRoll === true) {
       return;
     }
@@ -172,6 +180,24 @@ class StoredTimeTable extends Component {
                       KakaoManager.shareTimetableImage(imagePath);
                     } }]);
             });
+            break;
+          case 'facebook' :
+            const shareLinkContent = {
+              contentType: 'photo',
+              photos: [
+                {
+                  imageUrl: imagePath,
+                  userGenerated: false,
+                }
+              ]
+            };
+            ShareDialog.canShow(shareLinkContent).then(
+              function(canShow) {
+                if (canShow) {
+                  ShareDialog.show(shareLinkContent);
+                }
+              }
+            );
             break;
         }
 
@@ -233,6 +259,7 @@ class StoredTimeTable extends Component {
           onPressAlarm={this.setAlarm}
           onPressShareNaverLine={()=>this.shareTimetable('line')}
           onPressShareKakao={()=>this.shareTimetable('kakao')}
+          onPressShareFacebook={()=>this.shareTimetable('facebook')}
           alarm={app.alarm}
         />}
         openDrawerOffset={0.35}
