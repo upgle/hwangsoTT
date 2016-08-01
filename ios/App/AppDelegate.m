@@ -14,6 +14,8 @@
 #import "RCTPushNotificationManager.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 
 
@@ -55,6 +57,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  
+  [Fabric with:@[[Crashlytics class]]];
+
+  
   NSURL *jsCodeLocation;
 
   /**

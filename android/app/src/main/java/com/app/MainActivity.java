@@ -1,6 +1,7 @@
 package com.app;
 
 import com.facebook.react.ReactActivity;
+import com.smixx.fabric.FabricPackage;
 import com.reactnativenavigation.RnnPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
@@ -41,6 +42,7 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new FabricPackage(),
             new RnnPackage(),
             new FBSDKPackage(),
             new GoogleAnalyticsBridgePackage(),
