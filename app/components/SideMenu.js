@@ -5,6 +5,8 @@ import {
   Image,
   TouchableHighlight,
   TouchableOpacity,
+  NetInfo,
+  Alert,
 } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
@@ -13,8 +15,26 @@ export default class SideMenu extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      isConnected: false,
+    };
     this.onPressAddCourse = this.onPressAddCourse.bind(this);
     this.onPressLogin = this.onPressLogin.bind(this);
+    this.handleConnectivityChange = this.handleConnectivityChange.bind(this);
+  }
+
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener(
+      'change',
+      this.handleConnectivityChange
+    );
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'change',
+      this.handleConnectivityChange
+    );
   }
 
   onPressAddCourse() {
@@ -25,9 +45,19 @@ export default class SideMenu extends Component {
   }
 
   onPressLogin() {
-    this.props.navigator.showModal({
-      screen: 'ImporterContainer',
-      title: '시간표 불러오기',
+    if (this.state.isConnected) {
+      this.props.navigator.showModal({
+        screen: 'ImporterContainer',
+        title: '시간표 불러오기',
+      });
+    } else {
+      Alert.alert('안내', '시간표 불러오기는 네트워크가 연결된 환경에서만 사용하실 수 있습니다.');
+    }
+  }
+
+  handleConnectivityChange(isConnected) {
+    this.setState({
+      isConnected,
     });
   }
 
@@ -35,7 +65,7 @@ export default class SideMenu extends Component {
     const { state } = this.props;
 
     let notiStatus;
-    if(state.app.alarm) {
+    if (state.app.alarm) {
       notiStatus = (<View style={{position: 'absolute', width: 42, right: 20, top: 15, borderRadius:13, borderColor:'#c9d9f4', borderWidth: 1, paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2}}><Text style={{color:'#c9d9f4', fontSize: 12, textAlign: 'center'}}>ON</Text></View>);
     } else {
       notiStatus = (<View style={{position: 'absolute', width: 42, right: 20, top: 15, borderRadius:13, borderColor:'#8f9aad', borderWidth: 1, paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2}}><Text style={{color:'#8f9aad', fontSize: 12, textAlign: 'center'}}>OFF</Text></View>);
