@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
 
 const ColoredTextfield = MKTextField.textfield()
   .withStyle({ height: 28, flex: 1 })
+  .withTextInputStyle({flex: 1})
   .withHighlightColor('#7b4fea')
   .build();
 
