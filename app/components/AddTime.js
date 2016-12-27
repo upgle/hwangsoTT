@@ -160,23 +160,23 @@ export default class AddTime extends Component {
     );
 
 
-    if (this.state.view == 'modifyStartTime') {
+    if (this.state.view === 'modifyStartTime') {
       view =
-        <TimePicker
+        (<TimePicker
           date={this.state.startDate}
-          title={"강의 시작 시각"}
+          title={'강의 시작 시각'}
           onPressConfirm={this.onPressModifyConfirm}
           onPressCancel={this.onPressModifyCancle}
-        />;
+        />);
     }
-    if (this.state.view == 'modifyEndTime') {
+    if (this.state.view === 'modifyEndTime') {
       view =
-        <TimePicker
+        (<TimePicker
           date={this.state.endDate}
-          title={"강의 종료 시각"}
+          title={'강의 종료 시각'}
           onPressConfirm={this.onPressModifyConfirm}
           onPressCancel={this.onPressModifyCancle}
-        />;
+        />);
     }
 
     return (
