@@ -6,9 +6,7 @@ const DAYS = { MON: 1, TUE: 2, WED: 3, THU: 4, FRI: 5, SAT: 6, SUN: 7 };
 export default class LocalNotification {
 
   clearAllNotification() {
-
     GoogleAnalytics.trackEvent('notification', '모든 로컬 알람 제거');
-
     PushNotificationIOS.cancelAllLocalNotifications();
   }
 
@@ -19,6 +17,7 @@ export default class LocalNotification {
     PushNotificationIOS.scheduleLocalNotification({
       fireDate: (new Date(2016, 1, day, hour, minute, second)).getTime(), // 2016-02-01 Mon
       alertBody: message,
+      repeatInterval: 'week',
     });
   }
 
@@ -37,10 +36,10 @@ export default class LocalNotification {
       const message = `${subject} 수업 시작 15분 전입니다.`;
       const day = DAYS[times[i].day];
 
-      minute = minute - 15;
+      minute -= 15;
       if (minute < 0) {
         minute = 60 + minute;
-        hour = hour - 1;
+        hour -= 1;
       }
       this.setNotification(message, day, hour, minute);
     }
