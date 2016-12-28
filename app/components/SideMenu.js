@@ -99,8 +99,7 @@ export default class SideMenu extends Component {
         <TouchableHighlight underlayColor='#273242' onPress={this.props.onPressHeaderColorset}>
           <View style={styles.menu}>
             <Ionicon name='md-color-palette' color='#c9d9f4' size={22} style={styles.icon} />
-            <Text style={styles.menuText}>컬러셋</Text>
-            <View style={{position: 'absolute', top: 20, right:20, borderRadius:12, width: 12, height: 12, backgroundColor:this.props.themeColor}}></View>
+            <Text style={styles.menuText}>테마스토어</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight underlayColor='#273242' onPress={this.props.onPressAlarm}>

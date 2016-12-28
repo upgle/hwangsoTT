@@ -82,20 +82,21 @@ export default function app(state = initialState, action) {
       });
 
     case types.DELETE_COURSE :
-
       {
-        let courses = Object.assign({}, state.courses);
+        const courses = Object.assign({}, state.courses);
         delete courses[action.course_id];
         return Object.assign({}, state, {
-          courses: courses,
+          courses,
           times: state.times.filter((time) => time.course_id !== action.course_id),
         });
       }
 
     case types.DELETE_ALL_TIMES_BY_COURSE :
-      return Object.assign({}, state, {
-        times: state.times.filter((time) => time.course_id !== action.course_id),
-      });
+      {
+        return Object.assign({}, state, {
+          times: state.times.filter((time) => time.course_id !== action.course_id),
+        });
+      }
 
     case types.REMOVE_ALL_COURSE :
       return Object.assign({}, state, {
@@ -107,9 +108,14 @@ export default function app(state = initialState, action) {
       return Object.assign({}, state, action.state);
 
     case types.TOGGLE_HEADER_COLORSET : {
-      let curIndex = _.findIndex(THEME, { header : state.theme.header });
-      let nextIndex = (curIndex + 1) % THEME.length;
-      return Object.assign({}, state, { theme : THEME[nextIndex] });
+      const curIndex = _.findIndex(THEME, { header: state.theme.header });
+      const nextIndex = (curIndex + 1) % THEME.length;
+      return Object.assign({}, state, { theme: THEME[nextIndex] });
+    }
+
+    case types.SET_THEME : {
+      const index = _.findIndex(THEME, { themeId: action.themeId });
+      return Object.assign({}, state, { theme: THEME[index] });
     }
 
     default:

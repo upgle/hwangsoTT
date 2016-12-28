@@ -42,6 +42,13 @@ export function addCourse(id, subject, professor, classroom) {
   };
 }
 
+export function setTheme(themeId) {
+  return {
+    type: types.SET_THEME,
+    themeId: themeId,
+  };
+}
+
 export function modifyCourseWithTimes(id, subject, professor, classroom, times) {
   return {
     type: types.MODIFY_COURSE_WITH_TIMES,
