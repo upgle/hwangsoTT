@@ -182,10 +182,10 @@ class AddCourseContainer extends Component {
 AddCourseContainer.navigatorStyle = navigatorStyle;
 AddCourseContainer.navigatorButtons = navigatorButtons;
 
-export default connect(state =>({
-  state: state,
+export default connect(state => ({
+  state,
 }), (dispatch) => ({
-  dispatch: dispatch,
+  dispatch,
   actions: bindActionCreators(AppActions, dispatch),
 })
 )(AddCourseContainer);

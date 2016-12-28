@@ -24,9 +24,7 @@ const tableRowHeight = 44;
 const daysWidth = screen.width - 25;
 const oneDayWidth = daysWidth / 5;
 
-
 class Cell extends Component {
-
   render() {
     return (
         <TouchableHighlight onPress={this.props.onPress} style={{position: 'absolute', left: this.props.left, top: this.props.top}}>
@@ -41,7 +39,6 @@ class Cell extends Component {
         </TouchableHighlight>
     );
   }
-
 }
 
 class TimeTableCells extends Component {
@@ -176,6 +173,10 @@ class TimeTableLine extends Component {
 
 export default class TimeTable extends Component {
 
+  static defaultProps = {
+    style: {}
+  };
+
     constructor(props) {
       super(props);
 
@@ -198,7 +199,6 @@ export default class TimeTable extends Component {
     }
 
     render() {
-
       const tableHeight = this.state.tableHeight;
       const day = (new Date()).getDay();
 
@@ -207,8 +207,10 @@ export default class TimeTable extends Component {
         timeHands = (<TimeTableHands oneDayWidth={oneDayWidth} tableRowHeight={tableRowHeight} />);
       }
 
+      console.log(this.props);
+
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, this.props.style]}>
           <TimeTableHead tableHeadHeight={tableHeadHeight} />
           <ScrollView automaticallyAdjustContentInsets={false} style={{height: tableHeight}}>
             <TimeTableLine />
@@ -219,7 +221,6 @@ export default class TimeTable extends Component {
       );
     }
 }
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
@@ -253,7 +254,7 @@ const styles = StyleSheet.create({
     borderRightColor: '#f0f0f0',
   },
   tableTimeColumn: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f8f8f8',
     width: 25,
     paddingTop: 3,
     paddingRight: 3,

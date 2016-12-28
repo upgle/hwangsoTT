@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tableTimeColumn: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f8f8f8',
     width: 25,
   },
 });

@@ -57,6 +57,7 @@ class StoredTimeTable extends Component {
     this.snapshotTimetable = this.snapshotTimetable.bind(this);
     this.setAlarm = this.setAlarm.bind(this);
     this.onPressTimeCell = this.onPressTimeCell.bind(this);
+    this.onPressThemeStore = this.onPressThemeStore.bind(this);
   }
 
   componentWillMount() {
@@ -137,9 +138,6 @@ class StoredTimeTable extends Component {
   }
 
   shareTimetable(type = 'line') {
-
-
-
     if (this.isSavingToCameraRoll === true) {
       return;
     }
@@ -200,14 +198,12 @@ class StoredTimeTable extends Component {
             );
             break;
         }
-
         this.isSavingToCameraRoll = false;
       }
     });
   }
 
   snapshotTimetable() {
-
     if (this.isSavingToCameraRoll === true) {
       return;
     }
@@ -242,6 +238,13 @@ class StoredTimeTable extends Component {
     });
   }
 
+  onPressThemeStore() {
+    this.props.navigator.showModal({
+      screen: 'ThemeStoreContainer',
+      title: '테마 스토어',
+    });
+  }
+
   render() {
     const { state, actions } = this.props;
     const { app } = state;
@@ -254,7 +257,7 @@ class StoredTimeTable extends Component {
           closeDrawer={this.closeDrawer}
           {...actions}
           themeColor={app.theme.header}
-          onPressHeaderColorset={this.toggleHeaderColorset}
+          onPressHeaderColorset={this.onPressThemeStore}
           onPressSaveTimetable={this.snapshotTimetable}
           onPressAlarm={this.setAlarm}
           onPressShareNaverLine={()=>this.shareTimetable('line')}
@@ -295,7 +298,6 @@ class StoredTimeTable extends Component {
           times={app.times}
           hands={false}
           {...actions}
-          style={{position: 'absolute', top: 0, left: 0, width: screen.width}}
           ref='timetable'
         />
       </Drawer>
