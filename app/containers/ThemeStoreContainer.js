@@ -17,9 +17,16 @@ class ThemeStoreContainer extends Component {
   constructor(props) {
     super(props);
     this.onPressCloseButton = this.onPressCloseButton.bind(this);
+    this.onPressSetTheme = this.onPressSetTheme.bind(this);
   }
 
   onPressCloseButton() {
+    this.props.navigator.dismissModal();
+  }
+
+  onPressSetTheme(themeId) {
+    const { actions } = this.props;
+    actions.setTheme(themeId);
     this.props.navigator.dismissModal();
   }
 
@@ -27,6 +34,7 @@ class ThemeStoreContainer extends Component {
     return <ThemeStore
       app={this.props.state.app}
       onPressCloseButton={this.onPressCloseButton}
+      onPressSetTheme={this.onPressSetTheme}
     />;
   }
 }

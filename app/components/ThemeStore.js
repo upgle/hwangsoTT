@@ -56,21 +56,24 @@ export default class ThemeStore extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imgList: [
-        'http://a3.mzstatic.com/eu/r30/Purple20/v4/78/52/35/78523507-6310-187a-5438-20a5cc80326a/screen696x696.jpeg',
-        'http://a3.mzstatic.com/eu/r30/Purple20/v4/78/52/35/78523507-6310-187a-5438-20a5cc80326a/screen696x696.jpeg',
-      ],
-      loadQueue: [0, 0, 0, 0],
+      // imgList: [
+      //   'http://a3.mzstatic.com/eu/r30/Purple20/v4/78/52/35/78523507-6310-187a-5438-20a5cc80326a/screen696x696.jpeg',
+      //   'http://a3.mzstatic.com/eu/r30/Purple20/v4/78/52/35/78523507-6310-187a-5438-20a5cc80326a/screen696x696.jpeg',
+      // ],
+      // loadQueue: [0, 0, 0, 0],
     };
     this.loadHandle = this.loadHandle.bind(this);
+    this.onPressSetTheme = this.onPressSetTheme.bind(this);
   }
 
   loadHandle(i) {
-    const loadQueue = this.state.loadQueue;
-    loadQueue[i] = 1;
-    this.setState({ loadQueue });
+    // const loadQueue = this.state.loadQueue;
+    // loadQueue[i] = 1;
+    // this.setState({ loadQueue });
+  }
 
-    console.log(this.swiper.state.index);
+  onPressSetTheme() {
+    this.props.onPressSetTheme(THEME[this.swiper.state.index].id);
   }
 
   render() {
@@ -100,14 +103,13 @@ export default class ThemeStore extends Component {
             {
               THEME.map((item, i) => <Slide
                 loadHandle={this.loadHandle}
-                loaded={!!this.state.loadQueue[i]}
                 uri={item.thumbnail}
                 i={i}
                 key={i} />)
             }
           </Swiper>
         </View>
-        <TouchableHighlight onPress={()=>{}} style={{ height: buttonHeight, }}>
+        <TouchableHighlight onPress={this.onPressSetTheme} style={{ height: buttonHeight, }}>
           <View style={{ height: buttonHeight, justifyContent: 'center', backgroundColor: '#333333'}}>
             <Text style={{ textAlign: 'center', color: '#ffffff', fontSize: 17, }}>적용하기</Text>
           </View>

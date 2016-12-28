@@ -114,7 +114,7 @@ export default function app(state = initialState, action) {
     }
 
     case types.SET_THEME : {
-      const index = _.findIndex(THEME, { themeId: action.themeId });
+      const index = _.findIndex(THEME, { id: action.themeId });
       return Object.assign({}, state, { theme: THEME[index] });
     }
 
