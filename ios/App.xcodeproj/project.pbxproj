@@ -48,6 +48,7 @@
 		E9934C071D3621FD00539069 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9934C061D3621FD00539069 /* SystemConfiguration.framework */; };
 		E9934C091D36220600539069 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9934C081D36220600539069 /* CoreData.framework */; };
 		E996A3C11E1508ED00604E1C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E996A3BE1E1508ED00604E1C /* Bolts.framework */; };
+		E996A3FE1E1554E800604E1C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E996A3FD1E1554E800604E1C /* StoreKit.framework */; };
 		E9ADE4C61D20FBE900D53598 /* ViewSnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ADE4C51D20FBE900D53598 /* ViewSnapshotter.m */; };
 /* End PBXBuildFile section */
 
@@ -338,6 +339,8 @@
 		E9934C061D3621FD00539069 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E9934C081D36220600539069 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E996A3BE1E1508ED00604E1C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
+		E996A3FD1E1554E800604E1C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		E996A3FF1E15669800604E1C /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = App.entitlements; path = App/App.entitlements; sourceTree = "<group>"; };
 		E9ADE4C41D20FBE900D53598 /* ViewSnapshotter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewSnapshotter.h; path = App/ViewSnapshotter.h; sourceTree = "<group>"; };
 		E9ADE4C51D20FBE900D53598 /* ViewSnapshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewSnapshotter.m; path = App/ViewSnapshotter.m; sourceTree = "<group>"; };
 		FDF4CFDA835A4F2CA9600223 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -378,6 +381,7 @@
 				E92035EA1D4C70A30025C16C /* FBSDKCoreKit.framework in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
+				E996A3FE1E1554E800604E1C /* StoreKit.framework in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
@@ -475,6 +479,7 @@
 		13B07FAE1A68108700A75B9A /* App */ = {
 			isa = PBXGroup;
 			children = (
+				E996A3FF1E15669800604E1C /* App.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -614,6 +619,7 @@
 		E92035D31D4C6FB00025C16C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E996A3FD1E1554E800604E1C /* StoreKit.framework */,
 				E996A3BE1E1508ED00604E1C /* Bolts.framework */,
 				E90EEDD61D4FB3FB00C83558 /* Fabric.framework */,
 				E90EEDD71D4FB3FB00C83558 /* Crashlytics.framework */,
@@ -749,6 +755,9 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = AUZA8JF7H2;
 						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -1215,6 +1224,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LauchImage;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -1263,6 +1273,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LauchImage;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;

@@ -201,14 +201,10 @@ export default class TimeTable extends Component {
     render() {
       const tableHeight = this.state.tableHeight;
       const day = (new Date()).getDay();
-
-      var timeHands;
+      let timeHands;
       if(this.props.hands === true && day >= 1 && day <= 5) {
         timeHands = (<TimeTableHands oneDayWidth={oneDayWidth} tableRowHeight={tableRowHeight} />);
       }
-
-      console.log(this.props);
-
       return (
         <View style={[styles.container, this.props.style]}>
           <TimeTableHead tableHeadHeight={tableHeadHeight} />
