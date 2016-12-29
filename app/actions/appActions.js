@@ -22,7 +22,7 @@ export function toggleHeaderColorset() {
 export function changeState(state) {
   return {
     type: types.CHANGE_STATE,
-    state : state,
+    state,
   };
 }
 

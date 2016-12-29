@@ -68,7 +68,7 @@ export default class Header extends Component {
       return (
         <View style={{marginTop: 10}}>
           <Text style={styles.headerBigText}>시간표가 없습니다</Text>
-          <Text style={styles.headerSmallText}>동기화를 먼저 진행해주세요.</Text>
+          <Text style={styles.headerSmallText}>먼저 강의를 등록해주세요.</Text>
         </View>
       );
     }
@@ -85,7 +85,7 @@ export default class Header extends Component {
     if (this.isFinishTodayClass()) {
       return (
         <View style={{marginTop: 10}}>
-          <Text style={styles.headerBigText}>수업 끝남</Text>
+          <Text style={styles.headerBigText}>수업 종료</Text>
           <Text style={styles.headerSmallText}>모든 수업이 종료되었습니다.</Text>
         </View>
       );
@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
   },
   headerSmallText: {
     color: 'white',
+    paddingTop: 3,
     fontSize: 13,
     fontWeight: '200',
     textAlign: 'center',

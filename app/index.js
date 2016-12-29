@@ -60,6 +60,12 @@ export default class App {
             state.app.alarm = state.alarm;
           }
         }
+        /**
+         * VErsion 1.1.2 -> 1.1.3
+         */
+        if (!state.themeId) {
+          state.themeId = '0001';
+        }
 
         store.dispatch(changeState(state.app));
         this.startApp();

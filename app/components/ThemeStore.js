@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import _ from 'underscore';
 import { Image, View, Text, TouchableOpacity, Dimensions, TouchableHighlight } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import Swiper from 'react-native-swiper';
 import { THEME } from '../config/theme';
 
 const { width, height } = Dimensions.get('window');
-const headerHeight = 120;
+const headerHeight = 85;
 const buttonHeight = 55;
 const styles = {
   container: {
@@ -21,13 +22,13 @@ const styles = {
     paddingRight: 22,
   },
   headerText: {
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: '300',
   },
   headerTextStore: {
     top: -7,
-    fontSize: 36,
-    fontWeight: '500',
+    fontSize: 30,
+    fontWeight: '700',
   },
   closeIcon: {
     alignSelf: 'flex-start',
@@ -47,7 +48,7 @@ const styles = {
 const Slide = props => {
   return (
     <View style={styles.slide}>
-      <Image resizeMode='contain' onLoad={props.loadHandle.bind(null, props.i)} style={styles.image} source={{uri: props.uri}} />
+      <Image resizeMode='contain' onLoad={props.loadHandle.bind(null, props.i)} style={styles.image} source={props.source} />
     </View>)
 };
 
@@ -77,6 +78,7 @@ export default class ThemeStore extends Component {
   }
 
   render() {
+    const curIndex = _.findIndex(THEME, { id: this.props.themeId });
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -99,11 +101,12 @@ export default class ThemeStore extends Component {
             loadMinimal
             loadMinimalSize={3}
             height={height - headerHeight - buttonHeight}
+            index={curIndex}
           >
             {
               THEME.map((item, i) => <Slide
                 loadHandle={this.loadHandle}
-                uri={item.thumbnail}
+                source={item.source}
                 i={i}
                 key={i} />)
             }

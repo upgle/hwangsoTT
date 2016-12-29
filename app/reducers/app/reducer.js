@@ -7,6 +7,7 @@ const initialState = {
   courses: {},
   times: [],
   alarm: false,
+  themeId: '0001',
   theme : THEME[0],
 };
 
@@ -115,7 +116,10 @@ export default function app(state = initialState, action) {
 
     case types.SET_THEME : {
       const index = _.findIndex(THEME, { id: action.themeId });
-      return Object.assign({}, state, { theme: THEME[index] });
+      return Object.assign({}, state, {
+        themeId: action.themeId,
+        theme: THEME[index],
+      });
     }
 
     default:

@@ -1,7 +1,7 @@
 export const THEME = [
   {
     id: '0001',
-    thumbnail: 'http://a3.mzstatic.com/eu/r30/Purple20/v4/78/52/35/78523507-6310-187a-5438-20a5cc80326a/screen696x696.jpeg',
+    source: require('../resources/theme/0001.png'),
     header: '#E35B5D',
     cells: [
       ['#95B7C4', '#FFFFFF'],
@@ -16,7 +16,7 @@ export const THEME = [
   },
   {
     id: '0002',
-    thumbnail: 'http://a3.mzstatic.com/eu/r30/Purple20/v4/78/52/35/78523507-6310-187a-5438-20a5cc80326a/screen696x696.jpeg',
+    source: require('../resources/theme/0002.png'),
     header: '#6792A5',
     cells: [
       ['#B6D8C0', '#24733C'],
@@ -31,7 +31,7 @@ export const THEME = [
   },
   {
     id: '0003',
-    thumbnail: 'http://a3.mzstatic.com/eu/r30/Purple20/v4/78/52/35/78523507-6310-187a-5438-20a5cc80326a/screen696x696.jpeg',
+    source: require('../resources/theme/0003.png'),
     header: '#FD7E82',
     cells: [
       ['#FFF0F3', '#AF7480'],
