@@ -1,7 +1,8 @@
+
 export const THEME = [
   {
     id: '0001',
-    source: require('../resources/theme/0001.png'),
+    source: require('src/resources/theme/0001.png'),
     header: '#E35B5D',
     cells: [
       ['#95B7C4', '#FFFFFF'],
@@ -16,7 +17,7 @@ export const THEME = [
   },
   {
     id: '0002',
-    source: require('../resources/theme/0002.png'),
+    source: require('src/resources/theme/0002.png'),
     header: '#6792A5',
     cells: [
       ['#B6D8C0', '#24733C'],

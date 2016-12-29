@@ -6,8 +6,12 @@ import Swiper from 'react-native-swiper';
 import { THEME } from '../config/theme';
 
 const { width, height } = Dimensions.get('window');
-const headerHeight = 85;
+const headerHeight = 80;
 const buttonHeight = 55;
+
+const imageWidth = width - 110;
+const imageHeight = (1334 / 750) * (width - 110);
+
 const styles = {
   container: {
     flex: 1,
@@ -34,8 +38,8 @@ const styles = {
     alignSelf: 'flex-start',
   },
   image: {
-    width: width - 110,
-    left: 55,
+    width: imageWidth,
+    height: imageHeight,
     flex: 1,
   },
   slide: {
@@ -43,12 +47,30 @@ const styles = {
     justifyContent: 'center',
     backgroundColor: '#ffffff',
   },
+  slideShadow: {
+    left: 55,
+    width: imageWidth,
+    height: imageHeight,
+    shadowColor: '#333333',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
 };
 
 const Slide = props => {
   return (
     <View style={styles.slide}>
-      <Image resizeMode='contain' onLoad={props.loadHandle.bind(null, props.i)} style={styles.image} source={props.source} />
+      <View style={styles.slideShadow}>
+        <Image
+          resizeMode='contain'
+          onLoad={props.loadHandle.bind(null, props.i)}
+          style={styles.image}
+          source={props.source} />
+      </View>
     </View>)
 };
 
@@ -98,8 +120,6 @@ export default class ThemeStore extends Component {
             nextButton={<Ionicon name={'ios-arrow-forward'} color={'#333333'} size={30} style={{ right: 10 }} />}
             showsButtons
             showsPagination={false}
-            loadMinimal
-            loadMinimalSize={3}
             height={height - headerHeight - buttonHeight}
             index={curIndex}
           >
