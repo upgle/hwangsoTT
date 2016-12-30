@@ -7,7 +7,7 @@ import { THEME } from '../config/theme';
 
 const { width, height } = Dimensions.get('window');
 const headerHeight = 80;
-const buttonHeight = 55;
+const buttonHeight = 60;
 
 const imageWidth = width - 110;
 const imageHeight = (1334 / 750) * (width - 110);
@@ -133,7 +133,7 @@ export default class ThemeStore extends Component {
           </Swiper>
         </View>
         <TouchableHighlight onPress={this.onPressSetTheme} style={{ height: buttonHeight, }}>
-          <View style={{ height: buttonHeight, justifyContent: 'center', backgroundColor: '#333333'}}>
+          <View style={{ height: buttonHeight, justifyContent: 'center', backgroundColor: '#222222'}}>
             <Text style={{ textAlign: 'center', color: '#ffffff', fontSize: 17, }}>적용하기</Text>
           </View>
         </TouchableHighlight>

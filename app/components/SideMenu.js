@@ -78,31 +78,31 @@ export default class SideMenu extends Component {
             source={require('../resources/brand.png')}
           />
         </View>
-        <TouchableHighlight underlayColor='#273242' onPress={this.onPressAddCourse}>
+        <TouchableHighlight underlayColor={styles.menuUnderlayColor} onPress={this.onPressAddCourse}>
           <View style={styles.menu}>
             <Ionicon name='md-add-circle' color='#c9d9f4' size={22} style={styles.icon} />
             <Text style={styles.menuText}>강의 추가</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight underlayColor='#273242' onPress={this.onPressLogin}>
+        <TouchableHighlight underlayColor={styles.menuUnderlayColor} onPress={this.onPressLogin}>
           <View style={styles.menu}>
             <Ionicon name='md-cloud' color='#c9d9f4' size={22} style={styles.icon} />
             <Text style={styles.menuText}>시간표 불러오기</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight underlayColor='#273242' onPress={this.props.onPressSaveTimetable}>
+        <TouchableHighlight underlayColor={styles.menuUnderlayColor} onPress={this.props.onPressSaveTimetable}>
           <View style={styles.menu}>
             <Ionicon name='md-image' color='#c9d9f4' size={22} style={styles.icon} />
             <Text style={styles.menuText}>앨범에 저장</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight underlayColor='#273242' onPress={this.props.onPressHeaderColorset}>
+        <TouchableHighlight underlayColor={styles.menuUnderlayColor} onPress={this.props.onPressHeaderColorset}>
           <View style={styles.menu}>
             <Ionicon name='md-color-palette' color='#c9d9f4' size={22} style={styles.icon} />
             <Text style={styles.menuText}>테마스토어</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight underlayColor='#273242' onPress={this.props.onPressAlarm}>
+        <TouchableHighlight underlayColor={styles.menuUnderlayColor} onPress={this.props.onPressAlarm}>
           <View style={styles.menu}>
             <Ionicon name='md-notifications' color='#c9d9f4' size={22} style={styles.icon} />
             <Text style={styles.menuText}>수업 알림</Text>
@@ -133,11 +133,11 @@ export default class SideMenu extends Component {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor:'#303c4c',
+    backgroundColor: '#202830',
   },
   brand: {
     height: 124,
-    borderBottomColor: '#232c3a',
+    borderBottomColor: '#171e23',
     borderBottomWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -151,14 +151,15 @@ const styles = {
     width: 33,
   },
   menu: {
-    flexDirection : 'row',
+    flexDirection: 'row',
     height: 54,
     paddingLeft: 20,
-    borderBottomColor: '#232c3a',
+    borderBottomColor: '#171e23',
     borderBottomWidth: 1,
     alignSelf: 'stretch',
     alignItems: 'center',
   },
+  menuUnderlayColor: '#242d36',
   menuText: {
     color: '#c9d9f4',
     fontSize: 13.5,

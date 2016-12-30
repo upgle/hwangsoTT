@@ -206,14 +206,14 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   header: {
-    paddingTop: 40,
+    paddingTop: 35,
     height: headerHeight,
   },
   headerBigText: {
     color: 'white',
-    fontSize: 25,
+    fontSize: 24,
     height: 30,
-    fontWeight: 'bold',
+    fontWeight: '500',
     textAlign: 'center',
   },
   headerSmallText: {
@@ -225,8 +225,8 @@ const styles = StyleSheet.create({
   },
   headerSmallText2: {
     color: 'white',
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 14,
+    fontWeight: '400',
     textAlign: 'center',
   },
 });

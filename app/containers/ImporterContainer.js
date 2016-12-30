@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 class ImporterContainer extends Component {
 
   static navigatorStyle = {
-    navBarBackgroundColor: '#303c4c',
+    navBarBackgroundColor: '#202830',
     navBarTextColor: '#ffffff',
     navBarButtonColor: '#ffffff'
   };

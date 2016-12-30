@@ -6,13 +6,11 @@ import {
   CameraRoll,
   Alert,
   PushNotificationIOS,
-  NativeModules,
-  ActionSheetIOS,
-  DeviceEventEmitter,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Drawer from 'react-native-drawer';
+import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
 import TimeTable from '../components/TimeTable';
 import Header from '../components/Header';
@@ -20,12 +18,10 @@ import SideMenu from '../components/SideMenu';
 import * as appActions from '../actions/appActions';
 
 import { getTodayTimes } from '../reducers/app/reducer';
-import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
 const screen = Dimensions.get('window');
 const ViewSnapshotter = require('react-native-view-snapshot');
 const RNFS = require('react-native-fs');
-import { RNS3 } from 'react-native-aws3';
 const uuid = require('uuid');
 
 import Kakao from '../services/sns/Kakao';
@@ -37,15 +33,14 @@ const {
   ShareDialog,
 } = FBSDK;
 
+const navigatorStyle = {
+  navBarHidden: true,
+  navBarBackgroundColor: '#202830',
+  navBarTextColor: '#ffffff',
+  navBarButtonColor: '#ffffff',
+};
 
 class StoredTimeTable extends Component {
-
-  static navigatorStyle = {
-    navBarHidden: true,
-    navBarBackgroundColor: '#303c4c',
-    navBarTextColor: '#ffffff',
-    navBarButtonColor: '#ffffff'
-  };
 
   constructor(props) {
     super(props);
@@ -73,9 +68,7 @@ class StoredTimeTable extends Component {
   }
 
   componentDidMount() {
-
     const { actions } = this.props;
-
     PushNotificationIOS.checkPermissions(permission => {
       if (permission.alert !== 1) {
         actions.turnOffAlarm();
@@ -85,11 +78,26 @@ class StoredTimeTable extends Component {
     GoogleAnalytics.trackScreenView('메인 화면');
   }
 
-  setAlarm() {
+  onPressTimeCell(course_id) {
+    this.props.navigator.showModal({
+      screen: 'AddCourseContainer',
+      title: '강의 수정',
+      passProps: {
+        course_id: course_id
+      }
+    });
+  }
 
+  onPressThemeStore() {
+    this.props.navigator.showModal({
+      screen: 'ThemeStoreContainer',
+      title: '테마 스토어',
+    });
+  }
+
+  setAlarm() {
     const { state, actions } = this.props;
     const { app } = state;
-
     const LocalNotificationService = new LocalNotification();
 
     switch (state.app.alarm) {
@@ -114,6 +122,8 @@ class StoredTimeTable extends Component {
           .catch(()=> {
             Alert.alert('안내', '알람이 설정이 실패하였습니다..', [{text: '확인'}]);
           });
+        break;
+      default :
         break;
     }
   }
@@ -186,8 +196,8 @@ class StoredTimeTable extends Component {
                 {
                   imageUrl: imagePath,
                   userGenerated: false,
-                }
-              ]
+                },
+              ],
             };
             ShareDialog.canShow(shareLinkContent).then(
               function(canShow) {
@@ -208,9 +218,8 @@ class StoredTimeTable extends Component {
       return;
     }
     this.isSavingToCameraRoll = true;
-
-    var imagePath = RNFS.CachesDirectoryPath + "/temp.png";
-    var ref = findNodeHandle(this.refs.timetable);
+    const imagePath = RNFS.CachesDirectoryPath + "/temp.png";
+    const ref = findNodeHandle(this.refs.timetable);
 
     ViewSnapshotter.saveSnapshotToPath(ref, imagePath, (error, successfulWrite) => {
       if (successfulWrite) {
@@ -218,31 +227,18 @@ class StoredTimeTable extends Component {
           Alert.alert('안내', '카메라 앨범에 저장하였습니다.', [{text: '확인'}]);
         })
           .catch(()=>{
-            Alert.alert('실패', '권한이 없어 앨범에 저장할 수 없습니다.\n설정 > 황소시간표 > 사진 접근을 허용으로 변경해주시기 바랍니다.', [{text: '확인'}]);
+            Alert.alert(
+              '실패',
+              '권한이 없어 앨범에 저장할 수 없습니다.\n설정 > 황소시간표 > 사진 접근을 허용으로 변경해주시기 바랍니다.',
+              [{ text: '확인' }]
+            );
           })
-          .finally(()=>{
+          .finally(() => {
             this.isSavingToCameraRoll = false;
           });
       }
     });
     GoogleAnalytics.trackEvent('setting', 'snapshot timetable');
-  }
-
-  onPressTimeCell(course_id) {
-    this.props.navigator.showModal({
-      screen: 'AddCourseContainer',
-      title: '강의 수정',
-      passProps: {
-        course_id: course_id
-      }
-    });
-  }
-
-  onPressThemeStore() {
-    this.props.navigator.showModal({
-      screen: 'ThemeStoreContainer',
-      title: '테마 스토어',
-    });
   }
 
   render() {
@@ -304,17 +300,15 @@ class StoredTimeTable extends Component {
     );
   }
 }
+StoredTimeTable.navigatorStyle = navigatorStyle;
 
-export default connect(state => ({
-    state: state
-  }),
+export default connect(state => ({ state }),
   (dispatch) => ({
-    dispatch: dispatch,
-    actions: bindActionCreators(appActions, dispatch)
+    dispatch,
+    actions: bindActionCreators(appActions, dispatch),
   })
 )(StoredTimeTable);
 
-
 const drawerStyles = {
-  main: {shadowColor: '#000000', shadowOpacity: 0.6, shadowRadius: 5},
+  main: { shadowColor: '#000000', shadowOpacity: 0.6, shadowRadius: 5 },
 };

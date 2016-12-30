@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { NativeModules } from 'react-native';
+import { InAppUtils } from 'NativeModules';
 
 import ThemeStore from '../components/ThemeStore';
 import * as appActions from '../actions/appActions';
 
+
 const navigatorStyle = {
   navBarHidden: true,
-  navBarBackgroundColor: '#303c4c',
+  navBarBackgroundColor: '#202830',
   navBarTextColor: '#ffffff',
   navBarButtonColor: '#ffffff',
 };
@@ -18,6 +21,12 @@ class ThemeStoreContainer extends Component {
     super(props);
     this.onPressCloseButton = this.onPressCloseButton.bind(this);
     this.onPressSetTheme = this.onPressSetTheme.bind(this);
+
+    InAppUtils.loadProducts(['com.upgle.HwangsoTimetableApp.theme'], (error, products) => {
+      //update store here.
+      console.log(error);
+      console.log(products);
+    });
   }
 
   onPressCloseButton() {

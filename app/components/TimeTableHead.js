@@ -4,12 +4,12 @@ import { View, Text, StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   tableHead: {
     flexDirection: 'row',
-    borderBottomColor: '#d0d0d0',
+    borderBottomColor: '#f0f2f2',
     borderBottomWidth: 1,
     alignItems: 'center',
   },
   tableHeadText: {
-    color: '#999999',
+    color: '#777777',
     fontSize: 11,
     fontWeight: '300',
     textAlign: 'center',

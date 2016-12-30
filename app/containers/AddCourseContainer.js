@@ -14,7 +14,7 @@ const uuid = require('uuid');
  * @type {{navBarBackgroundColor: string, navBarTextColor: string, navBarButtonColor: string}}
  */
 const navigatorStyle = {
-  navBarBackgroundColor: '#303c4c',
+  navBarBackgroundColor: '#202830',
   navBarTextColor: '#ffffff',
   navBarButtonColor: '#ffffff',
 };
