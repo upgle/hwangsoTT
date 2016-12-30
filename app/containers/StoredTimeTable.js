@@ -28,6 +28,9 @@ import Kakao from '../services/sns/Kakao';
 import NaverLine from '../services/sns/NaverLine';
 import LocalNotification from '../services/notification/LocalNotification';
 
+import { THEME } from '../config/theme';
+import _ from 'underscore';
+
 const FBSDK = require('react-native-fbsdk');
 const {
   ShareDialog,
@@ -45,6 +48,12 @@ class StoredTimeTable extends Component {
   constructor(props) {
     super(props);
 
+    const themeInfo = _.find(THEME, {
+      id: props.state.app.themeId,
+    });
+    this.state = {
+      themeInfo,
+    };
     this.openDrawer = this.openDrawer.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
     this.saveAppData = this.saveAppData.bind(this);
@@ -53,18 +62,13 @@ class StoredTimeTable extends Component {
     this.setAlarm = this.setAlarm.bind(this);
     this.onPressTimeCell = this.onPressTimeCell.bind(this);
     this.onPressThemeStore = this.onPressThemeStore.bind(this);
+    PushNotificationIOS.addEventListener('notification', this.onNotification);
   }
 
-  componentWillMount() {
-    StatusBar.setBarStyle('light-content');
-    StatusBar.setHidden(false, 'none');
-
-    this._onNotification = ()=> {};
-    PushNotificationIOS.addEventListener('notification', this._onNotification);
-  }
-
-  componentWillUnmount() {
-    PushNotificationIOS.removeEventListener('notification', this._onNotification);
+  componentDidUpdate(prevProps) {
+    if (this.props.state.app.themeId !== prevProps.state.app.themeId) {
+      this.setThemeInfo();
+    }
   }
 
   componentDidMount() {
@@ -76,6 +80,17 @@ class StoredTimeTable extends Component {
       }
     });
     GoogleAnalytics.trackScreenView('메인 화면');
+
+    StatusBar.setBarStyle(this.state.themeInfo.barStyle);
+    StatusBar.setHidden(false, 'none');
+  }
+
+  componentWillUnmount() {
+    PushNotificationIOS.removeEventListener('notification', this.onNotification);
+  }
+
+  onNotification() {
+    //
   }
 
   onPressTimeCell(course_id) {
@@ -92,6 +107,15 @@ class StoredTimeTable extends Component {
     this.props.navigator.showModal({
       screen: 'ThemeStoreContainer',
       title: '테마 스토어',
+    });
+  }
+
+  setThemeInfo() {
+    const themeInfo = _.find(THEME, {
+      id: this.props.state.app.themeId,
+    });
+    this.setState({ themeInfo }, () => {
+      StatusBar.setBarStyle(this.state.themeInfo.barStyle);
     });
   }
 
@@ -245,6 +269,8 @@ class StoredTimeTable extends Component {
     const { state, actions } = this.props;
     const { app } = state;
 
+    console.log(this.state);
+
     return (
       <Drawer
         type="static"
@@ -265,7 +291,7 @@ class StoredTimeTable extends Component {
         styles={drawerStyles}
         panOpenMask={0.3}
         tweenHandler={Drawer.tweenPresets.parallax}
-        tapToClose={true}
+        tapToClose
         onOpenStart={()=> {
           StatusBar.setHidden(true, 'slide');
         }}
@@ -273,28 +299,30 @@ class StoredTimeTable extends Component {
           StatusBar.setHidden(false, 'slide');
         }}
         ref={(ref) => this._drawer = ref}>
+        <StatusBar barStyle={this.state.themeInfo.barStyle} hidden={false} showHideTransition="slide" animated />
         <Header
-          color={app.theme.header}
+          {...this.state.themeInfo}
           courses={app.courses}
           todayTimes={getTodayTimes(app.times)}
           onClickMenu={this.openDrawer}
         />
+
         <TimeTable
-          colors={app.theme.cells}
+          colors={this.state.themeInfo.cells}
           courses={app.courses}
           times={app.times}
-          hands={true}
-          {...actions}
           height={screen.height - 124}
+          hands
           onPressCell={this.onPressTimeCell}
+          {...actions}
         />
         <TimeTable
-          colors={app.theme.cells}
+          ref='timetable'
+          colors={this.state.themeInfo.cells}
           courses={app.courses}
           times={app.times}
           hands={false}
           {...actions}
-          ref='timetable'
         />
       </Drawer>
     );

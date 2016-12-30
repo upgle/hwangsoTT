@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
+import { StatusBar, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
@@ -62,6 +62,14 @@ class AddCourseContainer extends Component {
 
   componentDidMount() {
     GoogleAnalytics.trackScreenView((this.props.course_id) ? '강의 수정' : '강의 추가');
+  }
+
+  componentWillMount() {
+    StatusBar.setHidden(false, 'fade');
+  }
+
+  componentWillUnmount() {
+    StatusBar.setHidden(true, 'fade');
   }
 
   onPressDone() {

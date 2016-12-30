@@ -52,10 +52,6 @@ export default class AddCourse extends Component {
     this.closeModalAndKeyboard = this.closeModalAndKeyboard.bind(this);
   }
 
-  componentWillMount() {
-    StatusBar.setHidden(false, 'none');
-  }
-
   closeModalAndKeyboard() {
     dismissKeyboard();
     this.refs.modal.close();
@@ -145,6 +141,7 @@ export default class AddCourse extends Component {
 
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="light-content" hidden={false} showHideTransition="fade" animated />
         <View style={{borderColor: '#f0f0f0', borderBottomWidth: 1, marginTop: 10}}>
           <TextInput
             value={this.state.subject}

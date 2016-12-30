@@ -7,6 +7,7 @@ import {
   ListView,
   ActivityIndicator,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 
 export default class ThirdPartyList extends Component {
@@ -93,6 +94,7 @@ export default class ThirdPartyList extends Component {
   renderLoadingView() {
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="light-content" hidden={false} showHideTransition="fade" animated />
         <ActivityIndicator
           animating={!this.state.loaded}
           style={[styles.activityIndicator, { height: 70 }]}
@@ -105,6 +107,7 @@ export default class ThirdPartyList extends Component {
   renderListView() {
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="light-content" hidden={false} showHideTransition="fade" animated />
         <ListView
           dataSource ={this.state.dataSource}
           style      ={styles.listview}

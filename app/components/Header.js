@@ -5,12 +5,49 @@ import {
   View,
   TouchableOpacity,
   AppState,
+  Image,
 } from 'react-native';
 import _ from 'underscore';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TimerMixin from 'react-timer-mixin';
 
 const headerHeight = 124;
+
+const ImageHeader = (props) => (
+  <View style={{ height: headerHeight }}>
+    <Image source={require('../resources/theme/0004/header.jpg')} style={styles.header}>
+      <View
+        style={{
+          height: headerHeight,
+          paddingTop: 35,
+        }}>
+        {props.children}
+        <TouchableOpacity style={styles.menuPosition} onPress={props.onClickMenu}>
+          <View style={styles.menuView}>
+            <Icon name="menu" color={props.headerTextColor} size={25} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    </Image>
+  </View>
+);
+
+const SingleColorHeader = (props) => (
+  <View
+    style={{
+      height: headerHeight,
+      paddingTop: 35,
+      backgroundColor: props.headerBackgroundColor,
+    }}>
+    {props.children}
+    <TouchableOpacity style={styles.menuPosition} onPress={props.onClickMenu}>
+      <View style={styles.menuView}>
+        <Icon name="menu" color={props.headerTextColor} size={25} />
+      </View>
+    </TouchableOpacity>
+  </View>
+);
+
 
 export default class Header extends Component {
 
@@ -62,13 +99,16 @@ export default class Header extends Component {
   }
 
   getHeaderTextDOM() {
+    const headerBigText = [styles.headerBigText, { color: this.props.headerTextColor }];
+    const headerSmallText = [styles.headerSmallText, { color: this.props.headerTextColor }];
+    const headerSmallText2 = [styles.headerSmallText2, { color: this.props.headerTextColor }];
 
     // 시간표 객체가 없을때
     if (_.size(this.props.courses) === 0) {
       return (
         <View style={{marginTop: 10}}>
-          <Text style={styles.headerBigText}>시간표가 없습니다</Text>
-          <Text style={styles.headerSmallText}>먼저 강의를 등록해주세요.</Text>
+          <Text style={headerBigText}>시간표가 없습니다</Text>
+          <Text style={headerSmallText}>먼저 강의를 등록해주세요.</Text>
         </View>
       );
     }
@@ -76,8 +116,8 @@ export default class Header extends Component {
     if (this.props.todayTimes.length === 0) {
       return (
         <View style={{marginTop: 10}}>
-          <Text style={styles.headerBigText}>수업 없음</Text>
-          <Text style={styles.headerSmallText}>오늘은 수업이 없는 날입니다.</Text>
+          <Text style={headerBigText}>수업 없음</Text>
+          <Text style={headerSmallText}>오늘은 수업이 없는 날입니다.</Text>
         </View>
       );
     }
@@ -85,8 +125,8 @@ export default class Header extends Component {
     if (this.isFinishTodayClass()) {
       return (
         <View style={{marginTop: 10}}>
-          <Text style={styles.headerBigText}>수업 종료</Text>
-          <Text style={styles.headerSmallText}>모든 수업이 종료되었습니다.</Text>
+          <Text style={headerBigText}>수업 종료</Text>
+          <Text style={headerSmallText}>모든 수업이 종료되었습니다.</Text>
         </View>
       );
     }
@@ -107,44 +147,43 @@ export default class Header extends Component {
 
     return (
       <TouchableOpacity activeOpacity={0.8} onPress={this.toggleHeaderSelected}>
-        <Text style={styles.headerSmallText}>다음수업</Text>
-        <Text
-          style={styles.headerBigText}>{(this.state.headerSelected) ? this.props.courses[next.time.course_id].classroom : this.props.courses[next.time.course_id].subject}</Text>
-        <Text style={styles.headerSmallText2}>{leftTime}</Text>
+        <Text style={headerSmallText}>다음수업</Text>
+        <Text style={headerBigText}>
+          {
+            (this.state.headerSelected) ?
+              this.props.courses[next.time.course_id].classroom :
+              this.props.courses[next.time.course_id].subject
+          }
+          </Text>
+        <Text style={headerSmallText2}>{leftTime}</Text>
       </TouchableOpacity>
     );
   }
 
   getNextCourse() {
-    const { todayTimes }  = this.props;
-
+    const { todayTimes } = this.props;
     const today = new Date();
     const currentTime = new Date(2000, 0, 1, today.getHours(), today.getMinutes());
-
     let minTime = null;
     let closetTime = null;
     let diffTime = null;
 
     for (let i = 0; i < todayTimes.length; i++) {
-
-      var time = todayTimes[i],
-        start = time.start.split(':'),
-        end = time.end.split(':');
-
-      var startTime = new Date(2000, 0, 1, start[0], start[1]);
-      var endTime = new Date(2000, 0, 1, end[0], end[1]);
+      const time = todayTimes[i];
+      const start = time.start.split(':');
+      const end = time.end.split(':');
+      const startTime = new Date(2000, 0, 1, start[0], start[1]);
+      const endTime = new Date(2000, 0, 1, end[0], end[1]);
 
       if (currentTime > endTime) {
         continue;
       }
-
       if (minTime === null || minTime > endTime) {
         minTime = endTime;
         closetTime = time;
         diffTime = startTime - currentTime;
       }
     }
-
     let msec = diffTime;
     const hh = Math.floor(msec / 1000 / 60 / 60);
     msec -= hh * 1000 * 60 * 60;
@@ -172,16 +211,20 @@ export default class Header extends Component {
 
   render() {
     const TextArea = this.getHeaderTextDOM();
-    return (
-      <View style={[styles.header, {backgroundColor: this.props.color}]}>
-        {TextArea}
-        <TouchableOpacity style={styles.menuPosition} onPress={this.props.onClickMenu}>
-          <View style={styles.menuView}>
-            <Icon name="menu" color="#E9FFFC" size={28} />
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
+    if (this.props.headerType === 'image') {
+      return (
+        <ImageHeader {...this.props}>
+          {TextArea}
+        </ImageHeader>
+      );
+    } else {
+      return (
+        <SingleColorHeader {...this.props}>
+          {TextArea}
+        </SingleColorHeader>
+      );
+    }
+
   }
 }
 
@@ -199,34 +242,44 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   menuText: {
     marginLeft: 3,
     fontSize: 15,
-    color: 'white',
+    color: '#333333',
+    backgroundColor: 'transparent',
   },
   header: {
-    paddingTop: 35,
-    height: headerHeight,
+    flex: 1,
+    // remove width and height to override fixed static size
+    width: null,
+    height: null,
+    alignSelf: 'stretch',
+    // paddingTop: 35,
+    // height: headerHeight,
   },
   headerBigText: {
-    color: 'white',
+    color: '#5c5f61',
     fontSize: 24,
     height: 30,
     fontWeight: '500',
     textAlign: 'center',
+    backgroundColor: 'transparent',
   },
   headerSmallText: {
-    color: 'white',
+    color: '#5c5f61',
     paddingTop: 3,
     fontSize: 13,
     fontWeight: '200',
     textAlign: 'center',
+    backgroundColor: 'transparent',
   },
   headerSmallText2: {
-    color: 'white',
+    color: '#5c5f61',
     fontSize: 14,
     fontWeight: '400',
     textAlign: 'center',
+    backgroundColor: 'transparent',
   },
 });

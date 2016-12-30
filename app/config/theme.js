@@ -3,7 +3,10 @@ export const THEME = [
   {
     id: '0001',
     source: require('../resources/theme/0001.png'),
-    header: '#E35B5D',
+    barStyle: 'light-content',
+    headerType: 'singleColor',
+    headerBackgroundColor: '#E35B5D',
+    headerTextColor: '#ffffff',
     cells: [
       ['#95B7C4', '#FFFFFF'],
       ['#ABABC8', '#FFFFFF'],
@@ -18,7 +21,10 @@ export const THEME = [
   {
     id: '0002',
     source: require('../resources/theme/0002.png'),
-    header: '#6792A5',
+    barStyle: 'light-content',
+    headerType: 'singleColor',
+    headerBackgroundColor: '#6792A5',
+    headerTextColor: '#ffffff',
     cells: [
       ['#B6D8C0', '#24733C'],
       ['#C8D9BF', '#516845'],
@@ -33,7 +39,10 @@ export const THEME = [
   {
     id: '0003',
     source: require('../resources/theme/0003.png'),
-    header: '#FD7E82',
+    barStyle: 'light-content',
+    headerType: 'singleColor',
+    headerBackgroundColor: '#FD7E82',
+    headerTextColor: '#ffffff',
     cells: [
       ['#FFF0F3', '#AF7480'],
       ['#FFD9E0', '#BC7682'],
@@ -43,6 +52,25 @@ export const THEME = [
       ['#F0D8D8', '#715454'],
       ['#E6BCCA', '#744354'],
       ['#F4C5C5', '#6E4545'],
+    ],
+  },
+  {
+    id: '0004',
+    source: require('../resources/theme/0004.png'),
+    barStyle: 'default',
+    headerType: 'image',
+    headerBackgroundColor: '#FD7E82',
+    headerTextColor: '#636769',
+    cells: [
+      ['#B0E1CE', '#333333'],
+      ['#B8C7A8', '#333333'],
+      ['#DCD6B2', '#333333'],
+      ['#E1E5CA', '#333333'],
+      ['#F2D6BE', '#333333'],
+      ['#F0E6CF', '#333333'],
+      ['#EFE1D1', '#333333'],
+      ['#E5D4CC', '#333333'],
+      ['#DDD1C8', '#333333'],
     ],
   },
 ];
