@@ -56,11 +56,13 @@ export const THEME = [
   },
   {
     id: '0004',
+    productId: 'com.upgle.HwangsoTimetableApp.theme.0004',
     source: require('../resources/theme/0004.png'),
     barStyle: 'default',
     headerType: 'image',
     headerBackgroundColor: '#FD7E82',
     headerTextColor: '#636769',
+    headerImageSource: require('../resources/theme/0004/header.jpg'),
     cells: [
       ['#B0E1CE', '#333333'],
       ['#B8C7A8', '#333333'],
@@ -73,4 +75,24 @@ export const THEME = [
       ['#DDD1C8', '#333333'],
     ],
   },
+  // {
+  //   id: '0005',
+  //   source: require('../resources/theme/0004.png'),
+  //   barStyle: 'light-content',
+  //   headerType: 'image',
+  //   headerBackgroundColor: '#FD7E82',
+  //   headerTextColor: '#ffffff',
+  //   headerImageSource: require('../resources/theme/0005/header.jpg'),
+  //   cells: [
+  //     ['#333333', '#ececec'],
+  //     ['#666666', '#ececec'],
+  //     ['#999999', '#ececec'],
+  //     ['#000000', '#ececec'],
+  //     ['#403829', '#ececec'],
+  //     ['#463140', '#ececec'],
+  //     ['#19252a', '#ececec'],
+  //     ['#4f4d49', '#ececec'],
+  //     ['#3b2c2c', '#ececec'],
+  //   ],
+  // },
 ];

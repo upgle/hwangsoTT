@@ -269,8 +269,6 @@ class StoredTimeTable extends Component {
     const { state, actions } = this.props;
     const { app } = state;
 
-    console.log(this.state);
-
     return (
       <Drawer
         type="static"

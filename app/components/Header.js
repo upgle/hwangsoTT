@@ -15,7 +15,7 @@ const headerHeight = 124;
 
 const ImageHeader = (props) => (
   <View style={{ height: headerHeight }}>
-    <Image source={require('../resources/theme/0004/header.jpg')} style={styles.header}>
+    <Image source={props.headerImageSource} style={styles.header}>
       <View
         style={{
           height: headerHeight,
