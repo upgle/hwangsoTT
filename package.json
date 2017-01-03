@@ -16,6 +16,7 @@
     "react-native-fbsdk": "^0.4.0",
     "react-native-fs": "^1.5.1",
     "react-native-google-analytics-bridge": "^3.0.0",
+    "react-native-i18n": "^0.1.1",
     "react-native-in-app-utils": "^4.0.0",
     "react-native-material-kit": "^0.3.4",
     "react-native-navigation": "^2.0.0-experimental.160",
