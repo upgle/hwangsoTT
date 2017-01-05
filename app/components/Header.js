@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     color: '#5c5f61',
     fontSize: 24,
     height: 30,
-    fontWeight: '500',
+    fontWeight: '600',
     textAlign: 'center',
     backgroundColor: 'transparent',
   },

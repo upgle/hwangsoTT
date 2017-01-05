@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
+import I18n from 'react-native-i18n';
 
 export default class SideMenu extends Component {
 
@@ -40,7 +41,7 @@ export default class SideMenu extends Component {
   onPressAddCourse() {
     this.props.navigator.showModal({
       screen: 'AddCourseContainer',
-      title: '강의 추가',
+      title: I18n.t('addLesson'),
     });
   }
 
@@ -48,7 +49,7 @@ export default class SideMenu extends Component {
     if (this.state.isConnected) {
       this.props.navigator.showModal({
         screen: 'ImporterContainer',
-        title: '시간표 불러오기',
+        title: I18n.t('loadTimetable'),
       });
     } else {
       Alert.alert('안내', '시간표 불러오기는 네트워크가 연결된 환경에서만 사용하실 수 있습니다.');
@@ -81,31 +82,31 @@ export default class SideMenu extends Component {
         <TouchableHighlight underlayColor={styles.menuUnderlayColor} onPress={this.onPressAddCourse}>
           <View style={styles.menu}>
             <Ionicon name='md-add-circle' color='#c9d9f4' size={22} style={styles.icon} />
-            <Text style={styles.menuText}>강의 추가</Text>
+            <Text style={styles.menuText}>{I18n.t('addLesson')}</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight underlayColor={styles.menuUnderlayColor} onPress={this.onPressLogin}>
           <View style={styles.menu}>
             <Ionicon name='md-cloud' color='#c9d9f4' size={22} style={styles.icon} />
-            <Text style={styles.menuText}>시간표 불러오기</Text>
+            <Text style={styles.menuText}>{I18n.t('loadTimetable')}</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight underlayColor={styles.menuUnderlayColor} onPress={this.props.onPressSaveTimetable}>
           <View style={styles.menu}>
             <Ionicon name='md-image' color='#c9d9f4' size={22} style={styles.icon} />
-            <Text style={styles.menuText}>앨범에 저장</Text>
+            <Text style={styles.menuText}>{I18n.t('saveToAlbum')}</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight underlayColor={styles.menuUnderlayColor} onPress={this.props.onPressHeaderColorset}>
           <View style={styles.menu}>
             <Ionicon name='md-color-palette' color='#c9d9f4' size={22} style={styles.icon} />
-            <Text style={styles.menuText}>테마스토어</Text>
+            <Text style={styles.menuText}>{I18n.t('themeStore')}</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight underlayColor={styles.menuUnderlayColor} onPress={this.props.onPressAlarm}>
           <View style={styles.menu}>
             <Ionicon name='md-notifications' color='#c9d9f4' size={22} style={styles.icon} />
-            <Text style={styles.menuText}>수업 알림</Text>
+            <Text style={styles.menuText}>{I18n.t('lessonNotification')}</Text>
             {notiStatus}
           </View>
         </TouchableHighlight>
@@ -163,5 +164,24 @@ const styles = {
   menuText: {
     color: '#c9d9f4',
     fontSize: 13.5,
+  },
+};
+
+// Enable fallbacks if you want `en-US` and `en-GB` to fallback to `en`
+I18n.fallbacks = true;
+I18n.translations = {
+  en: {
+    addLesson: 'Add lesson',
+    loadTimetable: 'Load timetable',
+    saveToAlbum: 'Save to album',
+    themeStore: 'Theme Store',
+    lessonNotification: 'Notification',
+  },
+  ko: {
+    addLesson: '강의 추가',
+    loadTimetable: '시간표 불러오기',
+    saveToAlbum: '앨범에 저장',
+    themeStore: '테마 스토어',
+    lessonNotification: '수업 알림',
   },
 };

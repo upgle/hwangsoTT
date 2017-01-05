@@ -1,6 +1,7 @@
 package com.app;
 
 import com.facebook.react.ReactActivity;
+import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.smixx.fabric.FabricPackage;
 import com.reactnativenavigation.RnnPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -42,6 +43,7 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new ReactNativeI18n(),
             new FabricPackage(),
             new RnnPackage(),
             new FBSDKPackage(),
