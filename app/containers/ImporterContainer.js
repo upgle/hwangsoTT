@@ -77,6 +77,10 @@ class ImporterContainer extends Component {
       });
     }
     if (event.type === 'NavBarButtonPress') {
+
+      if (this.props.onDismissModal) {
+        this.props.onDismissModal();
+      }
       if (event.id === 'cancel') {
         this.props.navigator.dismissModal();
       }
@@ -89,10 +93,6 @@ class ImporterContainer extends Component {
 
   componentWillMount() {
     StatusBar.setHidden(false, 'fade');
-  }
-
-  componentWillUnmount() {
-    StatusBar.setHidden(true, 'fade');
   }
 
   onPressRow(rowData, sectionID) {

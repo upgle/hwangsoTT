@@ -98,8 +98,11 @@ class StoredTimeTable extends Component {
       screen: 'AddCourseContainer',
       title: '강의 수정',
       passProps: {
-        course_id: course_id
-      }
+        course_id,
+        onDismissModal: () => {
+          StatusBar.setBarStyle(this.state.themeInfo.barStyle);
+        },
+      },
     });
   }
 
@@ -107,6 +110,11 @@ class StoredTimeTable extends Component {
     this.props.navigator.showModal({
       screen: 'ThemeStoreContainer',
       title: '테마 스토어',
+      passProps: {
+        onDismissModal: () => {
+          StatusBar.setBarStyle(this.state.themeInfo.barStyle);
+        },
+      },
     });
   }
 
@@ -269,22 +277,26 @@ class StoredTimeTable extends Component {
     const { state, actions } = this.props;
     const { app } = state;
 
+    const sideMenu = (
+      <SideMenu
+        {...this.props}
+        closeDrawer={this.closeDrawer}
+        {...actions}
+        themeColor={app.theme.header}
+        onPressHeaderColorset={this.onPressThemeStore}
+        onPressSaveTimetable={this.snapshotTimetable}
+        onPressAlarm={this.setAlarm}
+        onPressShareNaverLine={() => this.shareTimetable('line')}
+        onPressShareKakao={() => this.shareTimetable('kakao')}
+        onPressShareFacebook={() => this.shareTimetable('facebook')}
+        alarm={app.alarm}
+      />
+    );
+
     return (
       <Drawer
         type="static"
-        content={<SideMenu
-          {...this.props}
-          closeDrawer={this.closeDrawer}
-          {...actions}
-          themeColor={app.theme.header}
-          onPressHeaderColorset={this.onPressThemeStore}
-          onPressSaveTimetable={this.snapshotTimetable}
-          onPressAlarm={this.setAlarm}
-          onPressShareNaverLine={()=>this.shareTimetable('line')}
-          onPressShareKakao={()=>this.shareTimetable('kakao')}
-          onPressShareFacebook={()=>this.shareTimetable('facebook')}
-          alarm={app.alarm}
-        />}
+        content={sideMenu}
         openDrawerOffset={0.35}
         styles={drawerStyles}
         panOpenMask={0.3}

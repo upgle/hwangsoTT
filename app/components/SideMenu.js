@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   NetInfo,
   Alert,
+  StatusBar,
 } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import I18n from 'react-native-i18n';
@@ -42,6 +43,11 @@ export default class SideMenu extends Component {
     this.props.navigator.showModal({
       screen: 'AddCourseContainer',
       title: I18n.t('addLesson'),
+      passProps: {
+        onDismissModal: () => {
+          StatusBar.setHidden(true, 'fade');
+        },
+      },
     });
   }
 
@@ -50,6 +56,11 @@ export default class SideMenu extends Component {
       this.props.navigator.showModal({
         screen: 'ImporterContainer',
         title: I18n.t('loadTimetable'),
+        passProps: {
+          onDismissModal: () => {
+            StatusBar.setHidden(true, 'fade');
+          },
+        },
       });
     } else {
       Alert.alert('안내', '시간표 불러오기는 네트워크가 연결된 환경에서만 사용하실 수 있습니다.');
@@ -176,6 +187,7 @@ I18n.translations = {
     saveToAlbum: 'Save to album',
     themeStore: 'Theme Store',
     lessonNotification: 'Notification',
+    cancel: 'Cancel'
   },
   ko: {
     addLesson: '강의 추가',
@@ -183,5 +195,6 @@ I18n.translations = {
     saveToAlbum: '앨범에 저장',
     themeStore: '테마 스토어',
     lessonNotification: '수업 알림',
+    cancel: '취소'
   },
 };

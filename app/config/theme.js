@@ -73,7 +73,7 @@ export const THEME = [
     ],
   },
   // {
-  //   id: '0004',
+  //   id: '0005',
   //   productId: 'com.upgle.HwangsoTimetableApp.theme.0004',
   //   source: require('../resources/theme/0004.png'),
   //   barStyle: 'default',

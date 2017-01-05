@@ -3,9 +3,11 @@ import { StatusBar, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
+import I18n from 'react-native-i18n';
 
 import AddCourse from '../components/AddCourse';
 import * as AppActions from '../actions/appActions';
+
 const uuid = require('uuid');
 
 /**
@@ -51,6 +53,10 @@ class AddCourseContainer extends Component {
 
   onNavigatorEvent(event) {
     if (event.type === 'NavBarButtonPress') {
+
+      if (this.props.onDismissModal) {
+        this.props.onDismissModal();
+      }
       if (event.id === 'cancel') {
         this.props.navigator.dismissModal();
       }
@@ -68,10 +74,6 @@ class AddCourseContainer extends Component {
     StatusBar.setHidden(false, 'fade');
   }
 
-  componentWillUnmount() {
-    StatusBar.setHidden(true, 'fade');
-  }
-
   onPressDone() {
     const component = this.refs.addCourse;
     component.closeModalAndKeyboard();
@@ -84,7 +86,6 @@ class AddCourseContainer extends Component {
     } else {
       this.insertCourse();
     }
-
     this.props.dispatch(AppActions.saveAppData());
     this.props.navigator.dismissModal();
     return true;
