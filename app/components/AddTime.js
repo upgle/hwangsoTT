@@ -10,7 +10,7 @@ import {
 import Header from './time-selector/Header';
 import DaySelector from './time-selector/DaySelector';
 import TimePicker from './time-selector/TimePicker';
-
+import I18n from '../I18n';
 
 export default class AddTime extends Component {
 
@@ -125,9 +125,9 @@ export default class AddTime extends Component {
   render() {
     let view = (
       <View style={{flex: 1}}>
-        <Header text="강의 요일"/>
+        <Header text={I18n.t('courseDayOfTheWeek')} />
         <DaySelector onPressButton={this.onPressDayButton} days={this.state.days}/>
-        <Header text="강의 시간" borderTop={true}/>
+        <Header text={I18n.t('courseTime')} borderTop={true}/>
         <View style={{
           flex: 1,
           flexDirection: 'row',
@@ -139,21 +139,21 @@ export default class AddTime extends Component {
           <TouchableHighlight underlayColor='#fbfbfb' onPress={this.onPressStartTime}
                               style={{flex: 1, justifyContent: 'center', paddingLeft: 5,}}>
             <View style={{alignItems: 'center'}}>
-              <Text style={{color: '#999999', fontWeight: '100'}}>시작 시각</Text>
+              <Text style={{color: '#999999', fontWeight: '100'}}>{I18n.t('startTime')}</Text>
               <Text style={{fontSize: 20}}>{this.getDateToString(this.state.startDate)}</Text>
             </View>
           </TouchableHighlight>
           <TouchableHighlight underlayColor='#fbfbfb' onPress={this.onPressEndTime}
                               style={{flex: 1, justifyContent: 'center', paddingRight: 5,}}>
             <View style={{alignItems: 'center'}}>
-              <Text style={{color: '#999999', fontWeight: '100'}}>종료 시각</Text>
+              <Text style={{color: '#999999', fontWeight: '100'}}>{I18n.t('endTime')}</Text>
               <Text style={{fontSize: 20}}>{this.getDateToString(this.state.endDate)}</Text>
             </View>
           </TouchableHighlight>
         </View>
         <TouchableHighlight onPress={this.onPressDone} style={{height: 55}}>
           <View style={{height: 55, backgroundColor: '#8551e4', justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{color: '#ffffff', fontSize: 16}}>등록</Text>
+            <Text style={{color: '#ffffff', fontSize: 16}}>{I18n.t('add')}</Text>
           </View>
         </TouchableHighlight>
       </View>
@@ -164,7 +164,7 @@ export default class AddTime extends Component {
       view =
         (<TimePicker
           date={this.state.startDate}
-          title={'강의 시작 시각'}
+          title={I18n.t('startTime')}
           onPressConfirm={this.onPressModifyConfirm}
           onPressCancel={this.onPressModifyCancle}
         />);
@@ -173,7 +173,7 @@ export default class AddTime extends Component {
       view =
         (<TimePicker
           date={this.state.endDate}
-          title={'강의 종료 시각'}
+          title={I18n.t('endTime')}
           onPressConfirm={this.onPressModifyConfirm}
           onPressCancel={this.onPressModifyCancle}
         />);

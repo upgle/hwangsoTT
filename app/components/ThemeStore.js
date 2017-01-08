@@ -4,6 +4,7 @@ import { Image, View, Text, TouchableOpacity, Dimensions, TouchableHighlight } f
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import Swiper from 'react-native-swiper';
 import { THEME } from '../config/theme';
+import I18n from '../I18n';
 
 const { width, height } = Dimensions.get('window');
 const headerHeight = 80;
@@ -134,7 +135,7 @@ export default class ThemeStore extends Component {
         </View>
         <TouchableHighlight onPress={this.onPressSetTheme} style={{ height: buttonHeight, }}>
           <View style={{ height: buttonHeight, justifyContent: 'center', backgroundColor: '#222222'}}>
-            <Text style={{ textAlign: 'center', color: '#ffffff', fontSize: 17, }}>적용하기</Text>
+            <Text style={{ textAlign: 'center', color: '#ffffff', fontSize: 17, }}>{I18n.t('apply')}</Text>
           </View>
         </TouchableHighlight>
       </View>

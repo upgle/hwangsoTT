@@ -3,7 +3,7 @@ import { StatusBar, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
-import I18n from 'react-native-i18n';
+import I18n from '../I18n';
 
 import AddCourse from '../components/AddCourse';
 import * as AppActions from '../actions/appActions';
@@ -30,13 +30,13 @@ const navigatorStyle = {
 const navigatorButtons = {
   leftButtons: [
     {
-      title: '취소',
+      title: I18n.t('cancel'),
       id: 'cancel',
     },
   ],
   rightButtons: [
     {
-      title: '저장', // for a textual button, provide the button title (label)
+      title: I18n.t('save'),
       id: 'save',
     },
   ],

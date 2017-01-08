@@ -20,7 +20,7 @@ export const THEME = [
   },
   {
     id: '0002',
-    source: require('../resources/theme/0001.png'),
+    source: require('../resources/theme/0002.png'),
     barStyle: 'light-content',
     headerType: 'singleColor',
     headerBackgroundColor: '#E35B5D',
@@ -38,7 +38,7 @@ export const THEME = [
   },
   {
     id: '0003',
-    source: require('../resources/theme/0002.png'),
+    source: require('../resources/theme/0003.png'),
     barStyle: 'light-content',
     headerType: 'singleColor',
     headerBackgroundColor: '#6792A5',
@@ -56,7 +56,7 @@ export const THEME = [
   },
   {
     id: '0004',
-    source: require('../resources/theme/0003.png'),
+    source: require('../resources/theme/0004.png'),
     barStyle: 'light-content',
     headerType: 'singleColor',
     headerBackgroundColor: '#FD7E82',

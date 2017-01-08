@@ -10,7 +10,7 @@ import {
   StatusBar,
 } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import I18n from 'react-native-i18n';
+import I18n from '../I18n';
 
 export default class SideMenu extends Component {
 
@@ -42,7 +42,7 @@ export default class SideMenu extends Component {
   onPressAddCourse() {
     this.props.navigator.showModal({
       screen: 'AddCourseContainer',
-      title: I18n.t('addLesson'),
+      title: I18n.t('addCourse'),
       passProps: {
         onDismissModal: () => {
           StatusBar.setHidden(true, 'fade');
@@ -93,7 +93,7 @@ export default class SideMenu extends Component {
         <TouchableHighlight underlayColor={styles.menuUnderlayColor} onPress={this.onPressAddCourse}>
           <View style={styles.menu}>
             <Ionicon name='md-add-circle' color='#c9d9f4' size={22} style={styles.icon} />
-            <Text style={styles.menuText}>{I18n.t('addLesson')}</Text>
+            <Text style={styles.menuText}>{I18n.t('addCourse')}</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight underlayColor={styles.menuUnderlayColor} onPress={this.onPressLogin}>
@@ -175,26 +175,5 @@ const styles = {
   menuText: {
     color: '#c9d9f4',
     fontSize: 13.5,
-  },
-};
-
-// Enable fallbacks if you want `en-US` and `en-GB` to fallback to `en`
-I18n.fallbacks = true;
-I18n.translations = {
-  en: {
-    addLesson: 'Add lesson',
-    loadTimetable: 'Load timetable',
-    saveToAlbum: 'Save to album',
-    themeStore: 'Theme Store',
-    lessonNotification: 'Notification',
-    cancel: 'Cancel'
-  },
-  ko: {
-    addLesson: '강의 추가',
-    loadTimetable: '시간표 불러오기',
-    saveToAlbum: '앨범에 저장',
-    themeStore: '테마 스토어',
-    lessonNotification: '수업 알림',
-    cancel: '취소'
   },
 };

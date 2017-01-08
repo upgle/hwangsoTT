@@ -30,6 +30,7 @@ import LocalNotification from '../services/notification/LocalNotification';
 
 import { THEME } from '../config/theme';
 import _ from 'underscore';
+import I18n from '../I18n';
 
 const FBSDK = require('react-native-fbsdk');
 const {
@@ -96,7 +97,7 @@ class StoredTimeTable extends Component {
   onPressTimeCell(course_id) {
     this.props.navigator.showModal({
       screen: 'AddCourseContainer',
-      title: '강의 수정',
+      title: I18n.t('editCourse'),
       passProps: {
         course_id,
         onDismissModal: () => {
@@ -109,7 +110,7 @@ class StoredTimeTable extends Component {
   onPressThemeStore() {
     this.props.navigator.showModal({
       screen: 'ThemeStoreContainer',
-      title: '테마 스토어',
+      title: I18n.t('themeStore'),
       passProps: {
         onDismissModal: () => {
           StatusBar.setBarStyle(this.state.themeInfo.barStyle);

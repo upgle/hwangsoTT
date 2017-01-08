@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import Header from './Header';
+import I18n from '../../I18n';
 
 export default class TimePicker extends Component {
 
@@ -50,13 +51,13 @@ export default class TimePicker extends Component {
           <TouchableHighlight onPress={this.onPressConfirm} style={{flex: 1}}>
             <View
               style={{height: 55, backgroundColor: '#333333', justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={{color: '#ffffff', fontSize: 16}}>확인</Text>
+              <Text style={{color: '#ffffff', fontSize: 16}}>{I18n.t('confirm')}</Text>
             </View>
           </TouchableHighlight>
           <TouchableHighlight onPress={this.props.onPressCancel} style={{flex: 1}}>
             <View
               style={{height: 55, backgroundColor: '#666666', justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={{color: '#ffffff', fontSize: 16}}>취소</Text>
+              <Text style={{color: '#ffffff', fontSize: 16}}>{I18n.t('cancel')}</Text>
             </View>
           </TouchableHighlight>
         </View>

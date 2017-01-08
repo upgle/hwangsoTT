@@ -11,10 +11,12 @@ import {
   ListView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
 
+import I18n from '../I18n';
 import AddTime from './AddTime';
 import * as timetable from '../util/timetable';
-import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
+
 const Modal = require('./ModalBox');
 
 const dayKR = {
@@ -133,7 +135,7 @@ export default class AddCourse extends Component {
             backgroundColor: '#ffffff'
           }}>
             <Icon name='remove-circle' color='#E41106' size={20}/>
-            <Text style={{color: '#E41106'}}> 이 강의를 삭제합니다</Text>
+            <Text style={{color: '#E41106'}}> {I18n.t('deleteThisCourse')}</Text>
           </View>
         </TouchableHighlight>
       );
@@ -146,7 +148,7 @@ export default class AddCourse extends Component {
           <TextInput
             value={this.state.subject}
             onChangeText={(text) => this.setState({subject: text})}
-            placeholder="강의 이름"
+            placeholder={I18n.t('courseName')}
             style={styles.textInput}
           />
         </View>
@@ -154,7 +156,7 @@ export default class AddCourse extends Component {
           <TextInput
             value={this.state.professor}
             onChangeText={(text) => this.setState({professor: text})}
-            placeholder="교수명"
+            placeholder={I18n.t('professor')}
             style={styles.textInput}
           />
         </View>
@@ -162,7 +164,7 @@ export default class AddCourse extends Component {
           <TextInput
             value={this.state.classroom}
             onChangeText={(text) => this.setState({classroom: text})}
-            placeholder="강의실"
+            placeholder={I18n.t('classroom')}
             style={styles.textInput}
           />
         </View>
@@ -170,7 +172,7 @@ export default class AddCourse extends Component {
         <TouchableHighlight onPress={this.onPressAddTime} style={{marginTop: 10}}>
           <View style={styles.addBtn}>
             <Icon name='add' color='#303c4c' size={20}/>
-            <Text style={{color: '#303c4c'}}>강의 시간 추가</Text>
+            <Text style={{color: '#303c4c'}}>{I18n.t('addCourseTime')}</Text>
           </View>
         </TouchableHighlight>
 
@@ -180,29 +182,31 @@ export default class AddCourse extends Component {
           dataSource={this.state.times}
           renderRow={(rowData, sectionID, rowID) =>
             <View style={styles.list}>
-              <View style={{width: 75}}>
-                <Text style={{color: '#333333'}}>{dayKR[rowData.day]}</Text>
+              <View style={{ width: 75 }}>
+                <Text style={{ color: '#333333' }}>{dayKR[rowData.day]}</Text>
               </View>
-              <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
                 <Text style={{color: '#333333'}}>{rowData.start} ~ {rowData.end}</Text>
               </View>
-              <TouchableHighlight style={{width: 46}} onPress={()=> {
+              <TouchableHighlight style={{ width: 46 }} onPress={() => {
                 this.onPressDeleteRow(rowID)
               }}>
                 <View style={styles.listRemoveBtn}>
-                  <Text style={styles.whiteText}>삭제</Text>
+                  <Text style={styles.whiteText}>{I18n.t('delete')}</Text>
                 </View>
               </TouchableHighlight>
             </View>}
         />
         {deleteBtn}
-        <Modal ref="modal" position="bottom"
-               style={styles.modal}
-               swipeToClose={false}
-               isOpen={false}
-               backdropOpacity={0.6}
+        <Modal
+          ref="modal" position="bottom"
+          style={styles.modal}
+          swipeToClose={false}
+          isOpen={false}
+          backdropOpacity={0.6}
+          animationDuration={200}
         >
-          <AddTime onPressDone={this.addTimes}/>
+          <AddTime onPressDone={this.addTimes} />
         </Modal>
       </View>
     );

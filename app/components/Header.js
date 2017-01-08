@@ -10,6 +10,7 @@ import {
 import _ from 'underscore';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TimerMixin from 'react-timer-mixin';
+import I18n from '../I18n';
 
 const headerHeight = 124;
 
@@ -94,7 +95,7 @@ export default class Header extends Component {
 
   toggleHeaderSelected() {
     this.setState({
-      headerSelected: !this.state.headerSelected
+      headerSelected: !this.state.headerSelected,
     });
   }
 
@@ -107,8 +108,8 @@ export default class Header extends Component {
     if (_.size(this.props.courses) === 0) {
       return (
         <View style={{marginTop: 10}}>
-          <Text style={headerBigText}>시간표가 없습니다</Text>
-          <Text style={headerSmallText}>먼저 강의를 등록해주세요.</Text>
+          <Text style={headerBigText}>{I18n.t('welcome')}</Text>
+          <Text style={headerSmallText}>{I18n.t('pleaseAddCourseFirst')}</Text>
         </View>
       );
     }
@@ -116,8 +117,8 @@ export default class Header extends Component {
     if (this.props.todayTimes.length === 0) {
       return (
         <View style={{marginTop: 10}}>
-          <Text style={headerBigText}>수업 없음</Text>
-          <Text style={headerSmallText}>오늘은 수업이 없는 날입니다.</Text>
+          <Text style={headerBigText}>{I18n.t('noEventsToday')}</Text>
+          <Text style={headerSmallText}>{I18n.t('itsDayOff')}</Text>
         </View>
       );
     }
@@ -147,7 +148,7 @@ export default class Header extends Component {
 
     return (
       <TouchableOpacity activeOpacity={0.8} onPress={this.toggleHeaderSelected}>
-        <Text style={headerSmallText}>다음수업</Text>
+        <Text style={headerSmallText}>{I18n.t('nextEvent')}</Text>
         <Text style={headerBigText}>
           {
             (this.state.headerSelected) ?
