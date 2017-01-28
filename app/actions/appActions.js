@@ -1,12 +1,6 @@
 import * as types from './actionTypes';
 import { AsyncStorage } from 'react-native';
 
-export function saveAppData() {
-  return (dispatch, getState) => {
-    return AsyncStorage.setItem('app_state', JSON.stringify(getState()));
-  };
-}
-
 export function turnOnAlarm() {
   return { type: types.ON_ALARM };
 }
@@ -17,6 +11,13 @@ export function turnOffAlarm() {
 
 export function toggleHeaderColorset() {
   return { type: types.TOGGLE_HEADER_COLORSET };
+}
+
+export function signIn(user) {
+  return {
+    type: types.SIGN_IN,
+    user,
+  };
 }
 
 export function changeState(state) {

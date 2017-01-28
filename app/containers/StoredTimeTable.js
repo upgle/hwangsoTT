@@ -57,7 +57,6 @@ class StoredTimeTable extends Component {
     };
     this.openDrawer = this.openDrawer.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
-    this.saveAppData = this.saveAppData.bind(this);
     this.toggleHeaderColorset = this.toggleHeaderColorset.bind(this);
     this.snapshotTimetable = this.snapshotTimetable.bind(this);
     this.setAlarm = this.setAlarm.bind(this);
@@ -77,7 +76,6 @@ class StoredTimeTable extends Component {
     PushNotificationIOS.checkPermissions(permission => {
       if (permission.alert !== 1) {
         actions.turnOffAlarm();
-        this.saveAppData();
       }
     });
     GoogleAnalytics.trackScreenView('메인 화면');
@@ -147,7 +145,6 @@ class StoredTimeTable extends Component {
             if (permission.alert == 1) {
               LocalNotificationService.setTimetableNotifications(app.courses, app.times);
               actions.turnOnAlarm();
-              this.saveAppData();
               Alert.alert('안내', '알람이 설정되었습니다.', [{text: '확인'}]);
               GoogleAnalytics.trackEvent('setting', 'turn on alarm');
             }
@@ -171,13 +168,8 @@ class StoredTimeTable extends Component {
 
   toggleHeaderColorset() {
     this.props.actions.toggleHeaderColorset();
-    this.saveAppData();
 
     GoogleAnalytics.trackEvent('setting', 'change colorset');
-  }
-
-  saveAppData() {
-    this.props.dispatch(appActions.saveAppData());
   }
 
   shareTimetable(type = 'line') {

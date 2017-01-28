@@ -1284,8 +1284,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					/Users/seonghyun/Documents/FacebookSDK,
-					"$(PROJECT_DIR)/FacebookSDKs-iOS-4.18.0",
+					"~/Documents/FacebookSDK",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1334,8 +1333,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					/Users/seonghyun/Documents/FacebookSDK,
-					"$(PROJECT_DIR)/FacebookSDKs-iOS-4.18.0",
+					"~/Documents/FacebookSDK",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

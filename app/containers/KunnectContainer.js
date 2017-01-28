@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 import {Alert} from 'react-native';
 import LoginKunnect from '../components/LoginKunnect';
 import { TimeConverter, YoilConverter } from '../util/kunnect';
-import { saveAppData } from '../actions/appActions';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
 class KunnectContainer extends Component {
@@ -103,7 +102,6 @@ class KunnectContainer extends Component {
                 });
                 actions.addCourses(courses);
                 actions.addTimes(times);
-                this.props.dispatch(saveAppData());
 
                 this.setState({
                     isLoading: false
@@ -137,4 +135,3 @@ export default connect(state => ({
         actions: bindActionCreators(AppActions, dispatch)
     })
 )(KunnectContainer);
-

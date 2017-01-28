@@ -37,7 +37,6 @@ class ThemeStoreContainer extends Component {
     const { actions } = this.props;
     actions.setTheme(themeId);
     this.props.navigator.dismissModal();
-    this.props.dispatch(appActions.saveAppData());
   }
 
   render() {

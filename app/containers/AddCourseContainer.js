@@ -86,7 +86,6 @@ class AddCourseContainer extends Component {
     } else {
       this.insertCourse();
     }
-    this.props.dispatch(AppActions.saveAppData());
     this.props.navigator.dismissModal();
     return true;
   }
@@ -127,7 +126,6 @@ class AddCourseContainer extends Component {
           { text: '취소' },
           { text: '확인', onPress: () => {
             actions.deleteCourse(course_id);
-            this.props.dispatch(AppActions.saveAppData());
             this.props.navigator.dismissModal();
           } },
         ]

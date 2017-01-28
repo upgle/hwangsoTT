@@ -3,7 +3,6 @@ import * as AppActions from '../actions/appActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Alert, View } from 'react-native';
-import { saveAppData } from '../actions/appActions';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
 
 import Webview from '../components/thirdparty/Webview';
@@ -64,7 +63,6 @@ class WebviewContainer extends Component {
             actions.removeAllCourses();
             actions.addCourses(courses);
             actions.addTimes(times);
-            this.props.dispatch(saveAppData());
             this.props.navigator.pop();
             Alert.alert('황소시간표', '시간표가 성공적으로 저장되었습니다.', [{ text: '확인' }]);
             GoogleAnalytics.trackEvent('importer', `시간표 불러오기 성공 ${this.props.serviceId}`);
