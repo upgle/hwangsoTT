@@ -1,14 +1,10 @@
-
 import * as types from '../../actions/actionTypes';
-import _ from 'underscore';
-import { THEME } from '../../config/theme';
 
 const initialState = {
   courses: {},
   times: [],
   alarm: false,
   themeId: '0001',
-  theme : THEME[0],
 };
 
 export function getTodayTimes(stateTimes) {
@@ -108,17 +104,9 @@ export default function app(state = initialState, action) {
     case types.CHANGE_STATE :
       return Object.assign({}, state, action.state);
 
-    case types.TOGGLE_HEADER_COLORSET : {
-      const curIndex = _.findIndex(THEME, { header: state.theme.header });
-      const nextIndex = (curIndex + 1) % THEME.length;
-      return Object.assign({}, state, { theme: THEME[nextIndex] });
-    }
-
     case types.SET_THEME : {
-      const index = _.findIndex(THEME, { id: action.themeId });
       return Object.assign({}, state, {
         themeId: action.themeId,
-        theme: THEME[index],
       });
     }
 

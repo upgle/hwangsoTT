@@ -9,10 +9,6 @@ export function turnOffAlarm() {
   return { type: types.OFF_ALARM };
 }
 
-export function toggleHeaderColorset() {
-  return { type: types.TOGGLE_HEADER_COLORSET };
-}
-
 export function changeState(state) {
   return {
     type: types.CHANGE_STATE,
