@@ -5,25 +5,23 @@ import thunk from 'redux-thunk';
 import GoogleAnalytics from 'react-native-google-analytics-bridge';
 import { AsyncStorage } from 'react-native';
 // import devTools from 'remote-redux-devtools';
-import I18n from 'react-native-i18n';
-
-import * as firebase from 'firebase';
 
 import { registerScreens } from './containers';
 import { changeState, signIn } from './actions/appActions';
 import * as reducers from './reducers';
 import { alarmMiddleware } from './middlewares';
-const firebaseConfig = {
-  apiKey: "AIzaSyC9owkUDuui3rpME_xL0Ec_dXh3tty7K0o",
-  authDomain: "tau-app.firebaseapp.com",
-  databaseURL: "https://tau-app.firebaseio.com",
-  storageBucket: "tau-app.appspot.com",
-  messagingSenderId: "549737176638"
-};
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-
-var database = firebase.database();
+// import * as firebase from 'firebase';
+// const firebaseConfig = {
+//   apiKey: "AIzaSyC9owkUDuui3rpME_xL0Ec_dXh3tty7K0o",
+//   authDomain: "tau-app.firebaseapp.com",
+//   databaseURL: "https://tau-app.firebaseio.com",
+//   storageBucket: "tau-app.appspot.com",
+//   messagingSenderId: "549737176638"
+// };
+//
+// const firebaseApp = firebase.initializeApp(firebaseConfig);
+// var database = firebase.database();
 
 /**
  * React-Redux Booting
@@ -40,13 +38,6 @@ const store = createStore(reducer, enhancer);
  */
 GoogleAnalytics.setTrackerId('UA-80732706-1');
 GoogleAnalytics.setAppName('황소시간표');
-
-/**
- * react-native-navigation
- * @desc navigation에서 사용하는 screen 등록
- */
-registerScreens(store, Provider);
-
 
 AsyncStorage.getItem('app_state')
   .then(data => {
@@ -70,23 +61,17 @@ AsyncStorage.getItem('app_state')
     /**
      * VErsion 1.1.2 -> 1.1.3
      */
-    if (!state.app.themeId) {
+    if (state.app && !state.app.themeId) {
       state.app.themeId = '0001';
     }
-
     store.dispatch(changeState(state.app));
-
-    /**
-     * Firebase Auth
-     */
-    if (!state.app.user) {
-      console.log('signInAnonymously');
-      firebase.auth().signInAnonymously().catch(function(error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-      });
-    }
   });
+
+/**
+ * react-native-navigation
+ * @desc navigation 에서 사용하는 screen 등록
+ */
+registerScreens(store, Provider);
 
 Navigation.startSingleScreenApp({
   screen: {
@@ -97,16 +82,14 @@ Navigation.startSingleScreenApp({
     },
   },
 });
-
 store.subscribe(() => {
-  console.log(store.getState());
   AsyncStorage.setItem('app_state', JSON.stringify(store.getState()));
-})
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    store.dispatch(signIn(user));
-  } else {
-    // User is signed out.
-    // ...
-  }
 });
+// firebase.auth().onAuthStateChanged(function(user) {
+//   if (user) {
+//     store.dispatch(signIn(user));
+//   } else {
+//     // User is signed out.
+//     // ...
+//   }
+// });
