@@ -9,7 +9,6 @@ const initialState = {
   alarm: false,
   themeId: '0001',
   theme : THEME[0],
-  user: null,
 };
 
 export function getTodayTimes(stateTimes) {
@@ -123,9 +122,6 @@ export default function app(state = initialState, action) {
       });
     }
 
-    case types.SIGN_IN :
-      return Object.assign({}, state, { user : action.user });
-      
     default:
       return state;
   }

@@ -7,7 +7,7 @@ import { AsyncStorage } from 'react-native';
 // import devTools from 'remote-redux-devtools';
 
 import { registerScreens } from './containers';
-import { changeState, signIn } from './actions/appActions';
+import { changeState } from './actions/appActions';
 import * as reducers from './reducers';
 import { alarmMiddleware } from './middlewares';
 

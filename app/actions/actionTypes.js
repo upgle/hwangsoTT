@@ -11,4 +11,3 @@ export const TOGGLE_HEADER_COLORSET = 'TOGGLE_HEADER_COLORSET';
 export const SET_THEME = 'SET_THEME';
 export const OFF_ALARM = 'OFF_ALARM';
 export const ON_ALARM = 'ON_ALARM';
-export const SIGN_IN = 'SIGN_IN';
